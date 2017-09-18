@@ -1,9 +1,6 @@
 package assembly_line;
 
 import linestep.ILineStep;
-import linestep.LineStepCore;
-import linestep.LineStepShell;
-import linestep.LineStepSpring;
 import product.IProduct;
 
 public class PencilAssemblyLine implements IAssemblyLine{
