@@ -1,1 +1,0 @@
-# SENLA-course
