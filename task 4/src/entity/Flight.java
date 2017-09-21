@@ -5,14 +5,14 @@ import util.Helper;
 public class Flight extends AEntity {
 
 	private Passenger[] passengers;
-	private int maxSits;
+	private int freeSits;
 	private boolean cancelled;
 	private boolean late;
 	private String direction;
 
 	public Flight(String flightNumber, String direction, int sits) {
 		super(flightNumber);
-		this.maxSits = sits;
+		this.freeSits = sits;
 		this.direction = direction;
 		passengers = new Passenger[sits];
 	}
@@ -25,7 +25,7 @@ public class Flight extends AEntity {
 		int i = Helper.searchEmpty(passengers);
 		if (i != -1) {
 			passengers[i] = passenger;
-			maxSits--;
+			freeSits--;
 		} else {
 			System.out.println("error: no sits");
 		}
@@ -35,18 +35,18 @@ public class Flight extends AEntity {
 		int i = Helper.searchEntity(passengers, passportNumber);
 		if (i != -1) {
 			passengers[i] = null;
-			maxSits++;
+			freeSits++;
 		} else {
 			System.out.println("error: no such passenger");
 		}
 	}
 
-	public int getMaxSits() {
-		return maxSits;
+	public int getFreeSits() {
+		return freeSits;
 	}
 
-	public void setMaxSits(int maxSits) {
-		this.maxSits = maxSits;
+	public void setFreeSits(int freeSits) {
+		this.freeSits = freeSits;
 	}
 
 	public boolean isCancelled() {

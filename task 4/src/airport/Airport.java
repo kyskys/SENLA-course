@@ -43,7 +43,7 @@ public class Airport {
 			if (flights[i] != null) {
 				Flight f = (Flight) flights[i];
 				System.out.println(String.format("%-10s %-20s %-10s %-10s %-10s",f.getNumber(),
-						f.getDirection(), f.isCancelled(), f.isLate(), f.getMaxSits()));
+						f.getDirection(), f.isCancelled(), f.isLate(), f.getFreeSits()));
 			}
 		}
 	}
