@@ -1,4 +1,12 @@
-package task;
+package main;
+
+import task.CustomerRelationsManager;
+import task.Director;
+import task.ITCompany;
+import task.ITmanager;
+import task.MainProgrammer;
+import task.ProjectManager;
+import task.SystemAdministrator;
 
 public class Main {
 
@@ -10,7 +18,7 @@ public class Main {
 		company.addEmployee(new MainProgrammer("lucy", 500,"department"));
 		company.addEmployee(new SystemAdministrator("nick", 610,"department"));
 		company.addEmployee(new ProjectManager("alfred", 780));
-		System.out.println(company.evaluateAverageSalary());
+		System.out.println(company.evaluateMonthSalary());
 	}
 
 }

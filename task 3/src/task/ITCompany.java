@@ -12,12 +12,11 @@ public class ITCompany {
 		employees[count] = employee;
 		count++;
 	}
-	public double evaluateAverageSalary() {
-		double average = 0;
+	public long evaluateMonthSalary() {
+		long result = 0;
 		for(int i=0;i<count;i++) {	
-				average+=employees[i].getSalary();
+				result+=employees[i].getSalary();
 		}
-		average=average/count;
-		return average;
+		return result;
 	}
 }
