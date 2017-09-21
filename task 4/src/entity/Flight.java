@@ -13,7 +13,7 @@ public class Flight extends AEntity {
 	public Flight(String flightNumber, String direction, int sits) {
 		super(flightNumber);
 		this.maxSits = sits;
-		this.direction=direction;
+		this.direction = direction;
 		passengers = new Passenger[sits];
 	}
 
@@ -43,6 +43,10 @@ public class Flight extends AEntity {
 
 	public int getMaxSits() {
 		return maxSits;
+	}
+
+	public void setMaxSits(int maxSits) {
+		this.maxSits = maxSits;
 	}
 
 	public boolean isCancelled() {

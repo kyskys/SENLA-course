@@ -20,10 +20,10 @@ public class Airport {
 		}
 	}
 
-	public void addPassengerToFlight(Passenger passportNumber, String flightNumber) {
+	public void addPassengerToFlight(Passenger passenger, String flightNumber) {
 		int i = Helper.searchEntity(flights, flightNumber);
 		if (i != -1) {
-			flights[i].addPassenger(passportNumber);
+			flights[i].addPassenger(passenger);
 		} else {
 			System.out.println("error: no such flight");
 		}
