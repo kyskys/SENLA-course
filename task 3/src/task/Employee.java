@@ -1,6 +1,6 @@
 package task;
 
-public class Employee {
+public abstract class Employee {
 	protected String name;
 	protected int salary;
 	public Employee (String name, int salary) {

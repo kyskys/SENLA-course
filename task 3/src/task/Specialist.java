@@ -1,6 +1,6 @@
 package task;
 
-public class Specialist extends Employee {
+public abstract class Specialist extends Employee {
 
 	protected String department;
 

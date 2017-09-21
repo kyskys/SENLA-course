@@ -1,6 +1,6 @@
 package task;
 
-public class Leadership extends Employee {
+public abstract class Leadership extends Employee {
 
 	protected Employee[] subordinates;
 

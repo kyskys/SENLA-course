@@ -1,6 +1,6 @@
 package task;
 
-public class MiddleLink extends Employee {
+public abstract class MiddleLink extends Employee {
 	protected String industry;
 
 	public MiddleLink(String name, int salary) {
