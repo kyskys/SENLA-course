@@ -1,11 +1,10 @@
 package task;
 
 public class MiddleLink extends Employee {
-	String industry;
+	protected String industry;
 
-	public MiddleLink(String name, int salary, String industry) {
+	public MiddleLink(String name, int salary) {
 		super(name, salary);
-		this.industry=industry;
 	}
 
 	public String getIndustry() {
