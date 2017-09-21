@@ -14,8 +14,8 @@ public class ITCompany {
 	}
 	public double evaluateAverageSalary() {
 		double average = 0;
-		for(int q=0;q<count;q++) {	
-				average+=employees[q].getSalary();
+		for(int i=0;i<count;i++) {	
+				average+=employees[i].getSalary();
 		}
 		average=average/count;
 		return average;
