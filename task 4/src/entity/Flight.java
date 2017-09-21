@@ -65,7 +65,4 @@ public class Flight extends AEntity {
 		return direction;
 	}
 
-	public void setDirection(String direction) {
-		this.direction = direction;
-	}
 }
