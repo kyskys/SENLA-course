@@ -1,20 +1,11 @@
 package entities;
 
 public class Master extends BaseEntity {
-	private String name;
 	private Order order;
 	private boolean busy;
 
 	public Master(String name) {
-		this.setName(name);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+		super(name);
 	}
 
 	public boolean isBusy() {
@@ -31,5 +22,8 @@ public class Master extends BaseEntity {
 
 	public void setOrder(Order order) {
 		this.order = order;
+		if (!order.equals(null)) {
+			busy = true;
+		}
 	}
 }

@@ -3,6 +3,9 @@ package entities;
 import java.util.List;
 
 public class Garage extends BaseEntity {
+	public Garage(String name) {
+		super(name);
+	}
 	private List<Sit> sits;
 
 	public boolean addSit(Sit sit) {

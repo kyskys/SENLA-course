@@ -1,22 +1,17 @@
 package entities;
 
 public abstract class BaseEntity {
-	private Long id;
+	protected String name;
 
-	public Long getId() {
-		return id;
+	public BaseEntity(String name) {
+		this.name=name;
+	}
+	public String getName() {
+		return name;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		BaseEntity bm = (BaseEntity) obj;
-		if (id != null && bm != null && bm.getId() != null) {
-			return id.equals(bm.getId());
-		}
-		return false;
-	}
 }
