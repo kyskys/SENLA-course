@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order extends BaseEntity {
 	private double price;
@@ -9,11 +10,11 @@ public class Order extends BaseEntity {
 	private Date endingDate;
 	private boolean closed;
 	private boolean cancelled;
-	private Master[] masters;
+	private List masters;
 
 	public Order(double price, Date endingDate) {
-		this.endingDate = endingDate;
-		this.price = price;
+		this.setEndingDate(endingDate);
+		this.setPrice(price);
 		setAddedDate(null);// here will be date on adding
 	}
 
@@ -23,5 +24,45 @@ public class Order extends BaseEntity {
 
 	public void setAddedDate(Date addedDate) {
 		this.addedDate = addedDate;
+	}
+
+	public Date getStartWorkingOnDate() {
+		return startWorkingOnDate;
+	}
+
+	public void setStartWorkingOnDate(Date startWorkingOnDate) {
+		this.startWorkingOnDate = startWorkingOnDate;
+	}
+
+	public Date getEndingDate() {
+		return endingDate;
+	}
+
+	public void setEndingDate(Date endingDate) {
+		this.endingDate = endingDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 
 import entities.Order;
 
-public class SortOrdersByAddingDate implements Comparator<Order> {
+public class SortOrdersByAddedDate implements Comparator<Order> {
 
 	@Override
 	public int compare(Order o1, Order o2) {

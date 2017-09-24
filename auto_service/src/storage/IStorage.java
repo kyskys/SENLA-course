@@ -1,6 +1,10 @@
 package storage;
 
+import entities.BaseEntity;
+
 public interface IStorage {
-	public boolean add();
-	public boolean remove();
+	boolean add(BaseEntity be);
+
+	boolean remove(BaseEntity be);
+
 }
