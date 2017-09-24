@@ -1,5 +1,5 @@
 package entities;
 
-public class Garage extends BaseEntity{
-
+public class Garage extends BaseEntity {
+	private int availableSits;
 }
