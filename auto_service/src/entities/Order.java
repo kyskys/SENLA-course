@@ -10,7 +10,7 @@ public class Order extends BaseEntity {
 	private Date endingDate;
 	private boolean closed;
 	private boolean cancelled;
-	private List masters;
+	private List<Master> masters;
 
 	public Order(double price, Date endingDate) {
 		this.setEndingDate(endingDate);
@@ -64,5 +64,15 @@ public class Order extends BaseEntity {
 
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
+	}
+
+	public List<Master> getMasters() {
+		return masters;
+	}
+	public boolean addMaster(Master master) {
+		return masters.add(master);
+	}
+	public boolean removeMaster(Master master) {
+		return masters.remove(master);
 	}
 }

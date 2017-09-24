@@ -6,6 +6,7 @@ import java.util.List;
 import entities.BaseEntity;
 import entities.Master;
 import sort.SortParameters;
+import sort.Sortable;
 
 public class MasterStorage implements IStorage, Sortable {
 	private List<Master> masters = new ArrayList<Master>();

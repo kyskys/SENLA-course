@@ -10,6 +10,7 @@ import sort.SortOrdersByEndingDate;
 import sort.SortOrdersByPrice;
 import sort.SortOrdersByStartWorkingOnDate;
 import sort.SortParameters;
+import sort.Sortable;
 
 public class OrderStorage implements IStorage, Sortable {
 	private List<Order> orders = new ArrayList<Order>();

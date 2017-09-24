@@ -1,6 +1,4 @@
-package storage;
-
-import sort.SortParameters;
+package sort;
 
 public interface Sortable {
 	public boolean sort(SortParameters sp);
