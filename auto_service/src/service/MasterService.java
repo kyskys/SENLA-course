@@ -4,6 +4,7 @@ import entities.Order;
 import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.ServiceStorage;
+import sort.SortParameters;
 
 public class MasterService {
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
@@ -16,6 +17,21 @@ public class MasterService {
 					System.out.println("master: " + os.getOrders().get(i).getMasters().get(j));
 				}
 			}
+		}
+	}
+
+	public void showMasters(String parameter) {
+		switch (parameter) {
+		case ("busy"): {
+			os.sort(SortParameters.BUSY);
+
+		}
+		case ("alphabet"): {
+			os.sort(SortParameters.ALPHABET);
+		}
+		default: {
+			break;
+		}
 		}
 	}
 }
