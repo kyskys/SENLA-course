@@ -1,11 +1,16 @@
 package storage;
 
 public class ServiceStorage {
-	private static GarageStorage garageStorage = new GarageStorage();
-	private static MasterStorage masterStorage = new MasterStorage();
-	private static OrderStorage orderStorage = new OrderStorage();
-	private static SitStorage sitStorage = new SitStorage();
-
+	private static GarageStorage garageStorage;
+	private static MasterStorage masterStorage;
+	private static OrderStorage orderStorage;
+	private static SitStorage sitStorage;
+	static {
+		garageStorage = new GarageStorage();
+		masterStorage = new MasterStorage();
+		orderStorage = new OrderStorage();
+		sitStorage = new SitStorage();
+	}
 	public static GarageStorage getGarageStorage() {
 		return garageStorage;
 	}
