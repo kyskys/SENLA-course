@@ -4,8 +4,8 @@ public class Sit extends BaseEntity {
 	private Order order;
 	private Garage garage;
 
-	public Sit(String name, Garage garage) {
-		super(name);
+	public Sit(long id, Garage garage) {
+		super(id);
 		this.garage = garage;
 	}
 

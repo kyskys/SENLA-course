@@ -9,7 +9,14 @@ public class SitService {
 	private SitStorage ss = ServiceStorage.getSitStorage();
 
 	public void showAvailableSits() {
-		ss.showAvailableSits();
+		int availableSits = 0;
+		for (int i = 0; i < ss.getSits().size(); i++) {
+			if (ss.getSits().get(i).getOrder().equals(null)) {
+				availableSits++;
+			}
+		}
+
+		System.out.println("in garages available sits: " + availableSits);
 	}
 
 	public void showAvailableSitsInFuture(Date date) {

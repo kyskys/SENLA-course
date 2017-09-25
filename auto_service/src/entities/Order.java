@@ -12,8 +12,8 @@ public class Order extends BaseEntity {
 	private boolean cancelled;
 	private List<Master> masters;
 
-	public Order(String name, double price, Date endingDate) {
-		super(name);
+	public Order(long id, double price, Date endingDate) {
+		super(id);
 		this.setEndingDate(endingDate);
 		this.setPrice(price);
 		setAddedDate(null);// here will be date on adding

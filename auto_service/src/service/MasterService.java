@@ -1,12 +1,15 @@
 package service;
 
+import java.util.List;
+
 import entities.Order;
 import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.ServiceStorage;
 import sort.SortParameters;
+import sort.Sortable;
 
-public class MasterService {
+public class MasterService extends Sortable{
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 	private OrderStorage os = ServiceStorage.getOrderStorage();
 
@@ -23,15 +26,32 @@ public class MasterService {
 	public void showMasters(String parameter) {
 		switch (parameter) {
 		case ("busy"): {
-			os.sort(SortParameters.BUSY);
+			sort(ms.getMasters(),SortParameters.BUSY);
+		}
 
 		}
 		case ("alphabet"): {
-			os.sort(SortParameters.ALPHABET);
+			sort(ms.getMasters(),SortParameters.ALPHABET);
 		}
 		default: {
 			break;
 		}
 		}
+	}
+
+	@Override
+	protected static boolean sort(List<Master> list, SortParameters sp) {
+		switch (sp) {
+		case (BUSY): {
+			list.sort(new SortMastersByBusy());
+
+		}
+		case (ALPHABET): {
+			list.sort(new SortMastersByBusy());
+		}
+		default: {
+			break;
+		}
+		return false;
 	}
 }

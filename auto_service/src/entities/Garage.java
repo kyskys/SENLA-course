@@ -3,8 +3,8 @@ package entities;
 import java.util.List;
 
 public class Garage extends BaseEntity {
-	public Garage(String name) {
-		super(name);
+	public Garage(long id) {
+		super(id);
 	}
 	private List<Sit> sits;
 

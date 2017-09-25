@@ -25,17 +25,17 @@ public class OrderService {
 		}
 	}
 
-	public void setOrderCancelled(String orderName) {
+	public void setOrderCancelled(long id) {
 		for (int i = 0; i < os.getOrders().size(); i++) {
-			if (os.getOrders().get(i).getName().equals(orderName)) {
+			if (os.getOrders().get(i).getId().equals(id)) {
 				os.getOrders().get(i).setCancelled(true);
 			}
 		}
 	}
 
-	public void setOrderClosed(String orderName) {
+	public void setOrderClosed(long id) {
 		for (int i = 0; i < os.getOrders().size(); i++) {
-			if (os.getOrders().get(i).getName().equals(orderName)) {
+			if (os.getOrders().get(i).getId().equals(id)) {
 				os.getOrders().get(i).setClosed(true);
 			}
 		}
@@ -98,5 +98,5 @@ public class OrderService {
 		}
 		}
 	}
-	
+
 }
