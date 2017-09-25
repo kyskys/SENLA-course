@@ -5,7 +5,7 @@ import java.util.List;
 
 import entities.BaseEntity;
 
-public abstract class AStorage<T extends BaseEntity> {
+public abstract class AbstractStorage<T extends BaseEntity> {
 	List<T> list = new ArrayList<T>();
 
 	public boolean add(T entity) {

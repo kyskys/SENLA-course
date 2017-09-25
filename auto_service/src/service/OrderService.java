@@ -18,32 +18,32 @@ public class OrderService {
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 
 	public void showOrderExecutableByMaster(Master master) {
-		for (int i = 0; i < ms.getMasters().size(); i++) {
-			if (ms.getMasters().get(i).equals(master)) {
-				System.out.println("order: " + ms.getMasters().get(i));
+		for (int i = 0; i < ms.getList().size(); i++) {
+			if (ms.getList().get(i).equals(master)) {
+				System.out.println("order: " + ms.getList().get(i));
 			}
 		}
 	}
 
 	public void setOrderCancelled(long id) {
-		for (int i = 0; i < os.getOrders().size(); i++) {
-			if (os.getOrders().get(i).getId().equals(id)) {
-				os.getOrders().get(i).setCancelled(true);
+		for (int i = 0; i < os.getList().size(); i++) {
+			if (os.getList().get(i).getId().equals(id)) {
+				os.getList().get(i).setCancelled(true);
 			}
 		}
 	}
 
 	public void setOrderClosed(long id) {
-		for (int i = 0; i < os.getOrders().size(); i++) {
-			if (os.getOrders().get(i).getId().equals(id)) {
-				os.getOrders().get(i).setClosed(true);
+		for (int i = 0; i < os.getList().size(); i++) {
+			if (os.getList().get(i).getId().equals(id)) {
+				os.getList().get(i).setClosed(true);
 			}
 		}
 	}
 
 	public void shiftOrderExecutionTime(int days) {
-		for (int i = 0; i < os.getOrders().size(); i++) {
-			os.getOrders().get(i).getAddedDate();
+		for (int i = 0; i < os.getList().size(); i++) {
+			os.getList().get(i).getAddedDate();
 		}
 	}
 
@@ -72,12 +72,12 @@ public class OrderService {
 
 	public void showExecutingOrders(String parameter) {
 		List<Order> list = new ArrayList<Order>();
-		for (int i = 0; i < os.getOrders().size(); i++) {
-			if (os.getOrders().get(i).getStartWorkingOnDate().before(null)) {// TODO
+		for (int i = 0; i < os.getList().size(); i++) {
+			if (os.getList().get(i).getStartWorkingOnDate().before(null)) {// TODO
 																				// add
 																				// current
 																				// date
-				list.add(os.getOrders().get(i));
+				list.add(os.getList().get(i));
 			}
 		}
 		switch (parameter) {

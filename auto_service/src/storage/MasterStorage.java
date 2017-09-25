@@ -1,6 +1,28 @@
 package storage;
 
-import entities.Master;
+import java.util.List;
 
-public class MasterStorage extends AStorage<Master> {
+import entities.Master;
+import sort.SortMastersByAlphabet;
+import sort.SortMastersByBusy;
+import sort.SortParameters;
+
+public class MasterStorage extends SortableStorage<Master> {
+
+	@Override
+	protected boolean sort(List<Master> listToSort, SortParameters sp) {
+		switch (sp) {
+		case ALPHABET: {
+			listToSort.sort(new SortMastersByAlphabet());
+			break;
+		}
+		case BUSY: {
+			listToSort.sort(new SortMastersByBusy());
+			break;
+		}
+		default:
+			return false;
+		}
+		return true;
+	}
 }
