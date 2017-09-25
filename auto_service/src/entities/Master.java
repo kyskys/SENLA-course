@@ -22,8 +22,5 @@ public class Master extends BaseEntity {
 
 	public void setOrder(Order order) {
 		this.order = order;
-		if (!order.equals(null)) {
-			busy = true;
-		}
 	}
 }
