@@ -19,19 +19,11 @@ public class OrderService implements IOrderService {
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 
 	public void setOrderCancelled(long id) {
-		for (int i = 0; i < os.getAll().size(); i++) {
-			if (os.getAll().get(i).getId().equals(id)) {
-				os.getAll().get(i).setCancelled(true);
-			}
-		}
+		os.setOrderCancelled(id);
 	}
 
 	public void setOrderClosed(long id) {
-		for (int i = 0; i < os.getAll().size(); i++) {
-			if (os.getAll().get(i).getId().equals(id)) {
-				os.getAll().get(i).setClosed(true);
-			}
-		}
+		os.setOrderClosed(id);
 	}
 
 	public void shiftOrderExecutionTime(int days) {
@@ -40,11 +32,11 @@ public class OrderService implements IOrderService {
 		}
 	}
 
-	public void sortOrders(String parameter) {
-		os.sort(os.getAll(), SortParameters.getValueOf(parameter));
+	public void showOrders(String parameter) {
+		os.getAll(SortParameters.getValueOf(parameter));
 	}
 
 	public void showExecutingOrders(String parameter) {
-
+		os.getAll(SortParameters.getValueOf(parameter));
 	}
 }

@@ -10,19 +10,17 @@ import service.intefraces.ISitService;
 import storage.MasterStorage;
 import storage.ServiceStorage;
 import storage.SitStorage;
+import util.Utils;
 
 public class SitService implements ISitService {
 	private SitStorage ss = ServiceStorage.getSitStorage();
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 
 	public void showAvailableList() {
-		ss.getFreeSitsOnDate(new Date());
-
-		System.out.println("in garages available List: " + "");
+		System.out.println(Utils.getListAsString(ss.getFreeSitsOnDate(new Date())));
 	}
 
 	public void showFreeSitsAtDate(Date date) {
-		List<Sit> sits = ss.getFreeSitsOnDate(date);
-		List<Master> masters = ms.getFreeMastersOnDate(date);
+		System.out.println(Utils.getListAsString());
 	}
 }

@@ -75,4 +75,14 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		return result;
 	}
 
+	@Override
+	public void setOrderCancelled(Long id) {
+		get(id).setCancelled(true);
+	}
+
+	@Override
+	public void setOrderClosed(Long id) {
+		get(id).setClosed(true);
+	}
+
 }
