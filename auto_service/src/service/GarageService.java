@@ -1,5 +1,7 @@
 package service;
 
-public class GarageService {
+import service.intefraces.IGarageService;
+
+public class GarageService implements IGarageService{
 	
 }

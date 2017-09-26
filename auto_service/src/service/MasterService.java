@@ -3,13 +3,13 @@ package service;
 import java.util.List;
 
 import entities.Order;
+import service.intefraces.IMasterService;
 import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.ServiceStorage;
 import sort.SortParameters;
-import sort.Sortable;
 
-public class MasterService extends Sortable {
+public class MasterService implements IMasterService{
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 	private OrderStorage os = ServiceStorage.getOrderStorage();
 
@@ -24,18 +24,6 @@ public class MasterService extends Sortable {
 	}
 
 	public void showMasters(String parameter) {
-		switch (parameter) {
-		case ("busy"): {
-			sort(ms.getList(),SortParameters.BUSY);
-		}
-
-		case ("alphabet"): {
-			sort(ms.getList(),SortParameters.ALPHABET);
-		}
-		default: {
-			break;
-		}
-		}
-
+		ms.sort(ms.getList(), SortParameters.getValueOf(parameter));
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import entities.Master;
 import entities.Order;
+import service.intefraces.IOrderService;
 import sort.SortOrdersByAddedDate;
 import sort.SortOrdersByEndingDate;
 import sort.SortOrdersByPrice;
@@ -13,7 +14,7 @@ import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.ServiceStorage;
 
-public class OrderService {
+public class OrderService implements IOrderService{
 	private OrderStorage os = ServiceStorage.getOrderStorage();
 	private MasterStorage ms = ServiceStorage.getMasterStorage();
 
@@ -48,26 +49,7 @@ public class OrderService {
 	}
 
 	public void sortOrders(String parameter) {
-		switch (parameter) {
-		case ("added date"): {
-			os.sort(SortParameters.ADDED_DATE);
-			break;
-		}
-		case ("ending date"): {
-			os.sort(SortParameters.ENDING_DATE);
-			break;
-		}
-		case ("price"): {
-			os.sort(SortParameters.PRICE);
-			break;
-		}
-		case ("start date"): {
-			os.sort(SortParameters.START_WORKING_ON_DATE);
-			break;
-		}
-		default:
-			break;
-		}
+		os.sort(os.getList(), SortParameters.getValueOf(parameter));
 	}
 
 	public void showExecutingOrders(String parameter) {

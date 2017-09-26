@@ -1,4 +1,4 @@
-package storage;
+package sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import entities.BaseEntity;
 public abstract class AbstractStorage<T extends BaseEntity> {
 	List<T> list = new ArrayList<T>();
 
-	public boolean add(T entity) {
+	public boolean create(T entity) {
 		return list.add(entity);
 	}
 

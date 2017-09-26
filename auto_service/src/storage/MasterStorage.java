@@ -10,8 +10,8 @@ import sort.SortParameters;
 public class MasterStorage extends SortableStorage<Master> {
 
 	@Override
-	protected boolean sort(List<Master> listToSort, SortParameters sp) {
-		switch (sp) {
+	protected boolean sort(List<Master> listToSort, SortParameters parameter) {
+		switch (parameter) {
 		case ALPHABET: {
 			listToSort.sort(new SortMastersByAlphabet());
 			break;

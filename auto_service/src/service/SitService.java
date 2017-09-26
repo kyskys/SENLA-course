@@ -2,10 +2,11 @@ package service;
 
 import java.util.Date;
 
+import service.intefraces.ISitService;
 import storage.ServiceStorage;
 import storage.SitStorage;
 
-public class SitService {
+public class SitService implements ISitService{
 	private SitStorage ss = ServiceStorage.getSitStorage();
 
 	public void showAvailableList() {
