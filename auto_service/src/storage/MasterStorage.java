@@ -1,6 +1,8 @@
 package storage;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import entities.Master;
@@ -24,7 +26,8 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 			comparator = new SortMastersByBusy();
 			break;
 		}
-		default: return;
+		default:
+			return;
 		}
 		listToSort.sort(comparator);
 	}
@@ -33,5 +36,17 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 	public Order getOrderExecutingByConcreteMaster(Long id) {
 		return get(id).getOrder();
 	}
-	
+
+	@Override
+	public List<Master> getFreeMastersOnDate(Date date) {
+		List<Master> result = new ArrayList<Master>();
+		for (int i = 0; i < list.size(); i++) {
+			Master master = list.get(i);
+			if (master.getOrder().getEndingDate().before(date)) {
+				result.add(master);
+			}
+		}
+		return result;
+	}
+
 }

@@ -1,31 +1,28 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import entities.Master;
+import entities.Sit;
 import service.intefraces.ISitService;
+import storage.MasterStorage;
 import storage.ServiceStorage;
 import storage.SitStorage;
 
-public class SitService implements ISitService{
+public class SitService implements ISitService {
 	private SitStorage ss = ServiceStorage.getSitStorage();
+	private MasterStorage ms = ServiceStorage.getMasterStorage();
 
 	public void showAvailableList() {
-		int availableList = 0;
-		for (int i = 0; i < ss.getList().size(); i++) {
-			if (ss.getList().get(i).getOrder().equals(null)) {
-				availableList++;
-			}
-		}
+		ss.getFreeSitsOnDate(new Date());
 
-		System.out.println("in garages available List: " + availableList);
+		System.out.println("in garages available List: " + "");
 	}
 
-	public void showAvailableListInFuture(Date date) {
-		int availableList = 0;
-		for (int i = 0; i < ss.getList().size(); i++) {
-			if (ss.getList().get(i).getOrder().getEndingDate().before(date)) {
-				availableList++;
-			}
-		}
+	public void showFreeSitsAtDate(Date date) {
+		List<Sit> sits = ss.getFreeSitsOnDate(date);
+		List<Master> masters = ms.getFreeMastersOnDate(date);
 	}
 }

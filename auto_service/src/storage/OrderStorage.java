@@ -1,8 +1,11 @@
 package storage;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
+import entities.Master;
 import entities.Order;
 import sort.SortOrdersByAddedDate;
 import sort.SortOrdersByEndingDate;
@@ -38,6 +41,38 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			return;
 		}
 		listToSort.sort(comparator);
+	}
+
+	@Override
+	public List<Master> getMastersExecutingConcreteOrder(Long id) {
+		return get(id).getMasters();
+	}
+
+	@Override
+	public List<Order> getExecutingOrders(SortParameters parameter) {
+		List<Order> result = new ArrayList<Order>();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getStartWorkingOnDate().before(new Date())) {
+				result.add(list.get(i));
+			}
+		}
+		sort(result, parameter);
+		return result;
+	}
+
+	@Override
+	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter) {
+		List<Order> result = new ArrayList<Order>();
+		for (int i = 0; i < list.size(); i++) {
+			Order order = list.get(i);
+			if (order.getEndingDate().before(afterDate) || order.getStartWorkingOnDate().after(beforeDate)) {
+				if (order.isCancelled() || order.isClosed()) {
+					result.add(order);
+				}
+			}
+		}
+		sort(result, parameter);
+		return result;
 	}
 
 }

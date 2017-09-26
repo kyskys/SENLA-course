@@ -13,14 +13,14 @@ public interface IController {
 	public void removeGarage(long id);
 	public void addSit();
 	public void removeSit(long id);
-	public void showAvailableSits();
+	public void getFreeSits();
 	public void showOrders(String paramerter);
 	public void showMasters(String parameter);
 	public void showExecutingOrders(String parameter);
-	public void showMastersExecutingConcreteOrder(long id);
+	public void showMastersExecutingByConcreteOrder(long id);
 	public void showOrderExecutingByConcreteMaster(long id);
-	public void showOrdersForAPeriodOfTime(Date dateBefore, Date DateAfter, String parameter);
-	public void showAvailableSitsInFuture(Date date);
-	public void showNearestAvailableDate();
+	public void showOrdersForPeriodOfTime(Date dateBefore, Date DateAfter, String parameter);
+	public void showFreeSitsAtDate(Date date);
+	public void showNearestFreeDate();
 	public void shiftOrdersTimeExecution(int days);
 }
