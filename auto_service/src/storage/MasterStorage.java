@@ -6,8 +6,9 @@ import entities.Master;
 import sort.SortMastersByAlphabet;
 import sort.SortMastersByBusy;
 import sort.SortParameters;
+import storage.interfaces.IMasterStorage;
 
-public class MasterStorage extends SortableStorage<Master> {
+public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
 
 	@Override
 	protected boolean sort(List<Master> listToSort, SortParameters parameter) {

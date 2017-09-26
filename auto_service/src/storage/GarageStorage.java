@@ -1,8 +1,8 @@
 package storage;
 
 import entities.Garage;
-import sort.AbstractStorage;
+import storage.interfaces.IGarageStorage;
 
-public class GarageStorage extends AbstractStorage<Garage> {
-	
+public class GarageStorage extends AbstractStorage<Garage> implements IGarageStorage {
+
 }

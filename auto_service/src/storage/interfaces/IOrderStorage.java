@@ -1,5 +1,7 @@
 package storage.interfaces;
 
-public interface IOrderStorage {
+import entities.Order;
+
+public interface IOrderStorage extends IAbstractStorage<Order>{
 
 }

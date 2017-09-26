@@ -1,8 +1,8 @@
 package storage;
 
 import entities.Sit;
-import sort.AbstractStorage;
+import storage.interfaces.ISitStorage;
 
-public class SitStorage extends AbstractStorage<Sit> {
+public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 
 }

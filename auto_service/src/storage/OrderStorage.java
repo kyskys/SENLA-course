@@ -8,8 +8,9 @@ import sort.SortOrdersByEndingDate;
 import sort.SortOrdersByPrice;
 import sort.SortOrdersByStartWorkingOnDate;
 import sort.SortParameters;
+import storage.interfaces.IOrderStorage;
 
-public class OrderStorage extends SortableStorage<Order> {
+public class OrderStorage extends SortableStorage<Order> implements IOrderStorage {
 
 	@Override
 	protected boolean sort(List<Order> listToSort, SortParameters sp) {

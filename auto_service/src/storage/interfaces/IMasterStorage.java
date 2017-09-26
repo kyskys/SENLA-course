@@ -1,5 +1,7 @@
 package storage.interfaces;
 
-public interface IMasterStorage {
+import entities.Master;
+
+public interface IMasterStorage extends IAbstractStorage<Master>{
 
 }

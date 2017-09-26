@@ -1,5 +1,7 @@
 package storage.interfaces;
 
-public interface ISitStorage {
+import entities.Sit;
+
+public interface ISitStorage extends IAbstractStorage<Sit>{
 
 }
