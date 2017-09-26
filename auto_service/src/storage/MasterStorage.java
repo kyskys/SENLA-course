@@ -1,8 +1,10 @@
 package storage;
 
+import java.util.Comparator;
 import java.util.List;
 
 import entities.Master;
+import entities.Order;
 import sort.SortMastersByAlphabet;
 import sort.SortMastersByBusy;
 import sort.SortParameters;
@@ -11,19 +13,25 @@ import storage.interfaces.IMasterStorage;
 public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
 
 	@Override
-	protected boolean sort(List<Master> listToSort, SortParameters parameter) {
+	protected void sort(List<Master> listToSort, SortParameters parameter) {
+		Comparator<Master> comparator = null;
 		switch (parameter) {
 		case ALPHABET: {
-			listToSort.sort(new SortMastersByAlphabet());
+			comparator = new SortMastersByAlphabet();
 			break;
 		}
 		case BUSY: {
-			listToSort.sort(new SortMastersByBusy());
+			comparator = new SortMastersByBusy();
 			break;
 		}
-		default:
-			return false;
+		default: return;
 		}
-		return true;
+		listToSort.sort(comparator);
 	}
+
+	@Override
+	public Order getOrderExecutingByConcreteMaster(Long id) {
+		return get(id).getOrder();
+	}
+	
 }

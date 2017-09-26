@@ -1,5 +1,6 @@
 package storage;
 
+import java.util.Comparator;
 import java.util.List;
 
 import entities.Order;
@@ -13,28 +14,30 @@ import storage.interfaces.IOrderStorage;
 public class OrderStorage extends SortableStorage<Order> implements IOrderStorage {
 
 	@Override
-	protected boolean sort(List<Order> listToSort, SortParameters sp) {
+	protected void sort(List<Order> listToSort, SortParameters sp) {
+
+		Comparator<Order> comparator = null;
 		switch (sp) {
 		case ADDED_DATE: {
-			listToSort.sort(new SortOrdersByAddedDate());
+			comparator = new SortOrdersByAddedDate();
 			break;
 		}
 		case ENDING_DATE: {
-			listToSort.sort(new SortOrdersByEndingDate());
+			comparator = new SortOrdersByEndingDate();
 			break;
 		}
 		case PRICE: {
-			listToSort.sort(new SortOrdersByPrice());
+			comparator = new SortOrdersByPrice();
 			break;
 		}
 		case START_WORKING_ON_DATE: {
-			listToSort.sort(new SortOrdersByStartWorkingOnDate());
+			comparator = new SortOrdersByStartWorkingOnDate();
 			break;
 		}
 		default:
-			return false;
+			return;
 		}
-		return true;
+		listToSort.sort(comparator);
 	}
 
 }

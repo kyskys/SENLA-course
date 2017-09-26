@@ -17,7 +17,7 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 		return list.remove(entity);
 	}
 	@Override
-	public List<T> getList() {
+	public List<T> getAll() {
 		return list;
 	}
 	@Override
