@@ -1,5 +1,9 @@
 package service.intefraces;
 
-public interface IMasterService {
+import entities.Master;
 
+public interface IMasterService extends ISortableService<Master> {
+	public String showMasters(String parameter);
+
+	public String showOrderExecutingByConcreteMaster(Long id);
 }

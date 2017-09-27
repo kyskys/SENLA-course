@@ -1,5 +1,6 @@
 package service.intefraces;
 
-public interface IGarageService {
+import entities.Garage;
 
+public interface IGarageService extends IAbstractService<Garage>{
 }

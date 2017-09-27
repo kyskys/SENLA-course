@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +13,11 @@ public class Order extends BaseEntity {
 	private boolean cancelled;
 	private List<Master> masters;
 
-	public Order(long id, double price, Date endingDate) {
-		super(id);
+	public Order(double price, Date endingDate) {
 		this.setEndingDate(endingDate);
 		this.setPrice(price);
-		setAddedDate(null);// here will be date on adding
+		setAddedDate(new Date());
+		masters = new ArrayList<Master>();
 	}
 
 	public Date getAddedDate() {
@@ -70,10 +71,20 @@ public class Order extends BaseEntity {
 	public List<Master> getMasters() {
 		return masters;
 	}
+
 	public boolean addMaster(Master master) {
 		return masters.add(master);
 	}
+
 	public boolean removeMaster(Master master) {
 		return masters.remove(master);
+	}
+
+	@Override
+	public String getAsString() {
+		return "id: " + id + " price: " + price + " added date:" + addedDate + " start date: " + startWorkingOnDate
+				+ " ending date: " + endingDate + " closed: " + closed + " cancelled: " + cancelled + " masters: "
+				+ masters;
+
 	}
 }

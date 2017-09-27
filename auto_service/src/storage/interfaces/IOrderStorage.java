@@ -17,4 +17,6 @@ public interface IOrderStorage extends ISortableStorage<Order> {
 	void setOrderCancelled(Long id);
 
 	void setOrderClosed(Long id);
+
+	Date showNearestDate();
 }

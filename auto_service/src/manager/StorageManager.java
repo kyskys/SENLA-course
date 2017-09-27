@@ -1,4 +1,4 @@
-package counter;
+package manager;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.SitStorage;
 
-public class Counter {
+public class StorageManager {
 	private static GarageStorage garageStorage;// = new GarageStorage();
 	private static MasterStorage masterStorage;// = new MasterStorage();
 	private static OrderStorage orderStorage;// = new OrderStorage();

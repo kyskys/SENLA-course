@@ -8,7 +8,7 @@ public class Utils {
 	public static <T extends BaseEntity> String getListAsString(List<T> list) {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < list.size(); i++) {
-			result.append(String.format("id : %d\n", list.get(i).getId()));
+			result.append(list.get(i).getAsString()).append("\n");
 		}
 		return result.toString();
 	}

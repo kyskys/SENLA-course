@@ -5,8 +5,7 @@ public class Master extends BaseEntity {
 	private boolean busy;
 	private String name;
 
-	public Master(long id, String name) {
-		super(id);
+	public Master(String name) {
 		this.setName(name);
 	}
 
@@ -32,5 +31,10 @@ public class Master extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getAsString() {
+		return "id: " + id + "name: " + name + "busy: " + busy + "order id:" + order.getId();
 	}
 }

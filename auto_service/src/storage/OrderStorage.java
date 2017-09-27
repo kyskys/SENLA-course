@@ -85,4 +85,15 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		get(id).setClosed(true);
 	}
 
+	@Override
+	public Date showNearestDate() {
+		Date result = list.get(0).getEndingDate();
+		for (Order order : list) {
+			if (result.compareTo(order.getEndingDate()) > 0) {
+				result = order.getEndingDate();
+			}
+		}
+		return result;
+	}
+
 }

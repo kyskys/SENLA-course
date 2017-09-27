@@ -1,5 +1,11 @@
 package service.intefraces;
 
-public interface ISitService {
+import java.util.Date;
 
+import entities.Sit;
+
+public interface ISitService extends IAbstractService<Sit> {
+	public String showFreeSits();
+
+	public String showFreeSitsAtDate(Date date);
 }

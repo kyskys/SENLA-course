@@ -3,8 +3,8 @@ package storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import counter.Counter;
 import entities.BaseEntity;
+import manager.StorageManager;
 import storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T> {
@@ -12,7 +12,7 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 
 	@Override
 	public boolean create(T entity) {
-		entity.setId(Counter.getId());
+		entity.setId(StorageManager.getId());
 		return list.add(entity);
 	}
 

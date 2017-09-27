@@ -4,8 +4,7 @@ public class Sit extends BaseEntity {
 	private Order order;
 	private Garage garage;
 
-	public Sit(long id, Garage garage) {
-		super(id);
+	public Sit(Garage garage) {
 		this.garage = garage;
 	}
 
@@ -23,5 +22,10 @@ public class Sit extends BaseEntity {
 
 	public void setGarage(Garage garage) {
 		this.garage = garage;
+	}
+
+	@Override
+	public String getAsString() {
+		return "id :" + id + "order id: " + order.getId() + "garage id:" + garage.getId();
 	}
 }
