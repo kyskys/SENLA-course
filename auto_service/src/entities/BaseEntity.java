@@ -11,7 +11,7 @@ public abstract class BaseEntity {
 		return id;
 	}
 
-	public void setName(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

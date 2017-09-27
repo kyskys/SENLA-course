@@ -1,42 +1,40 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import entities.Master;
+import counter.Counter;
 import entities.Order;
 import service.intefraces.IOrderService;
-import sort.SortOrdersByAddedDate;
-import sort.SortOrdersByEndingDate;
-import sort.SortOrdersByPrice;
 import sort.SortParameters;
-import storage.MasterStorage;
 import storage.OrderStorage;
-import storage.ServiceStorage;
+import storage.interfaces.ISortableStorage;
 
-public class OrderService implements IOrderService {
-	private OrderStorage os = ServiceStorage.getOrderStorage();
-	private MasterStorage ms = ServiceStorage.getMasterStorage();
+public class OrderService extends SortableService<Order> implements IOrderService {
+	private OrderStorage orderStorage = Counter.getOrderStorage();
+
+	@Override
+	public ISortableStorage<Order> getStorage() {
+		return orderStorage;
+	}
 
 	public void setOrderCancelled(long id) {
-		os.setOrderCancelled(id);
+		orderStorage.setOrderCancelled(id);
 	}
 
 	public void setOrderClosed(long id) {
-		os.setOrderClosed(id);
+		orderStorage.setOrderClosed(id);
 	}
 
 	public void shiftOrderExecutionTime(int days) {
-		for (int i = 0; i < os.getAll().size(); i++) {
-			os.getAll().get(i).getAddedDate();
+		for (int i = 0; i < orderStorage.getAll().size(); i++) {
+			orderStorage.getAll().get(i).getAddedDate();
 		}
 	}
 
 	public void showOrders(String parameter) {
-		os.getAll(SortParameters.getValueOf(parameter));
+		orderStorage.getAll(SortParameters.getValueOf(parameter));
 	}
 
 	public void showExecutingOrders(String parameter) {
-		os.getAll(SortParameters.getValueOf(parameter));
+		orderStorage.getAll(SortParameters.getValueOf(parameter));
 	}
+
 }

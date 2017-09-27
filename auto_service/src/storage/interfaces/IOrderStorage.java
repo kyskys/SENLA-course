@@ -7,7 +7,7 @@ import entities.Master;
 import entities.Order;
 import sort.SortParameters;
 
-public interface IOrderStorage extends IAbstractStorage<Order> {
+public interface IOrderStorage extends ISortableStorage<Order> {
 	List<Master> getMastersExecutingConcreteOrder(Long id);
 
 	List<Order> getExecutingOrders(SortParameters parameter);

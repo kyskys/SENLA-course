@@ -1,11 +1,17 @@
 package service;
 
+import counter.Counter;
+import entities.Master;
 import service.intefraces.IMasterService;
-import storage.MasterStorage;
-import storage.OrderStorage;
-import storage.ServiceStorage;
+import storage.interfaces.IMasterStorage;
+import storage.interfaces.ISortableStorage;
 
-public class MasterService implements IMasterService{
-	private MasterStorage ms = ServiceStorage.getMasterStorage();
-	private OrderStorage os = ServiceStorage.getOrderStorage();
+public class MasterService extends SortableService<Master> implements IMasterService {
+	IMasterStorage masterStorage = Counter.getMasterStorage();
+
+	@Override
+	public ISortableStorage<Master> getStorage() {
+		return masterStorage;
+	}
+
 }
