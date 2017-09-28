@@ -21,8 +21,12 @@ public interface IController {
 	public void showExecutingOrders(String parameter);
 	public void shiftOrdersTimeExecution(int days);
 	public void showMasters(String parameter);
-	public void showMastersExecutingByConcreteOrder(long id);
+	public void showMastersExecutingConcreteOrder(long id);
 	public void showOrderExecutingByConcreteMaster(long id);
 	public void showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter);
 	public void showNearestFreeDate();
+	public void showMasters();
+	public void showOrders();
+	public void showGarages();
+	public void showSits();
 }

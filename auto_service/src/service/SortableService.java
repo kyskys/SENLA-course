@@ -8,7 +8,7 @@ import sort.SortParameters;
 import storage.interfaces.ISortableStorage;
 
 public abstract class SortableService<T extends BaseEntity> extends AbstractService<T> implements ISortableService<T> {
-	@Override
+
 	public List<T> getAll(SortParameters parameter) {
 		return getStorage().getAll(parameter);
 	}

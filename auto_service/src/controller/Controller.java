@@ -8,6 +8,8 @@ import entities.Order;
 import entities.Sit;
 import service.*;
 import service.intefraces.*;
+import sort.SortParameters;
+import util.Utils;
 
 public class Controller implements IController {
 	IGarageService garageService = new GarageService();
@@ -66,23 +68,45 @@ public class Controller implements IController {
 	}
 
 	@Override
+	public void showMasters() {
+		System.out.println(Utils.getListAsString(masterService.getAll()));
+	}
+
+	@Override
+	public void showOrders() {
+		System.out.println(Utils.getListAsString(orderService.getAll()));
+	}
+
+	@Override
+	public void showGarages() {
+		System.out.println(Utils.getListAsString(garageService.getAll()));
+	}
+
+	@Override
+	public void showSits() {
+		System.out.println(Utils.getListAsString(sitService.getAll()));
+	}
+
+	@Override
 	public void showFreeSits() {
-		System.out.println(sitService.showFreeSits());
+		System.out.println(Utils.getListAsString(sitService.getFreeSits()));
 	}
 
 	@Override
 	public void showFreeSitsAtDate(Date date) {
-		System.out.println(sitService.showFreeSitsAtDate(date));
+		System.out.println(Utils.getListAsString(sitService.getFreeSitsAtDate(date)));
 	}
 
 	@Override
 	public void showOrders(String parameter) {
-		System.out.println(orderService.showExecutingOrders(parameter));
+		System.out
+				.println(Utils.getListAsString(orderService.getExecutingOrders(SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
 	public void showExecutingOrders(String parameter) {
-		System.out.println(orderService.showExecutingOrders(parameter));
+		System.out
+				.println(Utils.getListAsString(orderService.getExecutingOrders(SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
@@ -92,28 +116,29 @@ public class Controller implements IController {
 
 	@Override
 	public void showMasters(String parameter) {
-		System.out.println(masterService.showMasters(parameter));
+		System.out.println(Utils.getListAsString(masterService.getAll(SortParameters.getValueOf(parameter))));
 
 	}
 
 	@Override
-	public void showMastersExecutingByConcreteOrder(long id) {
-		System.out.println(masterService.showOrderExecutingByConcreteMaster(id));
+	public void showMastersExecutingConcreteOrder(long id) {
+		System.out.println(Utils.getListAsString(orderService.getMastersExecutingConcreteOrder(id)));
 	}
 
 	@Override
 	public void showOrderExecutingByConcreteMaster(long id) {
-		System.out.println(masterService.showOrderExecutingByConcreteMaster(id));
+		System.out.println(masterService.getOrderExecutingByConcreteMaster(id));
 	}
 
 	@Override
 	public void showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter) {
-		System.out.println(orderService.showOrdersForPeriodOfTime(beforeDate, afterDate, parameter));
+		System.out.println(Utils.getListAsString(
+				orderService.getOrdersForPeriodOfTime(beforeDate, afterDate, SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
 	public void showNearestFreeDate() {
-		System.out.println(orderService.showNearestDate());
+		System.out.println(orderService.getNearestDate());
 	}
 
 }

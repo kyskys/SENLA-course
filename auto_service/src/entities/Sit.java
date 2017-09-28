@@ -1,5 +1,7 @@
 package entities;
 
+import util.Utils;
+
 public class Sit extends BaseEntity {
 	private Order order;
 	private Garage garage;
@@ -25,7 +27,7 @@ public class Sit extends BaseEntity {
 	}
 
 	@Override
-	public String getAsString() {
-		return "id :" + id + "order id: " + order.getId() + "garage id:" + garage.getId();
+	public String toString() {
+		return "id :" + id + " order id: " + BaseEntity.getIdAsString(order) + " garage id: " + BaseEntity.getIdAsString(garage);
 	}
 }

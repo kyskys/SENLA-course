@@ -11,8 +11,6 @@ public abstract class BaseEntity {
 		this.id = id;
 	}
 
-	abstract public String getAsString();
-
 	@Override
 	public boolean equals(Object obj) {
 		BaseEntity bm = (BaseEntity) obj;
@@ -20,5 +18,9 @@ public abstract class BaseEntity {
 			return id.equals(bm.getId());
 		}
 		return false;
+	}
+
+	public static String getIdAsString(BaseEntity entity) {
+		return entity == null ? "-" : entity.getId().toString();
 	}
 }
