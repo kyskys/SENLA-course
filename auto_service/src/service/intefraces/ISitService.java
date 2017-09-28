@@ -1,11 +1,12 @@
 package service.intefraces;
 
 import java.util.Date;
+import java.util.List;
 
 import entities.Sit;
 
 public interface ISitService extends IAbstractService<Sit> {
-	public String showFreeSits();
+	public List<Sit> getFreeSits();
 
-	public String showFreeSitsAtDate(Date date);
+	public List<Sit> getFreeSitsAtDate(Date date);
 }

@@ -1,9 +1,9 @@
 package service.intefraces;
 
 import entities.Master;
+import entities.Order;
 
 public interface IMasterService extends ISortableService<Master> {
-	public String showMasters(String parameter);
 
-	public String showOrderExecutingByConcreteMaster(Long id);
+	public Order getOrderExecutingByConcreteMaster(Long id);
 }

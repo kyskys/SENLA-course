@@ -1,7 +1,9 @@
 package service;
 
 import java.util.Date;
+import java.util.List;
 
+import entities.Master;
 import entities.Order;
 import manager.StorageManager;
 import service.intefraces.IOrderService;
@@ -9,7 +11,6 @@ import sort.SortParameters;
 import storage.OrderStorage;
 import storage.interfaces.IMasterStorage;
 import storage.interfaces.ISortableStorage;
-import util.Utils;
 
 public class OrderService extends SortableService<Order> implements IOrderService {
 	private OrderStorage orderStorage = StorageManager.getOrderStorage();
@@ -39,29 +40,23 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public String showOrders(String parameter) {
-		return Utils.getListAsString(orderStorage.getAll(SortParameters.getValueOf(parameter)));
+	public List<Order> getExecutingOrders(SortParameters parameter) {
+		return orderStorage.getAll(parameter);
 	}
 
 	@Override
-	public String showExecutingOrders(String parameter) {
-		return Utils.getListAsString(orderStorage.getAll(SortParameters.getValueOf(parameter)));
+	public List<Master> getMastersExecutingConcreteOrder(Long id) {
+		return orderStorage.getMastersExecutingConcreteOrder(id);
 	}
 
 	@Override
-	public String showMastersExecutingConcreteOrder(Long id) {
-		return Utils.getListAsString(orderStorage.getMastersExecutingConcreteOrder(id));
+	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter) {
+		return orderStorage.getOrdersForPeriodOfTime(beforeDate, afterDate, parameter);
 	}
 
 	@Override
-	public String showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter) {
-		return Utils.getListAsString(
-				orderStorage.getOrdersForPeriodOfTime(beforeDate, afterDate, SortParameters.getValueOf(parameter)));
-	}
-
-	@Override
-	public String showNearestDate() {
-		return orderStorage.showNearestDate().toString();
+	public Date getNearestDate() {
+		return orderStorage.showNearestDate();
 	}
 
 }

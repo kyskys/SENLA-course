@@ -1,8 +1,11 @@
 package service.intefraces;
 
 import java.util.Date;
+import java.util.List;
 
+import entities.Master;
 import entities.Order;
+import sort.SortParameters;
 
 public interface IOrderService extends ISortableService<Order> {
 	public void setOrderCancelled(Long id);
@@ -11,13 +14,11 @@ public interface IOrderService extends ISortableService<Order> {
 
 	public void shiftOrderExecutionTime(int days);
 
-	public String showOrders(String parameter);
+	public List<Order> getExecutingOrders(SortParameters parameter);
 
-	public String showExecutingOrders(String parameter);
+	public List<Master> getMastersExecutingConcreteOrder(Long id);
 
-	public String showMastersExecutingConcreteOrder(Long id);
+	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter);
 
-	public String showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter);
-
-	public String showNearestDate();
+	public Date getNearestDate();
 }
