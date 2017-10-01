@@ -1,5 +1,8 @@
 package service;
 
+import java.util.Date;
+import java.util.List;
+
 import entities.Master;
 import entities.Order;
 import manager.StorageManager;
@@ -20,6 +23,11 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	@Override
 	public Order getOrderExecutingByConcreteMaster(Long id) {
 		return masterStorage.getOrderExecutingByConcreteMaster(id);
+	}
+
+	@Override
+	public List<Master> getFreeMastersOnDate(Date date) {
+		return masterStorage.getFreeMastersOnDate(date);
 	}
 
 }

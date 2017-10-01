@@ -1,7 +1,5 @@
 package entities;
 
-import util.Utils;
-
 public class Sit extends BaseEntity {
 	private Order order;
 	private Garage garage;
