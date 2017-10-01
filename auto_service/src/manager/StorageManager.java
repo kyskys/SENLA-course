@@ -26,8 +26,8 @@ public class StorageManager {
 		return ++id;
 	}
 
+	@SafeVarargs
 	public static void recountId(List<? extends BaseEntity>... lists) {
-		// TODO not used now
 		for (List<? extends BaseEntity> x : lists) {
 			for (BaseEntity y : x) {
 				if (y.getId() > id) {

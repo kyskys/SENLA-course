@@ -35,6 +35,6 @@ public class Master extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "id: " + id + " name: " + name + " busy: " + busy + " order id: " + order.getId();
+		return "id: " + id + " name: " + name + " busy: " + busy + " order id: " + BaseEntity.getIdAsString(order);
 	}
 }

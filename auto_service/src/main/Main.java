@@ -8,7 +8,7 @@ import entities.Garage;
 import entities.Master;
 import entities.Order;
 import entities.Sit;
-import manager.FileManager;
+import file_manager.FileManager;
 import util.Utils;
 
 public class Main {
@@ -17,7 +17,7 @@ public class Main {
 		IController controller = new Controller();
 		FileManager fm = new FileManager();
 		fm.load();
-		/*Garage garage = new Garage();
+		Garage garage = new Garage();
 		Sit sit = new Sit(garage);
 		Master master = new Master("nikita");
 		Order order = new Order(15, Utils.convertStringToDate("12.12.2018"));
@@ -46,16 +46,19 @@ public class Main {
 		controller.addMaster(master1);
 		controller.addMaster(master2);
 		controller.addOrder(order1);
-		controller.addSit(sit1);*/
+		controller.addSit(sit1);
 		controller.showExecutingOrders("start date");
-		/*controller.setOrderCancelled(3);
-		controller.setOrderClosed(8);*/
+		controller.setOrderCancelled(3);
+		controller.setOrderClosed(8);
 		controller.showOrders("price");
 		controller.showOrders("ending date");
-		/*Garage garage2 = new Garage();
+		Garage garage2 = new Garage();
 		Sit sit2 = new Sit(garage2);
 		controller.addSit(sit2);
-		controller.addGarage(garage2);*/
+		controller.addGarage(garage2);
+		Master master3 = new Master("vasya");
+		controller.addMaster(master3);
+		controller.showMasters();
 		controller.showFreeSits();
 		controller.showFreeSitsAtDate(Utils.convertStringToDate("06.06.2020"));
 		controller.showMastersExecutingConcreteOrder(3);

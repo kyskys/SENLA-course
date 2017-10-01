@@ -1,4 +1,4 @@
-package manager;
+package file_manager;
 
 import entities.BaseEntity;
 import entities.Sit;

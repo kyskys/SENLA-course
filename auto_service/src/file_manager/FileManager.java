@@ -1,10 +1,9 @@
-package manager;
+package file_manager;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import entities.*;
+import manager.StorageManager;
 import util.Utils;
 
 public class FileManager {
@@ -69,5 +68,6 @@ public class FileManager {
 			}
 			sits.add(sit);
 		}
+		StorageManager.recountId(masters, orders, sits, garages);
 	}
 }
