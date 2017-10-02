@@ -7,10 +7,17 @@ import manager.StorageManager;
 import util.Utils;
 
 public class FileManager {
-	GarageFileManager garageFileManager = new GarageFileManager();
-	OrderFileManager orderFileManager = new OrderFileManager();
-	SitFileManager sitFileManager = new SitFileManager();
-	MasterFileManager masterFileManager = new MasterFileManager();
+	GarageFileManager garageFileManager;
+	OrderFileManager orderFileManager;
+	SitFileManager sitFileManager;
+	MasterFileManager masterFileManager;
+	public FileManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
+		garageFileManager = new GarageFileManager(GarageFilePath);
+		 orderFileManager = new OrderFileManager(orderFilePath);
+		 sitFileManager = new SitFileManager(SitFilePath);
+		 masterFileManager = new MasterFileManager(MasterFilePath);
+	}
+	
 
 	public void save() {
 		garageFileManager.save(StorageManager.getGarageStorage().getAll());

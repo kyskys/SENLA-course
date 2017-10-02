@@ -2,6 +2,7 @@ package file_manager;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -10,20 +11,20 @@ import com.danco.training.TextFileWorker;
 import entities.BaseEntity;
 
 public abstract class AbstractFileManager<T extends BaseEntity> {
-	protected String filePath;
+	protected Path filePath;
 	protected TextFileWorker tfw;
 
-	public AbstractFileManager(String filePath) {
-		this.filePath = filePath;
-		if (!Files.exists(Paths.get(filePath))) {
+	public AbstractFileManager(String Path) {
+		filePath = Paths.get(Path);
+		if (!Files.exists(filePath)) {
 			try {
-				Files.createFile(Paths.get(filePath));
+				Files.createFile(filePath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		tfw = new TextFileWorker(filePath);
+		tfw = new TextFileWorker(Path);
 	}
 
 	abstract public String ConvertEntityToString(T entity);

@@ -4,8 +4,8 @@ import entities.BaseEntity;
 import entities.Sit;
 
 public class SitFileManager extends AbstractFileManager<Sit> {
-	public SitFileManager() {
-		super("Sits.txt");
+	public SitFileManager(String filePath) {
+		super(filePath);
 	}
 
 	@Override

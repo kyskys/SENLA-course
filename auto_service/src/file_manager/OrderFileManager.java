@@ -4,8 +4,8 @@ import entities.Order;
 import util.Utils;
 
 public class OrderFileManager extends AbstractFileManager<Order> {
-	public OrderFileManager() {
-		super("Orders.txt");
+	public OrderFileManager(String filePath) {
+		super(filePath);
 	}
 
 	@Override

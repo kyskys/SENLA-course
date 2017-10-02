@@ -15,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) throws ParseException {
 		IController controller = new Controller();
-		FileManager fm = new FileManager();
+		FileManager fm = new FileManager(args[0], args[1], args[2], args[3]);
 		fm.load();
 		Garage garage = new Garage();
 		Sit sit = new Sit(garage);

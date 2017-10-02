@@ -3,8 +3,8 @@ package file_manager;
 import entities.Garage;
 
 public class GarageFileManager extends AbstractFileManager<Garage> {
-	public GarageFileManager() {
-		super("Garages.txt");
+	public GarageFileManager(String filePath) {
+		super(filePath);
 	}
 
 	@Override

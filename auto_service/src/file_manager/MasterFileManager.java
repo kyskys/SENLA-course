@@ -5,8 +5,8 @@ import entities.Master;
 
 public class MasterFileManager extends AbstractFileManager<Master> {
 
-	public MasterFileManager() {
-		super("Masters.txt");
+	public MasterFileManager(String filePath) {
+		super(filePath);
 	}
 
 	@Override
