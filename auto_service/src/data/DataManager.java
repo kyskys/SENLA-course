@@ -11,13 +11,13 @@ public class DataManager {
 	private OrderDataManager orderFileManager;
 	private SitDataManager sitFileManager;
 	private MasterDataManager masterFileManager;
+
 	public DataManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
 		garageFileManager = new GarageDataManager(GarageFilePath);
-		 orderFileManager = new OrderDataManager(orderFilePath);
-		 sitFileManager = new SitDataManager(SitFilePath);
-		 masterFileManager = new MasterDataManager(MasterFilePath);
+		orderFileManager = new OrderDataManager(orderFilePath);
+		sitFileManager = new SitDataManager(SitFilePath);
+		masterFileManager = new MasterDataManager(MasterFilePath);
 	}
-	
 
 	public void save() {
 		garageFileManager.save(StorageManager.getGarageStorage().getAll());
@@ -54,8 +54,9 @@ public class DataManager {
 			String[] orderMasters = currentOrderData[7].split(",");
 			for (String m : orderMasters) {
 				Long id = Long.valueOf(m);
-				order.addMaster(StorageManager.getMasterStorage().get(id));
-				StorageManager.getMasterStorage().get(id).setOrder(order);
+				Master master = StorageManager.getMasterStorage().get(id);
+				order.addMaster(master);
+				master.setOrder(order);
 			}
 			orders.add(order);
 		}
@@ -67,9 +68,10 @@ public class DataManager {
 		}
 		for (int i = 0; i < sitsData.length; i++) {
 			String[] currentSitData = sitsData[i].split(" ");
-			Sit sit = new Sit(StorageManager.getGarageStorage().get(Long.valueOf(currentSitData[2])));
+			Garage garage = StorageManager.getGarageStorage().get(Long.valueOf(currentSitData[2]));
+			Sit sit = new Sit(garage);
 			sit.setId(Long.valueOf(currentSitData[0]));
-			StorageManager.getGarageStorage().get(Long.valueOf(currentSitData[2])).addSit(sit);
+			garage.addSit(sit);
 			if (!currentSitData[1].equals("-")) {
 				sit.setOrder(StorageManager.getOrderStorage().get(Long.valueOf(currentSitData[1])));
 			}

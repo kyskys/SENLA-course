@@ -9,12 +9,10 @@ import manager.StorageManager;
 import service.intefraces.IOrderService;
 import sort.SortParameters;
 import storage.OrderStorage;
-import storage.interfaces.IMasterStorage;
 import storage.interfaces.ISortableStorage;
 
 public class OrderService extends SortableService<Order> implements IOrderService {
 	private OrderStorage orderStorage = StorageManager.getOrderStorage();
-	private IMasterStorage masterStorage = StorageManager.getMasterStorage();
 
 	@Override
 	public ISortableStorage<Order> getStorage() {
