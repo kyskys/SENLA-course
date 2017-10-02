@@ -1,4 +1,4 @@
-package file_manager;
+package data;
 
 import java.util.List;
 
@@ -6,16 +6,16 @@ import entities.*;
 import manager.StorageManager;
 import util.Utils;
 
-public class FileManager {
-	GarageFileManager garageFileManager;
-	OrderFileManager orderFileManager;
-	SitFileManager sitFileManager;
-	MasterFileManager masterFileManager;
-	public FileManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
-		garageFileManager = new GarageFileManager(GarageFilePath);
-		 orderFileManager = new OrderFileManager(orderFilePath);
-		 sitFileManager = new SitFileManager(SitFilePath);
-		 masterFileManager = new MasterFileManager(MasterFilePath);
+public class DataManager {
+	GarageDataManager garageFileManager;
+	OrderDataManager orderFileManager;
+	SitDataManager sitFileManager;
+	MasterDataManager masterFileManager;
+	public DataManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
+		garageFileManager = new GarageDataManager(GarageFilePath);
+		 orderFileManager = new OrderDataManager(orderFilePath);
+		 sitFileManager = new SitDataManager(SitFilePath);
+		 masterFileManager = new MasterDataManager(MasterFilePath);
 	}
 	
 

@@ -1,9 +1,9 @@
-package file_manager;
+package data;
 
 import entities.Garage;
 
-public class GarageFileManager extends AbstractFileManager<Garage> {
-	public GarageFileManager(String filePath) {
+public class GarageDataManager extends AbstractDataManager<Garage> {
+	public GarageDataManager(String filePath) {
 		super(filePath);
 	}
 

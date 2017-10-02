@@ -1,11 +1,11 @@
-package file_manager;
+package data;
 
 import entities.BaseEntity;
 import entities.Master;
 
-public class MasterFileManager extends AbstractFileManager<Master> {
+public class MasterDataManager extends AbstractDataManager<Master> {
 
-	public MasterFileManager(String filePath) {
+	public MasterDataManager(String filePath) {
 		super(filePath);
 	}
 

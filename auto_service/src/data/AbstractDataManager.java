@@ -1,4 +1,4 @@
-package file_manager;
+package data;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,11 +10,11 @@ import com.danco.training.TextFileWorker;
 
 import entities.BaseEntity;
 
-public abstract class AbstractFileManager<T extends BaseEntity> {
+public abstract class AbstractDataManager<T extends BaseEntity> {
 	protected Path filePath;
 	protected TextFileWorker tfw;
 
-	public AbstractFileManager(String Path) {
+	public AbstractDataManager(String Path) {
 		filePath = Paths.get(Path);
 		if (!Files.exists(filePath)) {
 			try {

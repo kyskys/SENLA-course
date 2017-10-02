@@ -1,10 +1,10 @@
-package file_manager;
+package data;
 
 import entities.Order;
 import util.Utils;
 
-public class OrderFileManager extends AbstractFileManager<Order> {
-	public OrderFileManager(String filePath) {
+public class OrderDataManager extends AbstractDataManager<Order> {
+	public OrderDataManager(String filePath) {
 		super(filePath);
 	}
 

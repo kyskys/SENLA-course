@@ -1,10 +1,10 @@
-package file_manager;
+package data;
 
 import entities.BaseEntity;
 import entities.Sit;
 
-public class SitFileManager extends AbstractFileManager<Sit> {
-	public SitFileManager(String filePath) {
+public class SitDataManager extends AbstractDataManager<Sit> {
+	public SitDataManager(String filePath) {
 		super(filePath);
 	}
 

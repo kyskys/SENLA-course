@@ -4,18 +4,18 @@ import java.text.ParseException;
 
 import controller.Controller;
 import controller.IController;
+import data.DataManager;
 import entities.Garage;
 import entities.Master;
 import entities.Order;
 import entities.Sit;
-import file_manager.FileManager;
 import util.Utils;
 
 public class Main {
 
 	public static void main(String[] args) throws ParseException {
 		IController controller = new Controller();
-		FileManager fm = new FileManager(args[0], args[1], args[2], args[3]);
+		DataManager fm = new DataManager(args[0], args[1], args[2], args[3]);
 		fm.load();
 		Garage garage = new Garage();
 		Sit sit = new Sit(garage);
