@@ -12,10 +12,10 @@ import sort.SortParameters;
 import util.Utils;
 
 public class Controller implements IController {
-	IGarageService garageService = new GarageService();
-	IMasterService masterService = new MasterService();
-	IOrderService orderService = new OrderService();
-	ISitService sitService = new SitService();
+	private IGarageService garageService = new GarageService();
+	private IMasterService masterService = new MasterService();
+	private IOrderService orderService = new OrderService();
+	private ISitService sitService = new SitService();
 
 	@Override
 	public void addMaster(Master master) {

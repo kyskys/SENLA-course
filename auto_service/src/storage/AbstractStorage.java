@@ -8,7 +8,7 @@ import manager.StorageManager;
 import storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T> {
-	List<T> list = new ArrayList<T>();
+	protected List<T> list = new ArrayList<T>();
 
 	@Override
 	public boolean create(T entity) {

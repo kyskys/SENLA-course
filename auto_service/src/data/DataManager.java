@@ -7,10 +7,10 @@ import manager.StorageManager;
 import util.Utils;
 
 public class DataManager {
-	GarageDataManager garageFileManager;
-	OrderDataManager orderFileManager;
-	SitDataManager sitFileManager;
-	MasterDataManager masterFileManager;
+	private GarageDataManager garageFileManager;
+	private OrderDataManager orderFileManager;
+	private SitDataManager sitFileManager;
+	private MasterDataManager masterFileManager;
 	public DataManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
 		garageFileManager = new GarageDataManager(GarageFilePath);
 		 orderFileManager = new OrderDataManager(orderFilePath);

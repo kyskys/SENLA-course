@@ -11,7 +11,8 @@ public class MasterDataManager extends AbstractDataManager<Master> {
 
 	@Override
 	public String ConvertEntityToString(Master entity) {
-		return entity.getId() + " " + entity.getName() + " " + BaseEntity.getIdAsString(entity.getOrder()) + " " + entity.isBusy();
+		return entity.getId() + " " + entity.getName() + " " + BaseEntity.getIdAsString(entity.getOrder()) + " "
+				+ entity.isBusy();
 	}
 
 }
