@@ -21,4 +21,9 @@ public interface IOrderService extends ISortableService<Order> {
 	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter);
 
 	public Date getNearestDate();
+
+	public void addMasterToOrder(Long idMaster, Long idOrder);
+
+	public void removeMasterFromOrder(Long idMaster, Long idOrder);
+
 }

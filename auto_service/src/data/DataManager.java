@@ -44,8 +44,8 @@ public class DataManager {
 		}
 		for (int i = 0; i < ordersData.length; i++) {
 			String[] currentOrderData = ordersData[i].split(" ");
-			Order order = new Order(Double.valueOf(currentOrderData[1]),
-					Utils.convertStringToDate(currentOrderData[4]));
+			Order order = new Order(Double.valueOf(currentOrderData[1]), 
+					Utils.convertStringToDate(currentOrderData[4]), Utils.convertStringToDate(currentOrderData[3]));
 			order.setId(Long.valueOf(currentOrderData[0]));
 			order.setAddedDate(Utils.convertStringToDate(currentOrderData[2]));
 			order.setStartWorkingOnDate(Utils.convertStringToDate(currentOrderData[3]));

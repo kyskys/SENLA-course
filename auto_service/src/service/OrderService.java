@@ -8,11 +8,13 @@ import entities.Order;
 import manager.StorageManager;
 import service.intefraces.IOrderService;
 import sort.SortParameters;
+import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.interfaces.ISortableStorage;
 
 public class OrderService extends SortableService<Order> implements IOrderService {
 	private OrderStorage orderStorage = StorageManager.getOrderStorage();
+	private MasterStorage masterStorage = StorageManager.getMasterStorage();
 
 	@Override
 	public ISortableStorage<Order> getStorage() {
@@ -55,6 +57,22 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	@Override
 	public Date getNearestDate() {
 		return orderStorage.showNearestDate();
+	}
+
+	@Override
+	public void addMasterToOrder(Long idMaster, Long idOrder) {
+		Master master = masterStorage.get(idMaster);
+		Order order = orderStorage.get(idOrder);
+		master.setOrder(order);
+		order.addMaster(master);
+	}
+
+	@Override
+	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
+		Master master = masterStorage.get(idMaster);
+		Order order = orderStorage.get(idOrder);
+		master.setOrder(null);
+		order.removeMaster(master);
 	}
 
 }

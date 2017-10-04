@@ -13,9 +13,10 @@ public class Order extends BaseEntity {
 	private boolean cancelled;
 	private List<Master> masters;
 
-	public Order(double price, Date endingDate) {
+	public Order(double price, Date endingDate, Date startWorkingOnDate) {
 		this.setEndingDate(endingDate);
 		this.setPrice(price);
+		this.setStartWorkingOnDate(startWorkingOnDate);
 		setAddedDate(new Date());
 		masters = new ArrayList<Master>();
 	}
