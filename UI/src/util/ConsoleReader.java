@@ -13,7 +13,6 @@ public class ConsoleReader {
 	final private static String ERR_WRONG_INPUT = "wrong input, please repeat";
 	final private static String ERR_EMPTY_INPUT = "empty input, please repeat";
 	final private static String ERR_WRONG_FORMAT_INPUT = "wrong format of input, must be dd.mm.yyyy, please repeat";
-	final private static String DATE_INPUT = "enter date, dd.mm.yyyy";
 	public static Long readLongByConsole() throws InputMismatchException, NoSuchElementException {
 		Long i;
 		try {
@@ -41,7 +40,7 @@ public class ConsoleReader {
 	public static Date readDateByConsole() {
 		Date d = null;
 		try {
-			System.out.println(DATE_INPUT);
+			System.out.println("enter date, dd.mm.yyyy");
 			String s = in.nextLine();
 			SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
 			d = f.parse(s);

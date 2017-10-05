@@ -16,6 +16,18 @@ public class Controller implements IController {
 	private IMasterService masterService = new MasterService();
 	private IOrderService orderService = new OrderService();
 	private ISitService sitService = new SitService();
+	private Controller instance = getInstance();
+
+	private Controller() {
+	}
+
+	private Controller getInstance() {
+		if (instance == null) {
+			return new Controller();
+		} else {
+			return instance;
+		}
+	}
 
 	@Override
 	public void addMaster(Master master) {
