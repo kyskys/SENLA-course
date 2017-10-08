@@ -6,4 +6,5 @@ public interface IObservable {
 	public void removeObserver(IObserver o);
 
 	public void notifyAllObservers(String str);
+	
 }

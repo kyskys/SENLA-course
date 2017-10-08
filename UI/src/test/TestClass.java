@@ -9,7 +9,7 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		System.out.println("qq");
-		IObservable observable = new UIObservable();
+		IObservable observable = UIObservable.getInstance();
 		// IObserver logger = new Logger();
 		IObserver consoleDisplayer = new ConsoleDisplayer();
 		// observable.addObserver(logger);

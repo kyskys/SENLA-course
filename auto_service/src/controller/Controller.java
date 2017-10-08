@@ -16,12 +16,12 @@ public class Controller implements IController {
 	private IMasterService masterService = new MasterService();
 	private IOrderService orderService = new OrderService();
 	private ISitService sitService = new SitService();
-	private Controller instance = getInstance();
+	private static Controller instance = getInstance();
 
 	private Controller() {
 	}
 
-	private Controller getInstance() {
+	public static Controller getInstance() {
 		if (instance == null) {
 			return new Controller();
 		} else {
