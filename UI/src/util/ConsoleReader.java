@@ -13,7 +13,7 @@ public class ConsoleReader {
 	final private static String ERR_WRONG_INPUT = "wrong input, please repeat";
 	final private static String ERR_EMPTY_INPUT = "empty input, please repeat";
 	final private static String ERR_WRONG_FORMAT_INPUT = "wrong format of input, must be dd.mm.yyyy, please repeat";
-	public static Long readLongByConsole() throws InputMismatchException, NoSuchElementException {
+	public static Long readLongByConsole() {
 		Long i;
 		try {
 			i = Long.valueOf(in.nextLine());
@@ -25,7 +25,6 @@ public class ConsoleReader {
 			return readLongByConsole();
 		}
 		return i;
-
 	}
 
 	public static String readStringByConsole() {
