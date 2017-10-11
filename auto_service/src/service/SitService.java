@@ -5,15 +5,19 @@ import java.util.List;
 
 import entities.Order;
 import entities.Sit;
-import manager.StorageManager;
 import service.intefraces.ISitService;
-import storage.OrderStorage;
-import storage.SitStorage;
 import storage.interfaces.IAbstractStorage;
+import storage.interfaces.IOrderStorage;
+import storage.interfaces.ISitStorage;
 
 public class SitService extends AbstractService<Sit> implements ISitService {
-	private SitStorage sitStorage = StorageManager.getSitStorage();
-	private OrderStorage orderStorage = StorageManager.getOrderStorage();
+	private ISitStorage sitStorage;
+	private IOrderStorage orderStorage;
+
+	public SitService(ISitStorage sitStorage, IOrderStorage orderStorage) {
+		this.orderStorage = orderStorage;
+		this.sitStorage = sitStorage;
+	}
 
 	@Override
 	public IAbstractStorage<Sit> getStorage() {

@@ -27,7 +27,7 @@ public abstract class AbstractDataManager<T extends BaseEntity> {
 		tfw = new TextFileWorker(Path);
 	}
 
-	abstract public String ConvertEntityToString(T entity);
+	abstract public String convertEntityToString(T entity);
 
 	public String ConvertListToString(List<? extends BaseEntity> list) {
 		StringBuilder result = new StringBuilder();
@@ -43,7 +43,7 @@ public abstract class AbstractDataManager<T extends BaseEntity> {
 	public void save(List<T> entities) {
 		String[] toWrite = new String[entities.size()];
 		for (int i = 0; i < entities.size(); i++) {
-			toWrite[i] = ConvertEntityToString(entities.get(i));
+			toWrite[i] = convertEntityToString(entities.get(i));
 		}
 		tfw.writeToFile(toWrite);
 	}

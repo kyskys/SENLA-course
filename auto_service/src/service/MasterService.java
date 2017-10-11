@@ -5,15 +5,19 @@ import java.util.List;
 
 import entities.Master;
 import entities.Order;
-import manager.StorageManager;
 import service.intefraces.IMasterService;
-import storage.OrderStorage;
 import storage.interfaces.IMasterStorage;
+import storage.interfaces.IOrderStorage;
 import storage.interfaces.ISortableStorage;
 
 public class MasterService extends SortableService<Master> implements IMasterService {
-	private IMasterStorage masterStorage = StorageManager.getMasterStorage();
-	private OrderStorage orderStorage = StorageManager.getOrderStorage();
+	private IMasterStorage masterStorage;
+	private IOrderStorage orderStorage;
+
+	public MasterService(IMasterStorage masterStorage, IOrderStorage orderStorage) {
+		this.masterStorage = masterStorage;
+		this.orderStorage = orderStorage;
+	}
 
 	@Override
 	public ISortableStorage<Master> getStorage() {

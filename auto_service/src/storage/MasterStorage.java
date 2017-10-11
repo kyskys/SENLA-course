@@ -11,6 +11,7 @@ import sort.SortMastersByAlphabet;
 import sort.SortMastersByBusy;
 import sort.SortParameters;
 import storage.interfaces.IMasterStorage;
+import util.Utils;
 
 public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
 
@@ -29,7 +30,7 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 		default:
 			return;
 		}
-		listToSort.sort(comparator);
+		listToSort.sort(Utils.nullSafeCompare(comparator));
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import sort.SortOrdersByPrice;
 import sort.SortOrdersByStartWorkingOnDate;
 import sort.SortParameters;
 import storage.interfaces.IOrderStorage;
+import util.Utils;
 
 public class OrderStorage extends SortableStorage<Order> implements IOrderStorage {
 
@@ -40,7 +41,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		default:
 			return;
 		}
-		listToSort.sort(comparator);
+		listToSort.sort(Utils.nullSafeCompare(comparator));
 	}
 
 	@Override

@@ -2,16 +2,20 @@ package service;
 
 import entities.Garage;
 import entities.Sit;
-import manager.StorageManager;
 import service.intefraces.IGarageService;
-import storage.SitStorage;
 import storage.interfaces.IAbstractStorage;
 import storage.interfaces.IGarageStorage;
+import storage.interfaces.ISitStorage;
 
 public class GarageService extends AbstractService<Garage> implements IGarageService {
 
-	private IGarageStorage garageStorage = StorageManager.getGarageStorage();
-	private SitStorage sitStorage = StorageManager.getSitStorage();
+	private IGarageStorage garageStorage;
+	private ISitStorage sitStorage;
+
+	public GarageService(IGarageStorage garageStorage, ISitStorage sitStorage) {
+		this.garageStorage = garageStorage;
+		this.sitStorage = sitStorage;
+	}
 
 	@Override
 	public IAbstractStorage<Garage> getStorage() {

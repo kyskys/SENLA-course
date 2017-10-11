@@ -9,7 +9,7 @@ public class OrderDataManager extends AbstractDataManager<Order> {
 	}
 
 	@Override
-	public String ConvertEntityToString(Order entity) {
+	public String convertEntityToString(Order entity) {
 		return entity.getId() + " " + entity.getPrice() + " " + Utils.convertDateToString(entity.getAddedDate()) + " "
 				+ Utils.convertDateToString(entity.getStartWorkingOnDate()) + " "
 				+ Utils.convertDateToString(entity.getEndingDate()) + " " + entity.isClosed() + " "

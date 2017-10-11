@@ -8,7 +8,7 @@ public class GarageDataManager extends AbstractDataManager<Garage> {
 	}
 
 	@Override
-	public String ConvertEntityToString(Garage entity) {
+	public String convertEntityToString(Garage entity) {
 		return entity.getId() + " " + ConvertListToString(entity.getSits());
 	}
 }

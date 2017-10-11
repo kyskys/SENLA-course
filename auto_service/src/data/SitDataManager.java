@@ -9,7 +9,7 @@ public class SitDataManager extends AbstractDataManager<Sit> {
 	}
 
 	@Override
-	public String ConvertEntityToString(Sit entity) {
+	public String convertEntityToString(Sit entity) {
 		return entity.getId() + " " + BaseEntity.getIdAsString(entity.getOrder()) + " "
 				+ BaseEntity.getIdAsString(entity.getGarage());
 	}

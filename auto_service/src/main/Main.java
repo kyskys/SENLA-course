@@ -9,18 +9,22 @@ import entities.Garage;
 import entities.Master;
 import entities.Order;
 import entities.Sit;
+import manager.*;
+import manager.interfaces.*;
 import util.Utils;
 
 public class Main {
 
 	public static void main(String[] args) throws ParseException {
-		IController controller = new Controller();
-		DataManager fm = new DataManager(args[0], args[1], args[2], args[3]);
+		IStorageManager storageManager = new StorageManager();
+		IServiceManager serviceManager = new ServiceManager(storageManager);
+		IController controller = new Controller(serviceManager);
+		DataManager fm = new DataManager(storageManager, args[0], args[1], args[2], args[3]);
 		fm.load();
 		Garage garage = new Garage();
 		Sit sit = new Sit(garage);
 		Master master = new Master("nikita");
-		Order order = new Order(15, Utils.convertStringToDate("12.12.2018"));
+		Order order = new Order(15, Utils.convertStringToDate("12.12.2018"), Utils.convertStringToDate("13.12.2018"));
 		order.addMaster(master);
 		order.setStartWorkingOnDate(Utils.convertStringToDate("06.06.2018"));
 		garage.addSit(sit);
@@ -34,7 +38,7 @@ public class Main {
 		Sit sit1 = new Sit(garage);
 		Master master1 = new Master("pasha");
 		Master master2 = new Master("kolya");
-		Order order1 = new Order(10, Utils.convertStringToDate("12.12.2019"));
+		Order order1 = new Order(10, Utils.convertStringToDate("12.12.2019"),Utils.convertStringToDate("13.12.2019"));
 		order1.addMaster(master1);
 		order1.addMaster(master2);
 		order1.setStartWorkingOnDate(Utils.convertStringToDate("06.06.2019"));
@@ -63,7 +67,8 @@ public class Main {
 		controller.showFreeSitsAtDate(Utils.convertStringToDate("06.06.2020"));
 		controller.showMastersExecutingConcreteOrder(3);
 		controller.showOrderExecutingByConcreteMaster(2);
-		controller.showOrdersForPeriodOfTime(Utils.convertStringToDate("06.06.2019"), Utils.convertStringToDate("06.06.2017"), "price");
+		controller.showOrdersForPeriodOfTime(Utils.convertStringToDate("06.06.2019"),
+		Utils.convertStringToDate("06.06.2017"), "price");
 		fm.save();
 	}
 }

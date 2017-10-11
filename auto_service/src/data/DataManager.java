@@ -4,6 +4,7 @@ import java.util.List;
 
 import entities.*;
 import manager.StorageManager;
+import manager.interfaces.IStorageManager;
 import util.Utils;
 
 public class DataManager {
@@ -11,26 +12,29 @@ public class DataManager {
 	private OrderDataManager orderFileManager;
 	private SitDataManager sitFileManager;
 	private MasterDataManager masterFileManager;
+	private IStorageManager storageManager;
 
-	public DataManager(String GarageFilePath, String MasterFilePath, String orderFilePath, String SitFilePath) {
-		garageFileManager = new GarageDataManager(GarageFilePath);
+	public DataManager(IStorageManager storageManager, String garageFilePath, String masterFilePath,
+			String orderFilePath, String sitFilePath) {
+		this.storageManager = storageManager;
+		garageFileManager = new GarageDataManager(garageFilePath);
 		orderFileManager = new OrderDataManager(orderFilePath);
-		sitFileManager = new SitDataManager(SitFilePath);
-		masterFileManager = new MasterDataManager(MasterFilePath);
+		sitFileManager = new SitDataManager(sitFilePath);
+		masterFileManager = new MasterDataManager(masterFilePath);
 	}
 
 	public void save() {
-		garageFileManager.save(StorageManager.getGarageStorage().getAll());
-		orderFileManager.save(StorageManager.getOrderStorage().getAll());
-		sitFileManager.save(StorageManager.getSitStorage().getAll());
-		masterFileManager.save(StorageManager.getMasterStorage().getAll());
+		garageFileManager.save(storageManager.getGarageStorage().getAll());
+		orderFileManager.save(storageManager.getOrderStorage().getAll());
+		sitFileManager.save(storageManager.getSitStorage().getAll());
+		masterFileManager.save(storageManager.getMasterStorage().getAll());
 	}
 
 	public void load() {
-		List<Master> masters = StorageManager.getMasterStorage().getAll();
-		List<Order> orders = StorageManager.getOrderStorage().getAll();
-		List<Sit> sits = StorageManager.getSitStorage().getAll();
-		List<Garage> garages = StorageManager.getGarageStorage().getAll();
+		List<Master> masters = storageManager.getMasterStorage().getAll();
+		List<Order> orders = storageManager.getOrderStorage().getAll();
+		List<Sit> sits = storageManager.getSitStorage().getAll();
+		List<Garage> garages = storageManager.getGarageStorage().getAll();
 		String[] mastersData = masterFileManager.load();
 		String[] ordersData = orderFileManager.load();
 		String[] sitsData = sitFileManager.load();
@@ -44,8 +48,8 @@ public class DataManager {
 		}
 		for (int i = 0; i < ordersData.length; i++) {
 			String[] currentOrderData = ordersData[i].split(" ");
-			Order order = new Order(Double.valueOf(currentOrderData[1]), 
-					Utils.convertStringToDate(currentOrderData[4]), Utils.convertStringToDate(currentOrderData[3]));
+			Order order = new Order(Double.valueOf(currentOrderData[1]), Utils.convertStringToDate(currentOrderData[4]),
+					Utils.convertStringToDate(currentOrderData[3]));
 			order.setId(Long.valueOf(currentOrderData[0]));
 			order.setAddedDate(Utils.convertStringToDate(currentOrderData[2]));
 			order.setStartWorkingOnDate(Utils.convertStringToDate(currentOrderData[3]));
@@ -54,7 +58,7 @@ public class DataManager {
 			String[] orderMasters = currentOrderData[7].split(",");
 			for (String m : orderMasters) {
 				Long id = Long.valueOf(m);
-				Master master = StorageManager.getMasterStorage().get(id);
+				Master master = storageManager.getMasterStorage().get(id);
 				order.addMaster(master);
 				master.setOrder(order);
 			}
@@ -68,12 +72,12 @@ public class DataManager {
 		}
 		for (int i = 0; i < sitsData.length; i++) {
 			String[] currentSitData = sitsData[i].split(" ");
-			Garage garage = StorageManager.getGarageStorage().get(Long.valueOf(currentSitData[2]));
+			Garage garage = storageManager.getGarageStorage().get(Long.valueOf(currentSitData[2]));
 			Sit sit = new Sit(garage);
 			sit.setId(Long.valueOf(currentSitData[0]));
 			garage.addSit(sit);
 			if (!currentSitData[1].equals("-")) {
-				sit.setOrder(StorageManager.getOrderStorage().get(Long.valueOf(currentSitData[1])));
+				sit.setOrder(storageManager.getOrderStorage().get(Long.valueOf(currentSitData[1])));
 			}
 			sits.add(sit);
 		}

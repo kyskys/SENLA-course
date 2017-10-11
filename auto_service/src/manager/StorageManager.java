@@ -3,24 +3,18 @@ package manager;
 import java.util.List;
 
 import entities.BaseEntity;
+import manager.interfaces.IStorageManager;
 import storage.GarageStorage;
 import storage.MasterStorage;
 import storage.OrderStorage;
 import storage.SitStorage;
 
-public class StorageManager {
-	private static GarageStorage garageStorage;// = new GarageStorage();
-	private static MasterStorage masterStorage;// = new MasterStorage();
-	private static OrderStorage orderStorage;// = new OrderStorage();
-	private static SitStorage sitStorage;// = new SitStorage();
+public class StorageManager implements IStorageManager {
+	private GarageStorage garageStorage;
+	private MasterStorage masterStorage;
+	private OrderStorage orderStorage;
+	private SitStorage sitStorage;
 	private static long id = 0;
-
-	static {
-		garageStorage = new GarageStorage();
-		masterStorage = new MasterStorage();
-		orderStorage = new OrderStorage();
-		sitStorage = new SitStorage();
-	}
 
 	public static long getId() {
 		return ++id;
@@ -37,20 +31,35 @@ public class StorageManager {
 		}
 	}
 
-	public static GarageStorage getGarageStorage() {
+	@Override
+	public GarageStorage getGarageStorage() {
+		if (garageStorage == null) {
+			garageStorage = new GarageStorage();
+		}
 		return garageStorage;
 	}
 
-	public static MasterStorage getMasterStorage() {
+	@Override
+	public MasterStorage getMasterStorage() {
+		if (masterStorage == null) {
+			masterStorage = new MasterStorage();
+		}
 		return masterStorage;
 	}
 
-	public static OrderStorage getOrderStorage() {
+	@Override
+	public OrderStorage getOrderStorage() {
+		if (orderStorage == null) {
+			orderStorage = new OrderStorage();
+		}
 		return orderStorage;
 	}
 
-	public static SitStorage getSitStorage() {
+	@Override
+	public SitStorage getSitStorage() {
+		if (sitStorage == null) {
+			sitStorage = new SitStorage();
+		}
 		return sitStorage;
 	}
-
 }

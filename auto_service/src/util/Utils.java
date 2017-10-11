@@ -2,6 +2,7 @@ package util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -27,5 +28,20 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static <T> Comparator<T> nullSafeCompare(Comparator<T> comparator) {
+		return new Comparator<T>() {
+
+			@Override
+			public int compare(T a, T b) {
+				if (a == null) {
+					return b == null ? 0 : -1;
+				} else if (b == null) {
+					return 1;
+				}
+				return comparator.compare(a, b);
+			}
+		};
 	}
 }

@@ -7,7 +7,7 @@ import service.intefraces.IAbstractService;
 import storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractService<T extends BaseEntity> implements IAbstractService<T> {
-
+	
 	@Override
 	public boolean create(T entity) {
 		return getStorage().create(entity);
