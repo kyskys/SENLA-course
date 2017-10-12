@@ -1,25 +1,28 @@
 package menu;
 
 import action.Action;
+import controller.IController;
 
 public class MenuPoint {
 	private Action act;
 	private Menu menu;
 	private String title;
+	private IController controller;
 
-	public MenuPoint(Menu menu, String title) {
-		this(menu,title,null);
+	public MenuPoint(IController controller, Menu menu, String title) {
+		this(controller, menu, title, null);
 	}
 
-	public MenuPoint(Menu menu, String title, Action act) {
-		this.act=act;
-		this.title=title;
-		this.menu=menu;
+	public MenuPoint(IController controller, Menu menu, String title, Action act) {
+		this.controller = controller;
+		this.act = act;
+		this.title = title;
+		this.menu = menu;
 	}
 
 	public Menu doWork() throws IllegalArgumentException, IllegalAccessException {
-		if (this.act!=null) {
-			act.doAction();
+		if (this.act != null) {
+			act.doAction(controller);
 		}
 		return menu;
 	}

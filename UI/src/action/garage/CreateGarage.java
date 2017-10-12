@@ -1,16 +1,16 @@
 package action.garage;
 
 import action.Action;
-import controller.Controller;
+import controller.IController;
 import entities.Garage;
 import observer.UIObservable;
 
 public class CreateGarage implements Action {
 
 	@Override
-	public void doAction() {
+	public void doAction(IController controller) {
 		Garage garage = new Garage();
-		Controller.getInstance().addGarage(garage);
+		controller.addGarage(garage);
 		UIObservable.getInstance().notifyAllObservers("garage created");
 	}
 

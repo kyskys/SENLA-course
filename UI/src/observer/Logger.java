@@ -1,11 +1,14 @@
 package observer;
 
+import org.apache.logging.log4j.LogManager;
+
 import observer.interfaces.IObserver;
 
-public class Logger implements IObserver{
-	private Logger logger = new Logger();//here will be logger
+public class Logger implements IObserver {
+	private static final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
+
 	@Override
 	public void display(String str) {
-		logger.log(str);//here will be logging operation
+		logger.info(str);
 	}
 }
