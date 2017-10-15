@@ -203,4 +203,9 @@ public class Controller implements IController {
 		serviceManager.getSitService().removeOrderFromSit(idSit);
 	}
 
+	@Override
+	public void showFreeMastersOnDate(Date date) {
+		Utils.getListAsString(serviceManager.getMasterService().getFreeMastersOnDate(date));
+	}
+
 }

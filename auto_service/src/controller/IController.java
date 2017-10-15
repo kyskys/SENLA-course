@@ -76,5 +76,7 @@ public interface IController {
 	public void addOrderToSit(Long idOrder, Long idSit);
 
 	public void removeOrderFromSit(Long idSit);
+	
+	public void showFreeMastersOnDate(Date date);
 
 }
