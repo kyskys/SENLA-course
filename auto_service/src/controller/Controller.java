@@ -7,9 +7,6 @@ import entities.Master;
 import entities.Order;
 import entities.Sit;
 import manager.interfaces.IServiceManager;
-import manager.interfaces.IStorageManager;
-import service.*;
-import service.intefraces.*;
 import sort.SortParameters;
 import util.Utils;
 
@@ -102,14 +99,14 @@ public class Controller implements IController {
 
 	@Override
 	public void showOrders(String parameter) {
-		System.out
-				.println(Utils.getListAsString(serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
+		System.out.println(Utils.getListAsString(
+				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
 	public void showExecutingOrders(String parameter) {
-		System.out
-				.println(Utils.getListAsString(serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
+		System.out.println(Utils.getListAsString(
+				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
@@ -119,13 +116,15 @@ public class Controller implements IController {
 
 	@Override
 	public void showMasters(String parameter) {
-		System.out.println(Utils.getListAsString(serviceManager.getMasterService().getAll(SortParameters.getValueOf(parameter))));
+		System.out.println(
+				Utils.getListAsString(serviceManager.getMasterService().getAll(SortParameters.getValueOf(parameter))));
 
 	}
 
 	@Override
 	public void showMastersExecutingConcreteOrder(long id) {
-		System.out.println(Utils.getListAsString(serviceManager.getOrderService().getMastersExecutingConcreteOrder(id)));
+		System.out
+				.println(Utils.getListAsString(serviceManager.getOrderService().getMastersExecutingConcreteOrder(id)));
 	}
 
 	@Override
@@ -135,13 +134,73 @@ public class Controller implements IController {
 
 	@Override
 	public void showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter) {
-		System.out.println(Utils.getListAsString(
-				serviceManager.getOrderService().getOrdersForPeriodOfTime(beforeDate, afterDate, SortParameters.getValueOf(parameter))));
+		System.out.println(Utils.getListAsString(serviceManager.getOrderService().getOrdersForPeriodOfTime(beforeDate,
+				afterDate, SortParameters.getValueOf(parameter))));
 	}
 
 	@Override
 	public void showNearestFreeDate() {
 		System.out.println(serviceManager.getOrderService().getNearestDate());
+	}
+
+	@Override
+	public Garage getGarage(long id) {
+		return serviceManager.getGarageService().get(id);
+	}
+
+	@Override
+	public Master getMaster(long id) {
+		return serviceManager.getMasterService().get(id);
+	}
+
+	@Override
+	public Order getOrder(long id) {
+		return serviceManager.getOrderService().get(id);
+	}
+
+	@Override
+	public Sit getSit(long id) {
+		return serviceManager.getSitService().get(id);
+	}
+
+	@Override
+	public void addSitToGarage(Long idGarage) {
+		serviceManager.getGarageService().addSitToGarage(idGarage);
+	}
+
+	@Override
+	public void removeSitFromGarage(Long idSit, Long idGarage) {
+		serviceManager.getGarageService().removeSitFromGarage(idSit, idGarage);
+	}
+
+	@Override
+	public void addOrderToMaster(Long idOrder, Long idMaster) {
+		serviceManager.getMasterService().addOrderToMaster(idOrder, idMaster);
+	}
+
+	@Override
+	public void removeOrderFromMaster(Long idMaster) {
+		serviceManager.getMasterService().removeOrderFromMaster(idMaster);
+	}
+
+	@Override
+	public void addMasterToOrder(Long idMaster, Long idOrder) {
+		serviceManager.getOrderService().addMasterToOrder(idMaster, idOrder);
+	}
+
+	@Override
+	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
+		serviceManager.getOrderService().removeMasterFromOrder(idMaster, idOrder);
+	}
+
+	@Override
+	public void addOrderToSit(Long idOrder, Long idSit) {
+		serviceManager.getSitService().addOrderToSit(idOrder, idSit);
+	}
+
+	@Override
+	public void removeOrderFromSit(Long idSit) {
+		serviceManager.getSitService().removeOrderFromSit(idSit);
 	}
 
 }

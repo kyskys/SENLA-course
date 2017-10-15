@@ -11,7 +11,8 @@ public class CreateGarage implements Action {
 	public void doAction(IController controller) {
 		Garage garage = new Garage();
 		controller.addGarage(garage);
-		UIObservable.getInstance().notifyAllObservers("garage created");
+		UIObservable.getInstance()
+				.notifyAllObservers(String.format("garage id: %s successfully created", garage.getId()));
 	}
 
 }
