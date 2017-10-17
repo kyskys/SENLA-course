@@ -11,8 +11,10 @@ import manager.interfaces.IServiceManager;
 import manager.interfaces.IStorageManager;
 import menu.Menu;
 import observer.ConsoleDisplayer;
-import observer.Logger;
+import observer.ErrorLogger;
+import observer.InfoLogger;
 import observer.UIObservable;
+import observer.interfaces.IExceptionObserver;
 import observer.interfaces.IObservable;
 import observer.interfaces.IObserver;
 
@@ -20,8 +22,9 @@ public class Main {
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 		IObservable observable = UIObservable.getInstance();
-		IObserver logger = new Logger();
+		IObserver logger = new InfoLogger();
 		IObserver consoleDisplayer = new ConsoleDisplayer();
+		IExceptionObserver errorLogger = new ErrorLogger();
 		observable.addObserver(logger);
 		observable.addObserver(consoleDisplayer);
 		IStorageManager storageManager = new StorageManager();

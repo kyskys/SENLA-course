@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 
 import observer.interfaces.IObserver;
 
-public class Logger implements IObserver {
+public class InfoLogger implements IObserver {
 	private static final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
 
 	@Override
