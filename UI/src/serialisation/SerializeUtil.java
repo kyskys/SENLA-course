@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+<<<<<<< HEAD
 public class Serializer {
+=======
+public class SerializeUtil {
+>>>>>>> 9847ba0... переделал toString у энтитей (через String.format), начал работу над файлом конфигурации и сериализацией, убрал старый формат загрузки данных
 	public static void serializeObject(Object obj, String fileName) throws IOException {
 		FileOutputStream fos = new FileOutputStream(fileName);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
