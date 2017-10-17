@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class Serializer {
 =======
 public class SerializeUtil {
@@ -15,6 +16,9 @@ public class SerializeUtil {
 =======
 public class SerializeUtil {
 >>>>>>> 9847ba0... переделал toString у энтитей (через String.format), начал работу над файлом конфигурации и сериализацией, убрал старый формат загрузки данных
+=======
+public class Serializer {
+>>>>>>> 35a4210... создал загрузчик конфигурации
 	public static void serializeObject(Object obj, String fileName) throws IOException {
 		FileOutputStream fos = new FileOutputStream(fileName);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
