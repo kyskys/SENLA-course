@@ -9,7 +9,7 @@ public class ShowOrderExecutingByConcreteMaster implements Action {
 	@Override
 	public void doAction(IController controller) {
 		System.out.println("type id of master");
-		long idMaster = ConsoleReader.readLongByConsole();
+		long idMaster = ConsoleReader.readLong();
 		controller.showOrderExecutingByConcreteMaster(idMaster);
 	}
 

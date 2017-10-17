@@ -10,7 +10,7 @@ public class DeleteGarage implements Action {
 	public void doAction(IController controller) {
 		controller.showGarages();
 		System.out.println("type id of garage");
-		long idGarage = ConsoleReader.readLongByConsole();
+		long idGarage = ConsoleReader.readLong();
 		controller.removeGarage(idGarage);
 		System.out.println(String.format("garage id: %s successfully deleted", idGarage));
 	}

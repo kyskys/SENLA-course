@@ -12,12 +12,12 @@ public class CreateOrder implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		System.out.println("enter price");
-		double price = ConsoleReader.readLongByConsole();
-		System.out.println("enter ending date");
-		Date endingDate = ConsoleReader.readDateByConsole();
-		System.out.println("enter start working on date");
-		Date startDate = ConsoleReader.readDateByConsole();
+		System.out.println("type price");
+		double price = ConsoleReader.readLong();
+		System.out.println("type ending date");
+		Date endingDate = ConsoleReader.readDate();
+		System.out.println("type start working on date");
+		Date startDate = ConsoleReader.readDate();
 		Order Order = new Order(price, endingDate, startDate);
 		controller.addOrder(Order);
 		UIObservable.getInstance()

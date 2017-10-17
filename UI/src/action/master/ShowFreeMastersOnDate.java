@@ -9,7 +9,7 @@ import util.ConsoleReader;
 public class ShowFreeMastersOnDate implements Action {
 	@Override
 	public void doAction(IController controller) {
-		Date date = ConsoleReader.readDateByConsole();
+		Date date = ConsoleReader.readDate();
 		controller.showFreeMastersOnDate(date);
 	}
 

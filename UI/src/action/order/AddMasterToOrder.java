@@ -9,10 +9,12 @@ public class AddMasterToOrder implements Action {
 
 	@Override
 	public void doAction(IController controller) {
+		controller.showMasters();
+		System.out.println("type id of master");
+		long idMaster = ConsoleReader.readLong();
 		controller.showOrders();
-		long idOrder = ConsoleReader.readLongByConsole();
-		controller.showOrders();
-		long idMaster = ConsoleReader.readLongByConsole();
+		System.out.println("type id of order");
+		long idOrder = ConsoleReader.readLong();
 		controller.addMasterToOrder(idMaster, idOrder);
 		UIObservable.getInstance().notifyAllObservers(
 				String.format("successfully added master id: %s to order id: %s", idMaster, idOrder));

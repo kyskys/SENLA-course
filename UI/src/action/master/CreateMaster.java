@@ -10,7 +10,7 @@ public class CreateMaster implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		String name = ConsoleReader.readStringByConsole();
+		String name = ConsoleReader.readString();
 		Master master = new Master(name);
 		controller.addMaster(master);
 		UIObservable.getInstance()

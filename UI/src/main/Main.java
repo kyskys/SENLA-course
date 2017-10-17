@@ -20,7 +20,7 @@ import observer.interfaces.IObserver;
 
 public class Main {
 
-	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
+	public static void main(String[] args) {
 		IObservable observable = UIObservable.getInstance();
 		IObserver logger = new InfoLogger();
 		IObserver consoleDisplayer = new ConsoleDisplayer();

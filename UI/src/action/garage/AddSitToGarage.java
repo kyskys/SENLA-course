@@ -11,7 +11,7 @@ public class AddSitToGarage implements Action {
 	public void doAction(IController controller) {
 		controller.showGarages();
 		System.out.println("type id of garage");
-		long idGarage = ConsoleReader.readLongByConsole();
+		long idGarage = ConsoleReader.readLong();
 		controller.addSitToGarage(idGarage);
 		UIObservable.getInstance().notifyAllObservers(
 				String.format("sit successfully added to garage id: %s", idGarage));

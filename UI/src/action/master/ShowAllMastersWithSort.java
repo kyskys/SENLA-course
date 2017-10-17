@@ -8,8 +8,8 @@ public class ShowAllMastersWithSort implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		System.out.println("type parameter to sort with:\n1) busy\n2)alphabet");
-		String parameter = ConsoleReader.readStringByConsole();
+		System.out.println("type string parameter to sort with (busy,alphabet)");
+		String parameter = ConsoleReader.readString();
 		controller.showMasters(parameter);
 	}
 

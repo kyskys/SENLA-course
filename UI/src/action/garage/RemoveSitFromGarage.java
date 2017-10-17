@@ -13,11 +13,11 @@ public class RemoveSitFromGarage implements Action {
 	public void doAction(IController controller) {
 		controller.showGarages();
 		System.out.println("type id of garage");
-		long idGarage = ConsoleReader.readLongByConsole();
+		long idGarage = ConsoleReader.readLong();
 		Garage garage = controller.getGarage(idGarage);
 		System.out.println(Utils.getListAsString(garage.getSits()));
 		System.out.println("type id of sit");
-		long idSit = ConsoleReader.readLongByConsole();
+		long idSit = ConsoleReader.readLong();
 		controller.removeSitFromGarage(idSit, idGarage);
 		UIObservable.getInstance().notifyAllObservers(
 				String.format("sit id: %s successfully removed from garage id: %s", idSit, idGarage));

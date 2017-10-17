@@ -11,7 +11,7 @@ public class DeleteMaster implements Action {
 	public void doAction(IController controller) {
 		controller.showMasters();
 		System.out.println("type id of master");
-		long idMaster = ConsoleReader.readLongByConsole();
+		long idMaster = ConsoleReader.readLong();
 		controller.removeMaster(idMaster);
 		UIObservable.getInstance().notifyAllObservers(String.format("master id: %s successully deleted", idMaster));
 	}
