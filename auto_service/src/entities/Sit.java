@@ -26,6 +26,7 @@ public class Sit extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "id :" + id + " order id: " + BaseEntity.getIdAsString(order) + " garage id: " + BaseEntity.getIdAsString(garage);
+		return String.format("id: %s, order id: %s, garage id: %s", id, BaseEntity.getIdAsString(order),
+				BaseEntity.getIdAsString(garage));
 	}
 }

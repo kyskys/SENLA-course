@@ -83,9 +83,9 @@ public class Order extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "id: " + id + " price: " + price + " added: " + addedDate + " start: " + startWorkingOnDate
-				+ " ending: " + endingDate + " closed: " + closed + " cancelled: " + cancelled + " masters: "
-				+ masters;
+		return String.format(
+				"id: %s, price: %s, added: %s, start: %s, ending: %s, closed: %s, cancelled: %s, master: %s", id, price,
+				addedDate, startWorkingOnDate, endingDate, closed, cancelled, masters);
 
 	}
 }

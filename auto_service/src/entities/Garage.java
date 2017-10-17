@@ -25,6 +25,6 @@ public class Garage extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "id: " + id + "sits: " + sits.toString();
+		return String.format("id: %s, sits: %s", id, sits);
 	}
 }
