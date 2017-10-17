@@ -7,7 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class Serializer {
+=======
+public class SerializeUtil {
+>>>>>>> 9847ba0... переделал toString у энтитей (через String.format), начал работу над файлом конфигурации и сериализацией, убрал старый формат загрузки данных
 =======
 public class SerializeUtil {
 >>>>>>> 9847ba0... переделал toString у энтитей (через String.format), начал работу над файлом конфигурации и сериализацией, убрал старый формат загрузки данных
