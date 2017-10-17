@@ -10,6 +10,7 @@ public class CreateMaster implements Action {
 
 	@Override
 	public void doAction(IController controller) {
+		System.out.println("type name of master");
 		String name = ConsoleReader.readString();
 		Master master = new Master(name);
 		controller.addMaster(master);

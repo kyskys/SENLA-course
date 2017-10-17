@@ -8,7 +8,7 @@ public class ShowAllOrdersWithSort implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		System.out.println("type string parameter to sort with (price, start date, ending date, added date");
+		System.out.println("type string parameter to sort with (price, start date, ending date, added date)");
 		String parameter = ConsoleReader.readString();
 		controller.showOrders(parameter);
 	}

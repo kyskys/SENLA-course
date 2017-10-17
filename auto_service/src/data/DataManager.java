@@ -55,12 +55,14 @@ public class DataManager {
 			order.setStartWorkingOnDate(Utils.convertStringToDate(currentOrderData[3]));
 			order.setClosed(Boolean.getBoolean(currentOrderData[5]));
 			order.setCancelled(Boolean.getBoolean(currentOrderData[6]));
-			String[] orderMasters = currentOrderData[7].split(",");
-			for (String m : orderMasters) {
-				Long id = Long.valueOf(m);
-				Master master = storageManager.getMasterStorage().get(id);
-				order.addMaster(master);
-				master.setOrder(order);
+			if (currentOrderData[7] != null) {
+				String[] orderMasters = currentOrderData[7].split(",");
+				for (String m : orderMasters) {
+					Long id = Long.valueOf(m);
+					Master master = storageManager.getMasterStorage().get(id);
+					order.addMaster(master);
+					master.setOrder(order);
+				}
 			}
 			orders.add(order);
 		}

@@ -14,7 +14,7 @@ public class ShowOrdersForPeriodOfTimeWithSort implements Action {
 		Date before = ConsoleReader.readDate();
 		System.out.println("type date after");
 		Date after = ConsoleReader.readDate();
-		System.out.println("type string parameter to sort with (price, start date, ending date, added date");
+		System.out.println("type string parameter to sort with (price, start date, ending date, added date)");
 		String parameter = ConsoleReader.readString();
 		controller.showOrdersForPeriodOfTime(before, after, parameter);
 
