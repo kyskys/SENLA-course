@@ -25,6 +25,7 @@ public class Main {
 		IObserver logger = new InfoLogger();
 		IObserver consoleDisplayer = new ConsoleDisplayer();
 		IExceptionObserver errorLogger = new ErrorLogger();
+		observable.addObserver(errorLogger);
 		observable.addObserver(logger);
 		observable.addObserver(consoleDisplayer);
 		IStorageManager storageManager = new StorageManager();

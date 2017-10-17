@@ -5,6 +5,10 @@ public interface IObservable {
 
 	public void removeObserver(IObserver o);
 
+	public void addObserver(IExceptionObserver o);
+
+	public void removeObserver(IExceptionObserver o);
+
 	public void notifyAllObservers(String str);
-	
+
 }

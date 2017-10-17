@@ -7,7 +7,6 @@ public class CreateSit implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		throw new IllegalArgumentException();// trying error logger
+		throw new IllegalArgumentException("test error");// trying error logger
 	}
-
 }

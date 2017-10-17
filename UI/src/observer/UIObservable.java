@@ -28,6 +28,7 @@ public class UIObservable implements IObservable {
 		observers.add(o);
 	}
 
+	@Override
 	public void addObserver(IExceptionObserver o) {
 		exceptionObservers.add(o);
 	}
@@ -37,6 +38,7 @@ public class UIObservable implements IObservable {
 		observers.remove(o);
 	}
 
+	@Override
 	public void removeObserver(IExceptionObserver o) {
 		exceptionObservers.remove(o);
 	}

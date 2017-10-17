@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import observer.interfaces.IObserver;
 
 public class InfoLogger implements IObserver {
-	private static final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
+	private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(InfoLogger.class);
 
 	@Override
 	public void display(String str) {
