@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.BaseEntity;
-import manager.StorageManager;
 import storage.interfaces.IAbstractStorage;
+import util.IdSequence;
 
 public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T> {
 	protected List<T> list = new ArrayList<T>();
 
 	@Override
 	public boolean create(T entity) {
-		entity.setId(StorageManager.getId());
+		entity.setId(IdSequence.getId());
 		return list.add(entity);
 	}
 

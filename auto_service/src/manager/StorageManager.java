@@ -14,22 +14,6 @@ public class StorageManager implements IStorageManager {
 	private MasterStorage masterStorage;
 	private OrderStorage orderStorage;
 	private SitStorage sitStorage;
-	private static long id = 0;
-
-	public static long getId() {
-		return ++id;
-	}
-
-	@SafeVarargs
-	public static void recountId(List<? extends BaseEntity>... lists) {
-		for (List<? extends BaseEntity> x : lists) {
-			for (BaseEntity y : x) {
-				if (y.getId() > id) {
-					id = y.getId();
-				}
-			}
-		}
-	}
 
 	@Override
 	public GarageStorage getGarageStorage() {

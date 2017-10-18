@@ -17,7 +17,7 @@ import serialisation.Serializer;
 
 public class UIController {
 	private static IController controller;
-	private static Serializer data;
+	private static Serializer serializer;
 	public static void init() {
 		try {
 			IObservable observable = UIObservable.getInstance();
@@ -30,8 +30,8 @@ public class UIController {
 			IStorageManager storageManager = new StorageManager();
 			IServiceManager serviceManager = new ServiceManager(storageManager);
 			controller = new Controller(serviceManager);
-			data = new Serializer(storageManager);
-			data.load();
+			serializer = new Serializer(storageManager);
+			serializer.load();
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
 		}
@@ -52,7 +52,7 @@ public class UIController {
 
 	public static void end() {
 		try {
-			data.save();
+			serializer.save();
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
 		}
