@@ -1,8 +1,6 @@
 package util;
-
 import controller.Controller;
 import controller.IController;
-import loader.ConfigLoader;
 import manager.ServiceManager;
 import manager.StorageManager;
 import manager.interfaces.IServiceManager;
@@ -18,9 +16,10 @@ import observer.interfaces.IObserver;
 import serialisation.Serializer;
 
 public class UIController {
+	private static IController controller;
+	private static Serializer data;
 	public static void init() {
 		try {
-			ConfigLoader config = new ConfigLoader();
 			IObservable observable = UIObservable.getInstance();
 			IObserver logger = new InfoLogger();
 			IObserver consoleDisplayer = new ConsoleDisplayer();
@@ -30,18 +29,16 @@ public class UIController {
 			observable.addObserver(consoleDisplayer);
 			IStorageManager storageManager = new StorageManager();
 			IServiceManager serviceManager = new ServiceManager(storageManager);
-			IController controller = new Controller(serviceManager);
-			Serializer data = new Serializer(storageManager, config.config().get("serializerFilePath").toString());
+			controller = new Controller(serviceManager);
+			data = new Serializer(storageManager);
 			data.load();
-			Menu menu = MenuBuilder.buildMenu(controller);
-			UIController.start(menu);
-			data.save();
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
 		}
 	}
 
-	public static void start(Menu menu) {
+	public static void start() {
+		Menu menu = MenuBuilder.buildMenu(controller);
 		while (menu != null) {
 			menu.showMenu();
 			long n = ConsoleReader.readLong();
@@ -50,6 +47,14 @@ public class UIController {
 			} catch (Throwable e) {
 				UIObservable.getInstance().notifyAllObservers(e);
 			}
+		}
+	}
+
+	public static void end() {
+		try {
+			data.save();
+		} catch (Throwable e) {
+			UIObservable.getInstance().notifyAllObservers(e);
 		}
 	}
 }

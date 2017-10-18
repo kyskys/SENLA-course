@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Order extends BaseEntity {
+
+	private static final long serialVersionUID = 7123406903306647153L;
 	private double price;
 	private Date addedDate;
 	private Date startWorkingOnDate;

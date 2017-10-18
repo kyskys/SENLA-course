@@ -1,19 +1,22 @@
 package test;
 
-import observer.ConsoleDisplayer;
-import observer.UIObservable;
-import observer.interfaces.IObservable;
-import observer.interfaces.IObserver;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import config.AutoServiceConfig;
 
 public class TestClass {
 
-	public static void main(String[] args) {
-		System.out.println("qq");
-		IObservable observable = UIObservable.getInstance();
-		// IObserver logger = new Logger();
-		IObserver consoleDisplayer = new ConsoleDisplayer();
-		// observable.addObserver(logger);
-		observable.addObserver(consoleDisplayer);
-		observable.notifyAllObservers("hello world");
+	public static void main(String[] args) throws IOException {
+		String fp = AutoServiceConfig.getInstance().getSerializerFilePath();
+		String fn = AutoServiceConfig.getInstance().getSerializerFileName();
+		Path path = Paths.get(fp);
+		Files.createDirectories(path);
+		System.out.println(path);
+		File file = new File(fp+fn);
+		file.createNewFile();
 	}
 }

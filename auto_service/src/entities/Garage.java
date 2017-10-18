@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Garage extends BaseEntity {
 
+	private static final long serialVersionUID = -7398169700892165167L;
 	private List<Sit> sits;
 
 	public Garage() {

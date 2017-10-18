@@ -1,6 +1,9 @@
 package entities;
 
-public abstract class BaseEntity {
+import java.io.Serializable;
+
+public abstract class BaseEntity implements Serializable{
+	private static final long serialVersionUID = -2889907438278728120L;
 	protected Long id;
 
 	public Long getId() {

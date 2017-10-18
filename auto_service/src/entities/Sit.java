@@ -1,6 +1,8 @@
 package entities;
 
 public class Sit extends BaseEntity {
+
+	private static final long serialVersionUID = -3928754055014593485L;
 	private Order order;
 	private Garage garage;
 
