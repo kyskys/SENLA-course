@@ -1,15 +1,18 @@
 package util;
 
+import java.io.IOException;
+
 import action.garage.*;
 import action.master.*;
 import action.order.*;
 import action.sit.*;
+import config.AutoServiceConfig;
 import controller.IController;
 import menu.Menu;
 import menu.MenuPoint;
 
 public class MenuBuilder {
-	public static Menu buildMenu(IController controller) {
+	public static Menu buildMenu(IController controller) throws IOException {
 		Menu mainMenu = new Menu("main menu");
 		// creating all submenus
 		Menu garageMenu = new Menu("garage service");
@@ -26,8 +29,10 @@ public class MenuBuilder {
 		garageMenu.add(new MenuPoint(controller, garageMenu, "show all garages", new ShowAllGarages()));
 		garageMenu.add(new MenuPoint(controller, garageMenu, "create garage", new CreateGarage()));
 		garageMenu.add(new MenuPoint(controller, garageMenu, "delete garage", new DeleteGarage()));
-		garageMenu.add(new MenuPoint(controller, garageMenu, "add sit to garage", new AddSitToGarage()));
-		garageMenu.add(new MenuPoint(controller, garageMenu, "remove sit from garage", new RemoveSitFromGarage()));
+		if (AutoServiceConfig.getInstance().isCreateDeleteSitEnabled()) {
+			garageMenu.add(new MenuPoint(controller, garageMenu, "add sit to garage", new AddSitToGarage()));
+			garageMenu.add(new MenuPoint(controller, garageMenu, "remove sit from garage", new RemoveSitFromGarage()));
+		}
 		garageMenu.add(new MenuPoint(controller, mainMenu, "back"));
 		// building master menu
 		masterMenu.add(new MenuPoint(controller, masterMenu, "show all masters", new ShowAllMasters()));
@@ -45,7 +50,9 @@ public class MenuBuilder {
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show all orders", new ShowAllOrders()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show all orders with sort", new ShowAllOrdersWithSort()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "create order", new CreateOrder()));
-		orderMenu.add(new MenuPoint(controller, orderMenu, "delete order", new DeleteOrder()));
+		if (AutoServiceConfig.getInstance().isDeleteOrderEnabled()) {
+			orderMenu.add(new MenuPoint(controller, orderMenu, "delete order", new DeleteOrder()));
+		}
 		orderMenu.add(new MenuPoint(controller, orderMenu, "add master to order", new AddMasterToOrder()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "remove master from order", new RemoveMasterFromOrder()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "set order cancelled", new SetOrderCancelled()));
@@ -56,8 +63,10 @@ public class MenuBuilder {
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show nearest free date", new ShowNearestFreeDate()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show orders for period of time with sort",
 				new ShowOrdersForPeriodOfTimeWithSort()));
-		orderMenu
-				.add(new MenuPoint(controller, orderMenu, "shift order execution time", new ShiftOrderExecutionTime()));
+		if (AutoServiceConfig.getInstance().isShiftOrderTimeEnabled()) {
+			orderMenu.add(
+					new MenuPoint(controller, orderMenu, "shift order execution time", new ShiftOrderExecutionTime()));
+		}
 		orderMenu.add(new MenuPoint(controller, mainMenu, "back"));
 		// building sit menu
 		sitMenu.add(new MenuPoint(controller, sitMenu, "show all sits", new ShowAllSits()));

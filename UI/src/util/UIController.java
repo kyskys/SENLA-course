@@ -1,4 +1,6 @@
 package util;
+import java.io.IOException;
+
 import controller.Controller;
 import controller.IController;
 import manager.ServiceManager;
@@ -37,7 +39,7 @@ public class UIController {
 		}
 	}
 
-	public static void start() {
+	public static void start() throws IOException {
 		Menu menu = MenuBuilder.buildMenu(controller);
 		while (menu != null) {
 			menu.showMenu();
