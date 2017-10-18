@@ -4,46 +4,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.*;
+import manager.interfaces.IStorageManager;
+
 public class Serializer {
-	private static long id = 0;
-	public static List<Course> courses;
-	public static List<Lector> lectors;
-	public static List<Lection> lections;
-	public static List<Student> students;
+	SerializeUtil instance;
+	public static List<Master> masters;
+	public static List<Order> orders;
+	public static List<Garage> garages;
+	public static List<Sit> sits;
 
-	public static long getId() {
-		return ++id;
+	public Serializer(IStorageManager storages, String filePath) {
+		instance = new SerializeUtil(filePath);
+		masters = storages.getMasterStorage().getAll();
+		orders = storages.getOrderStorage().getAll();
+		garages = storages.getGarageStorage().getAll();
+		sits = storages.getSitStorage().getAll();
 	}
 
-	public static void recountId(List<? extends BaseModel>... lists) {
-		for (List<? extends BaseModel> x : lists) {
-			for (BaseModel y : x) {
-				if (y.getId() > id) {
-					id = y.getId();
-				}
-			}
-		}
-	}
-
-	public static void save(String fileName) throws IOException {
+	public static void save() throws IOException {
 		List<Object> list = new ArrayList<Object>();
-		list.add(courseService);
-		list.add(lectorService);
-		list.add(lectionService);
-		list.add(studentService);
-		SerializeUtil.serializeObject(list, fileName);
+		list.add(masters);
+		list.add(orders);
+		list.add(garages);
+		list.add(sits);
+		SerializeUtil.serializeObject(list);
 	}
 
-	public static void load(String fileName) throws ClassNotFoundException, IOException {
+	public static void load() throws ClassNotFoundException, IOException {
 		List<Object> list;
 		try {
-			list = (List<Object>) SerializeUtil.deserializeObject(fileName);
-			courseService = (List<Course>) list.get(0);
-			lectorService = (List<Lector>) list.get(1);
-			lectionService = (List<Lection>) list.get(2);
-			studentService = (List<Student>) list.get(3);
-			recountId(courseService, lectorService, lectionService, studentService);
-		} catch (IOException e) {
+			list = (List<Object>) SerializeUtil.deserializeObject();
+			masters = (List<Master>) list.get(0);
+			orders = (List<Order>) list.get(1);
+			garages = (List<Garage>) list.get(2);
+			sits = (List<Sit>) list.get(3);
+		} catch (Throwable e) {
+			masters = new ArrayList<Master>();
+			orders = new ArrayList<Order>();
+			garages = new ArrayList<Garage>();
+			sits = new ArrayList<Sit>();
 		}
 	}
 }

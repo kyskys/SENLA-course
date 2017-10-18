@@ -8,8 +8,8 @@ import java.util.Properties;
 
 public class ConfigLoader {
 
-	public Map<Object, Object> load() throws IOException {
-		Map<Object, Object> result = new HashMap<Object, Object>();
+	public Map<String, Object> config() throws IOException {
+		Map<String, Object> result = new HashMap<String, Object>();
 		Properties props = new Properties();
 		FileInputStream fis = new FileInputStream("config.properties");
 		props.load(fis);

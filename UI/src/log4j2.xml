@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="">
+
+  <Properties>
+    <Property name="defaultFilename">logs/default.log</Property>
+	<Property name="errorFilename">logs/errors.log</Property>
+	<Property name="infoFilename">logs/info.log</Property>
+  </Properties>
+  <Appenders>
+ 	<File name="defaultAppender" fileName="${defaultFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+	<File name="errorAppender" fileName="${errorFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+	<File name="infoAppender" fileName="${infoFilename}">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Root level="all">
+    	<AppenderRef ref="defaultAppender"/> 
+    </Root>
+	<Logger level="error" name="observer.ErrorLogger" additivity="true">
+	<AppenderRef ref="errorAppender"/>
+	</Logger>
+	<Logger level="info" name="observer.InfoLogger" additivity="true">
+	<AppenderRef ref="infoAppender"/>
+	</Logger>
+  </Loggers>
+</Configuration>
