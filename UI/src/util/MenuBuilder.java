@@ -5,6 +5,7 @@ import java.io.IOException;
 import action.garage.*;
 import action.master.*;
 import action.order.*;
+import action.other.CloneOrder;
 import action.sit.*;
 import config.AutoServiceConfig;
 import controller.IController;
@@ -19,6 +20,7 @@ public class MenuBuilder {
 		Menu masterMenu = new Menu("master service");
 		Menu orderMenu = new Menu("order service");
 		Menu sitMenu = new Menu("sit service");
+		Menu otherMenu = new Menu("other");
 		// adding all submenus to main
 		mainMenu.add(new MenuPoint(controller, garageMenu, "garage menu"));
 		mainMenu.add(new MenuPoint(controller, masterMenu, "master menu"));
@@ -77,7 +79,9 @@ public class MenuBuilder {
 		sitMenu.add(new MenuPoint(controller, sitMenu, "show free sits", new ShowFreeSits()));
 		sitMenu.add(new MenuPoint(controller, sitMenu, "show free sits at date", new ShowFreeSitsAtDate()));
 		sitMenu.add(new MenuPoint(controller, mainMenu, "back"));
-
+		// building other menu
+		otherMenu.add(new MenuPoint(controller, otherMenu, "clone order", new CloneOrder()));
+		otherMenu.add(new MenuPoint(controller, mainMenu, "back"));
 		return mainMenu;
 	}
 

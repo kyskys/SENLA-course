@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Order extends BaseEntity {
+import util.IdSequence;
+
+public class Order extends BaseEntity implements Cloneable {
 
 	private static final long serialVersionUID = 7123406903306647153L;
 	private double price;
@@ -75,6 +77,10 @@ public class Order extends BaseEntity {
 		return masters;
 	}
 
+	public void setMasters(List<Master> masters) {
+		this.masters = masters;
+	}
+
 	public boolean addMaster(Master master) {
 		return masters.add(master);
 	}
@@ -89,5 +95,18 @@ public class Order extends BaseEntity {
 				"id: %s, price: %s, added: %s, start: %s, ending: %s, closed: %s, cancelled: %s, master: %s", id, price,
 				addedDate, startWorkingOnDate, endingDate, closed, cancelled, masters);
 
+	}
+
+	@Override
+	public Order clone() {
+		Order clone = new Order(this.getPrice(), this.getEndingDate(), this.getStartWorkingOnDate());
+		clone.addedDate = this.addedDate;
+		clone.cancelled = this.cancelled;
+		clone.closed = this.closed;
+		clone.masters = new ArrayList<Master>(this.getMasters());
+		clone.id = IdSequence.getId();
+		// Order clone = (Order) super.clone();
+		// clone.setMasters(new ArrayList<Master>(clone.getMasters()));
+		return clone;
 	}
 }

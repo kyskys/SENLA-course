@@ -1,22 +1,23 @@
 package test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Date;
 
-import config.AutoServiceConfig;
+import entities.Master;
+import entities.Order;
 
 public class TestClass {
 
-	public static void main(String[] args) throws IOException {
-		String fp = AutoServiceConfig.getInstance().getSerializerFilePath();
-		String fn = AutoServiceConfig.getInstance().getSerializerFileName();
-		Path path = Paths.get(fp);
-		Files.createDirectories(path);
-		System.out.println(path);
-		File file = new File(fp+fn);
-		file.createNewFile();
+	public static void main(String[] args) {
+		Master master = new Master("tosik");
+		Master master1 = new Master("pesik");
+		Order order = new Order(10, new Date(10000), new Date(412411));
+		order.addMaster(master);
+		Order clone = order.clone();
+		clone.setAddedDate(new Date(33333));
+		clone.setCancelled(true);
+		clone.setPrice(0);
+		clone.addMaster(master1);
+		System.out.println(order);
+		System.out.println(clone);
 	}
 }

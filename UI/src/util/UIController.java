@@ -1,5 +1,4 @@
 package util;
-import java.io.IOException;
 
 import controller.Controller;
 import controller.IController;
@@ -20,6 +19,7 @@ import serialisation.Serializer;
 public class UIController {
 	private static IController controller;
 	private static Serializer serializer;
+
 	public static void init() {
 		try {
 			IObservable observable = UIObservable.getInstance();
@@ -39,8 +39,13 @@ public class UIController {
 		}
 	}
 
-	public static void start() throws IOException {
-		Menu menu = MenuBuilder.buildMenu(controller);
+	public static void start() {
+		Menu menu = null;
+		try {
+			menu = MenuBuilder.buildMenu(controller);
+		} catch (Throwable e) {
+			UIObservable.getInstance().notifyAllObservers(e);
+		}
 		while (menu != null) {
 			menu.showMenu();
 			long n = ConsoleReader.readLong();
@@ -50,6 +55,7 @@ public class UIController {
 				UIObservable.getInstance().notifyAllObservers(e);
 			}
 		}
+
 	}
 
 	public static void end() {

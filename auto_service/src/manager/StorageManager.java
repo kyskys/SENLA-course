@@ -1,8 +1,5 @@
 package manager;
 
-import java.util.List;
-
-import entities.BaseEntity;
 import manager.interfaces.IStorageManager;
 import storage.GarageStorage;
 import storage.MasterStorage;
