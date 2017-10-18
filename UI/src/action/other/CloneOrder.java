@@ -13,8 +13,9 @@ public class CloneOrder implements Action {
 		controller.showOrders();
 		System.out.println("type id of order to clone");
 		long id = ConsoleReader.readLong();
-		Order clone = controller.getOrder(id);
-		controller.addOrder(clone.clone());
+		Order original = controller.getOrder(id);
+		Order clone = original.clone();
+		controller.addOrder(clone);
 		UIObservable.getInstance()
 				.notifyAllObservers(String.format("order id: %s successfully cloned, new id: %s", id, clone.getId()));
 	}

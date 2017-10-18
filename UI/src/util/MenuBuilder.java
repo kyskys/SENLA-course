@@ -26,6 +26,7 @@ public class MenuBuilder {
 		mainMenu.add(new MenuPoint(controller, masterMenu, "master menu"));
 		mainMenu.add(new MenuPoint(controller, orderMenu, "order menu"));
 		mainMenu.add(new MenuPoint(controller, sitMenu, "sit menu"));
+		mainMenu.add(new MenuPoint(controller, otherMenu, "other"));
 		mainMenu.add(new MenuPoint(null, null, "exit"));
 		// building garage menu
 		garageMenu.add(new MenuPoint(controller, garageMenu, "show all garages", new ShowAllGarages()));

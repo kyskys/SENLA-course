@@ -103,7 +103,7 @@ public class Order extends BaseEntity implements Cloneable {
 		clone.addedDate = this.addedDate;
 		clone.cancelled = this.cancelled;
 		clone.closed = this.closed;
-		clone.masters = new ArrayList<Master>(this.getMasters());
+		clone.masters = new ArrayList<Master>();
 		clone.id = IdSequence.getId();
 		// Order clone = (Order) super.clone();
 		// clone.setMasters(new ArrayList<Master>(clone.getMasters()));
