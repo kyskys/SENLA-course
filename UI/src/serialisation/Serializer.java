@@ -9,16 +9,18 @@ import manager.interfaces.IStorageManager;
 import util.IdSequence;
 
 public class Serializer {
-	private static List<Master> masters;
-	private static List<Order> orders;
-	private static List<Garage> garages;
-	private static List<Sit> sits;
+	private List<Master> masters;
+	private List<Order> orders;
+	private List<Garage> garages;
+	private List<Sit> sits;
+	private SerializeUtil util;
 
-	public Serializer(IStorageManager storages) {
-		masters = storages.getMasterStorage().getAll();
-		orders = storages.getOrderStorage().getAll();
-		garages = storages.getGarageStorage().getAll();
-		sits = storages.getSitStorage().getAll();
+	public Serializer(IStorageManager storages, String fileName, String filePath) {
+		this.masters = storages.getMasterStorage().getAll();
+		this.orders = storages.getOrderStorage().getAll();
+		this.garages = storages.getGarageStorage().getAll();
+		this.sits = storages.getSitStorage().getAll();
+		this.util = new SerializeUtil(fileName, filePath);
 	}
 
 	public void save() throws IOException {
@@ -27,17 +29,21 @@ public class Serializer {
 		list.add(orders);
 		list.add(garages);
 		list.add(sits);
-		SerializeUtil.serializeObject(list);
+		util.serializeObject(list);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void load() throws ClassNotFoundException, IOException {
 		List<Object> list;
-		list = (List<Object>) SerializeUtil.deserializeObject();
+		list = (List<Object>) util.deserializeObject();
 		masters.addAll((List<Master>) list.get(0));
 		orders.addAll((List<Order>) list.get(1));
 		garages.addAll((List<Garage>) list.get(2));
 		sits.addAll((List<Sit>) list.get(3));
 		IdSequence.recountId(masters, orders, garages, sits);
+	}
+
+	public void updateProperties() throws IOException {
+		util.init();
 	}
 }

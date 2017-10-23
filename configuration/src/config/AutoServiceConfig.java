@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class AutoServiceConfig {
-	Properties props;
-	static AutoServiceConfig instance;
 
-	private AutoServiceConfig() throws IOException {
+	private Properties props;
+
+	public void init() throws IOException {
 		props = new Properties();
 		FileInputStream fis = new FileInputStream("config.properties");
 		props.load(fis);
@@ -33,11 +33,5 @@ public class AutoServiceConfig {
 	public boolean isDeleteOrderEnabled() {
 		return Boolean.getBoolean(props.getProperty("deleteOrderEnabled"));
 	}
-
-	public static AutoServiceConfig getInstance() throws IOException {
-		if (instance == null) {
-			instance = new AutoServiceConfig();
-		}
-		return instance;
-	}
+	
 }

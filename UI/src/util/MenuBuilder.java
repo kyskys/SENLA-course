@@ -13,7 +13,7 @@ import menu.Menu;
 import menu.MenuPoint;
 
 public class MenuBuilder {
-	public static Menu buildMenu(IController controller) throws IOException {
+	public static Menu buildMenu(IController controller, AutoServiceConfig config) throws IOException {
 		Menu mainMenu = new Menu("main menu");
 		// creating all submenus
 		Menu garageMenu = new Menu("garage service");
@@ -32,7 +32,7 @@ public class MenuBuilder {
 		garageMenu.add(new MenuPoint(controller, garageMenu, "show all garages", new ShowAllGarages()));
 		garageMenu.add(new MenuPoint(controller, garageMenu, "create garage", new CreateGarage()));
 		garageMenu.add(new MenuPoint(controller, garageMenu, "delete garage", new DeleteGarage()));
-		if (AutoServiceConfig.getInstance().isCreateDeleteSitEnabled()) {
+		if (config.isCreateDeleteSitEnabled()) {
 			garageMenu.add(new MenuPoint(controller, garageMenu, "add sit to garage", new AddSitToGarage()));
 			garageMenu.add(new MenuPoint(controller, garageMenu, "remove sit from garage", new RemoveSitFromGarage()));
 		}
@@ -53,7 +53,7 @@ public class MenuBuilder {
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show all orders", new ShowAllOrders()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show all orders with sort", new ShowAllOrdersWithSort()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "create order", new CreateOrder()));
-		if (AutoServiceConfig.getInstance().isDeleteOrderEnabled()) {
+		if (config.isDeleteOrderEnabled()) {
 			orderMenu.add(new MenuPoint(controller, orderMenu, "delete order", new DeleteOrder()));
 		}
 		orderMenu.add(new MenuPoint(controller, orderMenu, "add master to order", new AddMasterToOrder()));
@@ -66,7 +66,7 @@ public class MenuBuilder {
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show nearest free date", new ShowNearestFreeDate()));
 		orderMenu.add(new MenuPoint(controller, orderMenu, "show orders for period of time with sort",
 				new ShowOrdersForPeriodOfTimeWithSort()));
-		if (AutoServiceConfig.getInstance().isShiftOrderTimeEnabled()) {
+		if (config.isShiftOrderTimeEnabled()) {
 			orderMenu.add(
 					new MenuPoint(controller, orderMenu, "shift order execution time", new ShiftOrderExecutionTime()));
 		}

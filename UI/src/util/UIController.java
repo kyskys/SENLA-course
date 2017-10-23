@@ -1,5 +1,6 @@
 package util;
 
+import config.AutoServiceConfig;
 import controller.Controller;
 import controller.IController;
 import manager.ServiceManager;
@@ -19,9 +20,12 @@ import serialisation.Serializer;
 public class UIController {
 	private static IController controller;
 	private static Serializer serializer;
+	private static AutoServiceConfig config;
 
 	public static void init() {
 		try {
+			config = new AutoServiceConfig();
+			config.init();
 			IObservable observable = UIObservable.getInstance();
 			IObserver logger = new InfoLogger();
 			IObserver consoleDisplayer = new ConsoleDisplayer();
@@ -32,7 +36,7 @@ public class UIController {
 			IStorageManager storageManager = new StorageManager();
 			IServiceManager serviceManager = new ServiceManager(storageManager);
 			controller = new Controller(serviceManager);
-			serializer = new Serializer(storageManager);
+			serializer = new Serializer(storageManager, config.getSerializerFileName(), config.getSerializerFilePath());
 			serializer.load();
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
@@ -42,7 +46,7 @@ public class UIController {
 	public static void start() {
 		Menu menu = null;
 		try {
-			menu = MenuBuilder.buildMenu(controller);
+			menu = MenuBuilder.buildMenu(controller, config);
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
 		}
