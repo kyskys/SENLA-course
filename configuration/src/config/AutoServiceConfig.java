@@ -9,9 +9,10 @@ public class AutoServiceConfig {
 	private Properties props;
 
 	public void init() throws IOException {
-		props = new Properties();
-		FileInputStream fis = new FileInputStream("config.properties");
-		props.load(fis);
+		try (FileInputStream fis = new FileInputStream("config.properties");){
+			props = new Properties();
+			props.load(fis);
+		}
 	}
 
 	public String getSerializerFilePath() {
