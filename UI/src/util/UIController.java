@@ -37,6 +37,7 @@ public class UIController {
 			IServiceManager serviceManager = new ServiceManager(storageManager);
 			controller = new Controller(serviceManager);
 			serializer = new Serializer(storageManager, config.getSerializerFileName(), config.getSerializerFilePath());
+			serializer.updateProperties();
 			serializer.load();
 		} catch (Throwable e) {
 			UIObservable.getInstance().notifyAllObservers(e);
