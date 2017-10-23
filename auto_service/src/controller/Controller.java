@@ -68,45 +68,45 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void showMasters() {
-		System.out.println(Utils.getListAsString(serviceManager.getMasterService().getAll()));
+	public String getMastersAsString() {
+		return Utils.getListAsString(serviceManager.getMasterService().getAll());
 	}
 
 	@Override
-	public void showOrders() {
-		System.out.println(Utils.getListAsString(serviceManager.getOrderService().getAll()));
+	public String getOrdersAsString() {
+		return Utils.getListAsString(serviceManager.getOrderService().getAll());
 	}
 
 	@Override
-	public void showGarages() {
-		System.out.println(Utils.getListAsString(serviceManager.getGarageService().getAll()));
+	public String getGaragesAsString() {
+		return Utils.getListAsString(serviceManager.getGarageService().getAll());
 	}
 
 	@Override
-	public void showSits() {
-		System.out.println(Utils.getListAsString(serviceManager.getSitService().getAll()));
+	public String getSitsAsString() {
+		return Utils.getListAsString(serviceManager.getSitService().getAll());
 	}
 
 	@Override
-	public void showFreeSits() {
-		System.out.println(Utils.getListAsString(serviceManager.getSitService().getFreeSits()));
+	public String getFreeSitsAsString() {
+		return Utils.getListAsString(serviceManager.getSitService().getFreeSits());
 	}
 
 	@Override
-	public void showFreeSitsAtDate(Date date) {
-		System.out.println(Utils.getListAsString(serviceManager.getSitService().getFreeSitsAtDate(date)));
+	public String getFreeSitsAtDateAsString(Date date) {
+		return Utils.getListAsString(serviceManager.getSitService().getFreeSitsAtDate(date));
 	}
 
 	@Override
-	public void showOrders(String parameter) {
-		System.out.println(Utils.getListAsString(
-				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
+	public String getOrdersAsString(String parameter) {
+		return Utils.getListAsString(
+				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
-	public void showExecutingOrders(String parameter) {
-		System.out.println(Utils.getListAsString(
-				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter))));
+	public String getExecutingOrdersAsString(String parameter) {
+		return Utils.getListAsString(
+				serviceManager.getOrderService().getExecutingOrders(SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
@@ -115,32 +115,30 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void showMasters(String parameter) {
-		System.out.println(
-				Utils.getListAsString(serviceManager.getMasterService().getAll(SortParameters.getValueOf(parameter))));
+	public String getMastersAsString(String parameter) {
+		return Utils.getListAsString(serviceManager.getMasterService().getAll(SortParameters.getValueOf(parameter)));
 
 	}
 
 	@Override
-	public void showMastersExecutingConcreteOrder(long id) {
-		System.out
-				.println(Utils.getListAsString(serviceManager.getOrderService().getMastersExecutingConcreteOrder(id)));
+	public String getMastersExecutingConcreteOrderAsString(long id) {
+		return Utils.getListAsString(serviceManager.getOrderService().getMastersExecutingConcreteOrder(id));
 	}
 
 	@Override
-	public void showOrderExecutingByConcreteMaster(long id) {
-		System.out.println(serviceManager.getMasterService().getOrderExecutingByConcreteMaster(id));
+	public String getOrderExecutingByConcreteMasterAsString(long id) {
+		return serviceManager.getMasterService().getOrderExecutingByConcreteMaster(id).toString();
 	}
 
 	@Override
-	public void showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter) {
-		System.out.println(Utils.getListAsString(serviceManager.getOrderService().getOrdersForPeriodOfTime(beforeDate,
-				afterDate, SortParameters.getValueOf(parameter))));
+	public String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter) {
+		return Utils.getListAsString(serviceManager.getOrderService().getOrdersForPeriodOfTime(beforeDate, afterDate,
+				SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
-	public void showNearestFreeDate() {
-		System.out.println(serviceManager.getOrderService().getNearestDate());
+	public String getNearestFreeDateAsString() {
+		return Utils.convertDateToString(serviceManager.getOrderService().getNearestDate());
 	}
 
 	@Override
@@ -204,8 +202,8 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void showFreeMastersOnDate(Date date) {
-		Utils.getListAsString(serviceManager.getMasterService().getFreeMastersOnDate(date));
+	public String showFreeMastersOnDate(Date date) {
+		return Utils.getListAsString(serviceManager.getMasterService().getFreeMastersOnDate(date));
 	}
 
 }

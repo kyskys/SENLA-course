@@ -88,13 +88,12 @@ public class Order extends BaseEntity implements Cloneable {
 	public boolean removeMaster(Master master) {
 		return masters.remove(master);
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format(
 				"id: %s, price: %s, added: %s, start: %s, ending: %s, closed: %s, cancelled: %s, master: %s", id, price,
 				addedDate, startWorkingOnDate, endingDate, closed, cancelled, masters);
-
 	}
 
 	@Override

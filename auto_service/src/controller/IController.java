@@ -33,33 +33,33 @@ public interface IController {
 
 	public void removeSit(long id);
 
-	public void showFreeSits();
+	public String getFreeSitsAsString();
 
-	public void showFreeSitsAtDate(Date date);
+	public String getFreeSitsAtDateAsString(Date date);
 
-	public void showOrders(String parameter);
+	public String getOrdersAsString(String parameter);
 
-	public void showExecutingOrders(String parameter);
+	public String getExecutingOrdersAsString(String parameter);
 
 	public void shiftOrdersTimeExecution(int days);
 
-	public void showMasters(String parameter);
+	public String getMastersAsString(String parameter);
 
-	public void showMastersExecutingConcreteOrder(long id);
+	public String getMastersExecutingConcreteOrderAsString(long id);
 
-	public void showOrderExecutingByConcreteMaster(long id);
+	public String getOrderExecutingByConcreteMasterAsString(long id);
 
-	public void showOrdersForPeriodOfTime(Date beforeDate, Date afterDate, String parameter);
+	public String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter);
 
-	public void showNearestFreeDate();
+	public String getNearestFreeDateAsString();
 
-	public void showMasters();
+	public String getMastersAsString();
 
-	public void showOrders();
+	public String getOrdersAsString();
 
-	public void showGarages();
+	public String getGaragesAsString();
 
-	public void showSits();
+	public String getSitsAsString();
 
 	public void addSitToGarage(Long idGarage);
 
@@ -77,6 +77,6 @@ public interface IController {
 
 	public void removeOrderFromSit(Long idSit);
 	
-	public void showFreeMastersOnDate(Date date);
+	public String showFreeMastersOnDate(Date date);
 
 }
