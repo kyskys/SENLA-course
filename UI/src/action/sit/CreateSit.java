@@ -10,7 +10,7 @@ public class CreateSit implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showGarages();
+		controller.getGaragesAsString();
 		System.out.println("type id of garage");
 		long idGarage = ConsoleReader.readLong();
 		Sit sit = new Sit(controller.getGarage(idGarage));

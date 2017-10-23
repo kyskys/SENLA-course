@@ -9,7 +9,7 @@ public class DeleteMaster implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showMasters();
+		controller.getMastersAsString();
 		System.out.println("type id of master");
 		long idMaster = ConsoleReader.readLong();
 		controller.removeMaster(idMaster);

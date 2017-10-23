@@ -9,7 +9,7 @@ public class DeleteSit implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showSits();
+		controller.getSitsAsString();
 		System.out.println("type id of sit");
 		long idSit = ConsoleReader.readLong();
 		controller.removeSit(idSit);

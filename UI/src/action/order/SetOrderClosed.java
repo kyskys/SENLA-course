@@ -9,7 +9,7 @@ public class SetOrderClosed implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showOrders();
+		controller.getOrdersAsString();
 		System.out.println("type id of order to set closed");
 		long idOrder = ConsoleReader.readLong();
 		controller.setOrderClosed(idOrder);

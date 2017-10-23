@@ -9,7 +9,7 @@ public class AddSitToGarage implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showGarages();
+		controller.getGaragesAsString();
 		System.out.println("type id of garage");
 		long idGarage = ConsoleReader.readLong();
 		controller.addSitToGarage(idGarage);

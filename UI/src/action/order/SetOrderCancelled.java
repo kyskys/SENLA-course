@@ -9,7 +9,7 @@ public class SetOrderCancelled implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showOrders();
+		controller.getOrdersAsString();
 		System.out.println("type id of order to set cancelled");
 		long idOrder = ConsoleReader.readLong();
 		controller.setOrderCancelled(idOrder);

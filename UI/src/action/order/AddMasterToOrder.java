@@ -9,10 +9,10 @@ public class AddMasterToOrder implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showMasters();
+		controller.getMastersAsString();
 		System.out.println("type id of master");
 		long idMaster = ConsoleReader.readLong();
-		controller.showOrders();
+		controller.getOrdersAsString();
 		System.out.println("type id of order");
 		long idOrder = ConsoleReader.readLong();
 		controller.addMasterToOrder(idMaster, idOrder);

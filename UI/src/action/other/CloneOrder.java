@@ -10,7 +10,7 @@ public class CloneOrder implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.showOrders();
+		controller.getOrdersAsString();
 		System.out.println("type id of order to clone");
 		long id = ConsoleReader.readLong();
 		Order original = controller.getOrder(id);

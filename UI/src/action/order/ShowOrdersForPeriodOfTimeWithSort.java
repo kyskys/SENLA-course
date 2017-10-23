@@ -4,6 +4,7 @@ import java.util.Date;
 
 import action.Action;
 import controller.IController;
+import observer.UIObservable;
 import util.ConsoleReader;
 
 public class ShowOrdersForPeriodOfTimeWithSort implements Action {
@@ -16,7 +17,7 @@ public class ShowOrdersForPeriodOfTimeWithSort implements Action {
 		Date after = ConsoleReader.readDate();
 		System.out.println("type string parameter to sort with (price, start date, ending date, added date)");
 		String parameter = ConsoleReader.readString();
-		controller.showOrdersForPeriodOfTime(before, after, parameter);
+		UIObservable.getInstance().notifyAllObservers(controller.getOrdersForPeriodOfTimeAsString(before, after, parameter));
 
 	}
 
