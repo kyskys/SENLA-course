@@ -13,4 +13,6 @@ public @interface ConfigProperty {
 	String propertyName() default "";
 
 	Class<?> type() default Object.class;
+	
+	boolean isCollection() default false;
 }

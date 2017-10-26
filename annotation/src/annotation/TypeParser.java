@@ -1,44 +1,43 @@
 package annotation;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-public enum TypeParser {
-	BOOLEAN(Boolean.class) {
-		public Object parse(String toParse) {
+public class TypeParser {
+
+	public static Object parse(String toParse, Class<?> clazz) {
+		if (clazz.equals(Boolean.class)) {
 			return Boolean.valueOf(toParse);
-		}
-	},
-	INTEGER(Integer.class) {
-		@Override
-		public Object parse(String toParse) {
+		} else if (clazz.equals(Integer.class)) {
 			return Integer.valueOf(toParse);
-		}
-	},
-	LONG(Long.class) {
-		@Override
-		public Object parse(String toParse) {
+		} else if (clazz.equals(Long.class)) {
 			return Long.valueOf(toParse);
-		}
-	},
-	ARRAY(Arrays.class) {
-		@Override
-		public Object[] parse(String toParse) {//TODO make massive from string
-			return null;
-		}
-	},
-	COLLECTION(Collections.class) {
-		@Override
-		public Object parse(String toParse) {
-			return new ArrayList<Object>();//TODO make collection from string
-		}
-	};
-	private TypeParser(Class<?> clazz) {
-		this.clazz = clazz;
+		} else
+			return toParse;
 	}
 
-	public abstract Object parse(String toParse);
+	public static Object parseArray(String toParse, Class<?> clazz) {
+		String[] values = toParse.split(" ");
+		Object array = Array.newInstance(clazz, values.length);
+		for (int i = 0; i < values.length; i++) {
+			Array.set(array, i, TypeParser.parse(values[i], clazz));
+		}
+		return array;
 
-	public Class<?> clazz;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Object parseList(String toParse, Class<T> clazz)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		String[] values = toParse.split(" ");
+		List<T> list = new ArrayList();
+		for (int i = 0; i < values.length; i++) {
+			Object o = (T) Class.forName(values[i]).newInstance();
+			list.add((T) o);
+		}
+		return list;
+	}
+
 }

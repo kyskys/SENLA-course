@@ -1,14 +1,21 @@
 package annotation;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Properties;
+
+import dependency.DependencyManager;
 
 public class PropertyConfigurator {
 	private Configurations configs = new Configurations();
 
-	public <T extends Object> void configure(T object) throws IllegalArgumentException, IllegalAccessException {
+	public <T extends Object> void configure(T object)
+			throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		Class<?> clazz = object.getClass();
-		for (Field field : clazz.getFields()) {
+		for (Field field : clazz.getDeclaredFields()) {
+			if (field.isAnnotationPresent(Configurable.class)) {
+				configure(DependencyManager.getInstance(field.getType()));
+			}
 			if (field.isAnnotationPresent(ConfigProperty.class)) {
 				ConfigProperty config = field.getAnnotation(ConfigProperty.class);
 				Properties props;
@@ -25,12 +32,15 @@ public class PropertyConfigurator {
 					type = config.type();
 				}
 				field.setAccessible(true);
-				for (TypeParser e : TypeParser.values()) {
-					if (e.clazz.equals(type)) {
-						field.set(object, e.parse(propValue));
-					}
+				if (field.getType().isPrimitive()) {
+					field.set(object, TypeParser.parse(propValue, type));
+				} else if (field.getType().isArray()) {
+					field.set(object, field.getType().cast(TypeParser.parseArray(propValue, type)));
+				} else if (field.getType().isAssignableFrom(List.class)) {
+					field.set(object, field.getType().cast(TypeParser.parseList(propValue, type)));
+				} else {
+					field.set(object, propValue);
 				}
-
 			}
 		}
 	}
