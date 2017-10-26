@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Kowka/Documents/SENLA-course/auto_service/textFileWorker.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DependencyInjection"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

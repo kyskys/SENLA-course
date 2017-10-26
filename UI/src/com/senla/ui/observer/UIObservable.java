@@ -7,21 +7,13 @@ import com.senla.ui.observer.interfaces.IExceptionObserver;
 import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.observer.interfaces.IObserver;
 
+import annotation.ConfigProperty;
+
 public class UIObservable implements IObservable {
+	@ConfigProperty(configName="config.properties",propertyName="UIObservable.observers",type=IObserver.class)
 	private List<IObserver> observers = new ArrayList<IObserver>();
+	@ConfigProperty(configName="config.properties",propertyName="UIObservable.exceptionObservers",type=IObserver.class)
 	private List<IExceptionObserver> exceptionObservers = new ArrayList<IExceptionObserver>();
-	private static UIObservable instance = getInstance();
-
-	private UIObservable() {
-	}
-
-	public static UIObservable getInstance() {
-		if (instance == null) {
-			return new UIObservable();
-		} else {
-			return instance;
-		}
-	}
 
 	@Override
 	public void addObserver(IObserver o) {

@@ -2,8 +2,10 @@ package com.senla.ui.action.order;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class AddMasterToOrder implements Action {
 
@@ -16,7 +18,7 @@ public class AddMasterToOrder implements Action {
 		System.out.println("type id of order");
 		long idOrder = ConsoleReader.readLong();
 		controller.addMasterToOrder(idMaster, idOrder);
-		UIObservable.getInstance().notifyAllObservers(
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(
 				String.format("successfully added master id: %s to order id: %s", idMaster, idOrder));
 	}
 }

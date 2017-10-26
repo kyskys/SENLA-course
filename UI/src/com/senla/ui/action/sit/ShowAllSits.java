@@ -2,13 +2,15 @@ package com.senla.ui.action.sit;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
+
+import dependency.DependencyManager;
 
 public class ShowAllSits implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		UIObservable.getInstance().notifyAllObservers(controller.getSitsAsString());
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(controller.getSitsAsString());
 	}
 
 }

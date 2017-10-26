@@ -2,8 +2,10 @@ package com.senla.ui.action.order;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class SetOrderCancelled implements Action {
 
@@ -13,7 +15,7 @@ public class SetOrderCancelled implements Action {
 		System.out.println("type id of order to set cancelled");
 		long idOrder = ConsoleReader.readLong();
 		controller.setOrderCancelled(idOrder);
-		UIObservable.getInstance().notifyAllObservers(String.format("order id: %s successfully cancelled", idOrder));
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("order id: %s successfully cancelled", idOrder));
 	}
 
 }

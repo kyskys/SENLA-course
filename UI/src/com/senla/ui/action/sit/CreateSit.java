@@ -3,8 +3,10 @@ package com.senla.ui.action.sit;
 import com.senla.controller.IController;
 import com.senla.entities.Sit;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class CreateSit implements Action {
 
@@ -15,6 +17,6 @@ public class CreateSit implements Action {
 		long idGarage = ConsoleReader.readLong();
 		Sit sit = new Sit(controller.getGarage(idGarage));
 		controller.addSit(sit);
-		UIObservable.getInstance().notifyAllObservers(String.format("successfully created sit id: %s", sit.getId()));
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("successfully created sit id: %s", sit.getId()));
 	}
 }

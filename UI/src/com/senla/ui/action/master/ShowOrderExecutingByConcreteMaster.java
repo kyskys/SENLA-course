@@ -2,8 +2,10 @@ package com.senla.ui.action.master;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class ShowOrderExecutingByConcreteMaster implements Action {
 
@@ -11,7 +13,7 @@ public class ShowOrderExecutingByConcreteMaster implements Action {
 	public void doAction(IController controller) {
 		System.out.println("type id of master");
 		long idMaster = ConsoleReader.readLong();
-		UIObservable.getInstance().notifyAllObservers(controller.getOrderExecutingByConcreteMasterAsString(idMaster));
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(controller.getOrderExecutingByConcreteMasterAsString(idMaster));
 	}
 
 }

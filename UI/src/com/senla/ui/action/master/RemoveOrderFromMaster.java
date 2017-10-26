@@ -2,8 +2,10 @@ package com.senla.ui.action.master;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class RemoveOrderFromMaster implements Action {
 
@@ -13,7 +15,7 @@ public class RemoveOrderFromMaster implements Action {
 		System.out.println("type id of master");
 		long idMaster = ConsoleReader.readLong();
 		controller.removeOrderFromMaster(idMaster);
-		UIObservable.getInstance()
+		DependencyManager.getInstance(IObservable.class)
 				.notifyAllObservers(String.format("successfully remove order from master id: %s", idMaster));
 	}
 

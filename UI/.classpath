@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Configuration"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Serialisation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoServiceAnnotation"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DependencyInjection"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -10,14 +10,11 @@ import com.senla.storage.interfaces.IAbstractStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
-public class SitService extends AbstractService<Sit> implements ISitService {
-	private ISitStorage sitStorage;
-	private IOrderStorage orderStorage;
+import dependency.DependencyManager;
 
-	public SitService(ISitStorage sitStorage, IOrderStorage orderStorage) {
-		this.orderStorage = orderStorage;
-		this.sitStorage = sitStorage;
-	}
+public class SitService extends AbstractService<Sit> implements ISitService {
+	private ISitStorage sitStorage = DependencyManager.getInstance(ISitStorage.class);
+	private IOrderStorage orderStorage = DependencyManager.getInstance(IOrderStorage.class);
 
 	@Override
 	public IAbstractStorage<Sit> getStorage() {

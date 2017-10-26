@@ -4,8 +4,10 @@ import java.util.Date;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class ShowOrdersForPeriodOfTimeWithSort implements Action {
 
@@ -17,7 +19,7 @@ public class ShowOrdersForPeriodOfTimeWithSort implements Action {
 		Date after = ConsoleReader.readDate();
 		System.out.println("type string parameter to sort with (price, start date, ending date, added date)");
 		String parameter = ConsoleReader.readString();
-		UIObservable.getInstance().notifyAllObservers(controller.getOrdersForPeriodOfTimeAsString(before, after, parameter));
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(controller.getOrdersForPeriodOfTimeAsString(before, after, parameter));
 
 	}
 

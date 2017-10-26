@@ -11,14 +11,19 @@ import com.senla.ui.action.sit.*;
 import com.senla.ui.menu.Menu;
 import com.senla.ui.menu.MenuPoint;
 
-import config.AutoServiceConfig;
+import annotation.ConfigProperty;
+import dependency.DependencyManager;
 
 public class MenuBuilder {
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isCreateDeleteSitEnabled", type = Boolean.class)
 	private boolean isCreateDeleteSitEnabled;
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isDeleteOrderEnabled", type = Boolean.class)
 	private boolean isDeleteOrderEnabled;
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isShiftOrderTimeEnabled", type = Boolean.class)
 	private boolean isShiftOrderTimeEnabled;
 
-	public static Menu buildMenu(IController controller, AutoServiceConfig config) throws IOException {
+	public Menu buildMenu() throws IOException {
+		IController controller = DependencyManager.getInstance(IController.class);
 		Menu mainMenu = new Menu("main menu");
 		// creating all submenus
 		Menu garageMenu = new Menu("garage service");

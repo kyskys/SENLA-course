@@ -3,9 +3,11 @@ package com.senla.ui.action.garage;
 import com.senla.controller.IController;
 import com.senla.entities.Garage;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
 import com.senla.util.Utils;
+
+import dependency.DependencyManager;
 
 public class RemoveSitFromGarage implements Action {
 
@@ -19,7 +21,7 @@ public class RemoveSitFromGarage implements Action {
 		System.out.println("type id of sit");
 		long idSit = ConsoleReader.readLong();
 		controller.removeSitFromGarage(idSit, idGarage);
-		UIObservable.getInstance().notifyAllObservers(
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(
 				String.format("sit id: %s successfully removed from garage id: %s", idSit, idGarage));
 
 	}

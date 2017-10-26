@@ -2,8 +2,10 @@ package com.senla.ui.action.order;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.UIObservable;
+import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
+
+import dependency.DependencyManager;
 
 public class DeleteOrder implements Action {
 
@@ -13,7 +15,7 @@ public class DeleteOrder implements Action {
 		System.out.println("type id of order");
 		long idOrder = ConsoleReader.readLong();
 		controller.removeOrder(idOrder);
-		UIObservable.getInstance().notifyAllObservers(String.format("order id: %s successully deleted", idOrder));
+		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("order id: %s successully deleted", idOrder));
 	}
 
 }
