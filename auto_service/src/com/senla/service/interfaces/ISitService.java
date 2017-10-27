@@ -1,9 +1,10 @@
-package com.senla.service.intefraces;
+package com.senla.service.interfaces;
 
 import java.util.Date;
 import java.util.List;
 
 import com.senla.entities.Sit;
+import com.senla.service.interfaces.IAbstractService;
 
 public interface ISitService extends IAbstractService<Sit> {
 	public List<Sit> getFreeSits();

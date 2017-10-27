@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Properties;
 
+import annotation.annotations.ConfigProperty;
+import annotation.annotations.Configurable;
+import annotation.annotations.Injectable;
 import dependency.DependencyManager;
 
 public class PropertyConfigurator {
@@ -13,8 +16,19 @@ public class PropertyConfigurator {
 			throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		Class<?> clazz = object.getClass();
 		for (Field field : clazz.getDeclaredFields()) {
+			if (field.isAnnotationPresent(Injectable.class)) {
+				boolean fieldAccessibleState = field.isAccessible();
+				field.setAccessible(true);
+				field.set(object, DependencyManager.getInstance(field.getType()));
+				field.setAccessible(fieldAccessibleState);
+
+			}
 			if (field.isAnnotationPresent(Configurable.class)) {
-				configure(DependencyManager.getInstance(field.getType()));
+				boolean fieldAccessibleState = field.isAccessible();
+				field.setAccessible(true);
+				new PropertyConfigurator().configure(field.get(object));
+				field.setAccessible(fieldAccessibleState);
+
 			}
 			if (field.isAnnotationPresent(ConfigProperty.class)) {
 				ConfigProperty config = field.getAnnotation(ConfigProperty.class);
@@ -31,16 +45,17 @@ public class PropertyConfigurator {
 				} else {
 					type = config.type();
 				}
+				boolean fieldAccessibleState = field.isAccessible();
 				field.setAccessible(true);
-				if (field.getType().isPrimitive()) {
-					field.set(object, TypeParser.parse(propValue, type));
-				} else if (field.getType().isArray()) {
+
+				if (field.getType().isArray()) {
 					field.set(object, field.getType().cast(TypeParser.parseArray(propValue, type)));
 				} else if (field.getType().isAssignableFrom(List.class)) {
 					field.set(object, field.getType().cast(TypeParser.parseList(propValue, type)));
 				} else {
-					field.set(object, propValue);
+					field.set(object, TypeParser.parse(propValue, type));
 				}
+				field.setAccessible(fieldAccessibleState);
 			}
 		}
 	}

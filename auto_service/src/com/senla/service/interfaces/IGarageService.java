@@ -1,4 +1,4 @@
-package com.senla.service.intefraces;
+package com.senla.service.interfaces;
 
 import com.senla.entities.Garage;
 
