@@ -2,7 +2,10 @@ package com.senla.controller;
 
 import java.util.Date;
 
-import com.senla.entities.*;
+import com.senla.entities.Garage;
+import com.senla.entities.Master;
+import com.senla.entities.Order;
+import com.senla.entities.Sit;
 
 public interface IController {
 	public Garage getGarage(long id);
@@ -76,7 +79,7 @@ public interface IController {
 	public void addOrderToSit(Long idOrder, Long idSit);
 
 	public void removeOrderFromSit(Long idSit);
-	
+
 	public String showFreeMastersOnDate(Date date);
 
 }

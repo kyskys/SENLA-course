@@ -11,19 +11,22 @@ import com.senla.ui.action.sit.*;
 import com.senla.ui.menu.Menu;
 import com.senla.ui.menu.MenuPoint;
 
-import annotation.ConfigProperty;
-import dependency.DependencyManager;
+import annotation.annotations.ConfigProperty;
+import annotation.annotations.Configurable;
+import annotation.annotations.Injectable;
 
 public class MenuBuilder {
-	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isCreateDeleteSitEnabled", type = Boolean.class)
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isCreateDeleteSitEnabled", type = boolean.class)
 	private boolean isCreateDeleteSitEnabled;
-	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isDeleteOrderEnabled", type = Boolean.class)
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isDeleteOrderEnabled", type = boolean.class)
 	private boolean isDeleteOrderEnabled;
-	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isShiftOrderTimeEnabled", type = Boolean.class)
+	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isShiftOrderTimeEnabled", type = boolean.class)
 	private boolean isShiftOrderTimeEnabled;
+	@Injectable
+	@Configurable
+	private IController controller;
 
 	public Menu buildMenu() throws IOException {
-		IController controller = DependencyManager.getInstance(IController.class);
 		Menu mainMenu = new Menu("main menu");
 		// creating all submenus
 		Menu garageMenu = new Menu("garage service");

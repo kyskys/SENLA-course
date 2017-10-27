@@ -3,11 +3,11 @@ package com.senla.service;
 import java.util.List;
 
 import com.senla.entities.BaseEntity;
-import com.senla.service.intefraces.IAbstractService;
+import com.senla.service.interfaces.IAbstractService;
 import com.senla.storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractService<T extends BaseEntity> implements IAbstractService<T> {
-	
+
 	@Override
 	public boolean create(T entity) {
 		return getStorage().create(entity);

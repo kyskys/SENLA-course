@@ -1,7 +1,7 @@
 package com.senla.entities;
 
 public class Master extends BaseEntity {
-	
+
 	private static final long serialVersionUID = 7313230119723548213L;
 	private Order order;
 	private boolean busy;

@@ -2,202 +2,214 @@ package com.senla.controller;
 
 import java.util.Date;
 
-import com.senla.entities.*;
-import com.senla.service.intefraces.*;
+import com.senla.entities.Garage;
+import com.senla.entities.Master;
+import com.senla.entities.Order;
+import com.senla.entities.Sit;
+import com.senla.service.interfaces.IGarageService;
+import com.senla.service.interfaces.IMasterService;
+import com.senla.service.interfaces.IOrderService;
 import com.senla.sort.SortParameters;
 import com.senla.util.Utils;
 
-import dependency.DependencyManager;
+import annotation.annotations.Injectable;
+import main.ISitService;
 
 public class Controller implements IController {
+	@Injectable
+	private IOrderService orderService;
+	@Injectable
+	private IMasterService masterService;
+	@Injectable
+	private ISitService sitService;
+	@Injectable
+	private IGarageService garageService;
 
 	@Override
 	public void addMaster(Master master) {
-		DependencyManager.getInstance(IMasterService.class).create(master);
+		masterService.create(master);
 	}
 
 	@Override
 	public void removeMaster(long id) {
-		DependencyManager.getInstance(IMasterService.class).delete(id);
+		masterService.delete(id);
 	}
 
 	@Override
 	public void addOrder(Order order) {
-		DependencyManager.getInstance(IOrderService.class).create(order);
+		orderService.create(order);
 	}
 
 	@Override
 	public void removeOrder(long id) {
-		DependencyManager.getInstance(IOrderService.class).delete(id);
+		orderService.delete(id);
 	}
 
 	@Override
 	public void setOrderClosed(long id) {
-		DependencyManager.getInstance(IOrderService.class).setOrderClosed(id);
+		orderService.setOrderClosed(id);
 	}
 
 	@Override
 	public void setOrderCancelled(long id) {
-		DependencyManager.getInstance(IOrderService.class).setOrderCancelled(id);
+		orderService.setOrderCancelled(id);
 	}
 
 	@Override
 	public void addGarage(Garage garage) {
-		DependencyManager.getInstance(IGarageService.class).create(garage);
+		garageService.create(garage);
 	}
 
 	@Override
 	public void removeGarage(long id) {
-		DependencyManager.getInstance(IGarageService.class).delete(id);
+		garageService.delete(id);
 	}
 
 	@Override
 	public void addSit(Sit sit) {
-		DependencyManager.getInstance(ISitService.class).create(sit);
+		sitService.create(sit);
 	}
 
 	@Override
 	public void removeSit(long id) {
-		DependencyManager.getInstance(ISitService.class).delete(id);
+		sitService.delete(id);
 	}
 
 	@Override
 	public String getMastersAsString() {
-		return Utils.getListAsString(DependencyManager.getInstance(IMasterService.class).getAll());
+		return Utils.getListAsString(masterService.getAll());
 	}
 
 	@Override
 	public String getOrdersAsString() {
-		return Utils.getListAsString(DependencyManager.getInstance(IOrderService.class).getAll());
+		return Utils.getListAsString(orderService.getAll());
 	}
 
 	@Override
 	public String getGaragesAsString() {
-		return Utils.getListAsString(DependencyManager.getInstance(IGarageService.class).getAll());
+		return Utils.getListAsString(garageService.getAll());
 	}
 
 	@Override
 	public String getSitsAsString() {
-		return Utils.getListAsString(DependencyManager.getInstance(ISitService.class).getAll());
+		return Utils.getListAsString(sitService.getAll());
 	}
 
 	@Override
 	public String getFreeSitsAsString() {
-		return Utils.getListAsString(DependencyManager.getInstance(ISitService.class).getFreeSits());
+		return Utils.getListAsString(sitService.getFreeSits());
 	}
 
 	@Override
 	public String getFreeSitsAtDateAsString(Date date) {
-		return Utils.getListAsString(DependencyManager.getInstance(ISitService.class).getFreeSitsAtDate(date));
+		return Utils.getListAsString(sitService.getFreeSitsAtDate(date));
 	}
 
 	@Override
 	public String getOrdersAsString(String parameter) {
-		return Utils.getListAsString(
-				DependencyManager.getInstance(IOrderService.class).getExecutingOrders(SortParameters.getValueOf(parameter)));
+		return Utils.getListAsString(orderService.getExecutingOrders(SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
 	public String getExecutingOrdersAsString(String parameter) {
-		return Utils.getListAsString(
-				DependencyManager.getInstance(IOrderService.class).getExecutingOrders(SortParameters.getValueOf(parameter)));
+		return Utils.getListAsString(orderService.getExecutingOrders(SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
 	public void shiftOrdersTimeExecution(int days) {
-		DependencyManager.getInstance(IOrderService.class).shiftOrderExecutionTime(days);
+		orderService.shiftOrderExecutionTime(days);
 	}
 
 	@Override
 	public String getMastersAsString(String parameter) {
-		return Utils.getListAsString(DependencyManager.getInstance(IMasterService.class).getAll(SortParameters.getValueOf(parameter)));
+		return Utils.getListAsString(masterService.getAll(SortParameters.getValueOf(parameter)));
 
 	}
 
 	@Override
 	public String getMastersExecutingConcreteOrderAsString(long id) {
-		return Utils.getListAsString(DependencyManager.getInstance(IOrderService.class).getMastersExecutingConcreteOrder(id));
+		return Utils.getListAsString(orderService.getMastersExecutingConcreteOrder(id));
 	}
 
 	@Override
 	public String getOrderExecutingByConcreteMasterAsString(long id) {
-		return DependencyManager.getInstance(IMasterService.class).getOrderExecutingByConcreteMaster(id).toString();
+		return masterService.getOrderExecutingByConcreteMaster(id).toString();
 	}
 
 	@Override
 	public String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter) {
-		return Utils.getListAsString(DependencyManager.getInstance(IOrderService.class).getOrdersForPeriodOfTime(beforeDate, afterDate,
-				SortParameters.getValueOf(parameter)));
+		return Utils.getListAsString(
+				orderService.getOrdersForPeriodOfTime(beforeDate, afterDate, SortParameters.getValueOf(parameter)));
 	}
 
 	@Override
 	public String getNearestFreeDateAsString() {
-		return Utils.convertDateToString(DependencyManager.getInstance(IOrderService.class).getNearestDate());
+		return Utils.convertDateToString(orderService.getNearestDate());
 	}
 
 	@Override
 	public Garage getGarage(long id) {
-		return DependencyManager.getInstance(IGarageService.class).get(id);
+		return garageService.get(id);
 	}
 
 	@Override
 	public Master getMaster(long id) {
-		return DependencyManager.getInstance(IMasterService.class).get(id);
+		return masterService.get(id);
 	}
 
 	@Override
 	public Order getOrder(long id) {
-		return DependencyManager.getInstance(IOrderService.class).get(id);
+		return orderService.get(id);
 	}
 
 	@Override
 	public Sit getSit(long id) {
-		return DependencyManager.getInstance(ISitService.class).get(id);
+		return sitService.get(id);
 	}
 
 	@Override
 	public void addSitToGarage(Long idGarage) {
-		DependencyManager.getInstance(IGarageService.class).addSitToGarage(idGarage);
+		garageService.addSitToGarage(idGarage);
 	}
 
 	@Override
 	public void removeSitFromGarage(Long idSit, Long idGarage) {
-		DependencyManager.getInstance(IGarageService.class).removeSitFromGarage(idSit, idGarage);
+		garageService.removeSitFromGarage(idSit, idGarage);
 	}
 
 	@Override
 	public void addOrderToMaster(Long idOrder, Long idMaster) {
-		DependencyManager.getInstance(IMasterService.class).addOrderToMaster(idOrder, idMaster);
+		masterService.addOrderToMaster(idOrder, idMaster);
 	}
 
 	@Override
 	public void removeOrderFromMaster(Long idMaster) {
-		DependencyManager.getInstance(IMasterService.class).removeOrderFromMaster(idMaster);
+		masterService.removeOrderFromMaster(idMaster);
 	}
 
 	@Override
 	public void addMasterToOrder(Long idMaster, Long idOrder) {
-		DependencyManager.getInstance(IOrderService.class).addMasterToOrder(idMaster, idOrder);
+		orderService.addMasterToOrder(idMaster, idOrder);
 	}
 
 	@Override
 	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
-		DependencyManager.getInstance(IOrderService.class).removeMasterFromOrder(idMaster, idOrder);
+		orderService.removeMasterFromOrder(idMaster, idOrder);
 	}
 
 	@Override
 	public void addOrderToSit(Long idOrder, Long idSit) {
-		DependencyManager.getInstance(ISitService.class).addOrderToSit(idOrder, idSit);
+		sitService.addOrderToSit(idOrder, idSit);
 	}
 
 	@Override
 	public void removeOrderFromSit(Long idSit) {
-		DependencyManager.getInstance(ISitService.class).removeOrderFromSit(idSit);
+		sitService.removeOrderFromSit(idSit);
 	}
 
 	@Override
 	public String showFreeMastersOnDate(Date date) {
-		return Utils.getListAsString(DependencyManager.getInstance(IMasterService.class).getFreeMastersOnDate(date));
+		return Utils.getListAsString(masterService.getFreeMastersOnDate(date));
 	}
 
 }

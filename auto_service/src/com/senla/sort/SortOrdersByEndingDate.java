@@ -1,10 +1,9 @@
 package com.senla.sort;
 
+import java.util.Comparator;
 import java.util.Date;
 
 import com.senla.entities.Order;
-
-import java.util.Comparator;
 
 public class SortOrdersByEndingDate implements Comparator<Order> {
 

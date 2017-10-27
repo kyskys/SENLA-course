@@ -1,24 +1,25 @@
 package com.senla.ui.util;
 
 import com.senla.ui.menu.Menu;
-import com.senla.ui.observer.UIObservable;
 import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.serialisation.Serializer;
 
-import annotation.ConfigProperty;
-import annotation.Configurable;
 import annotation.PropertyConfigurator;
+import annotation.annotations.ConfigProperty;
+import annotation.annotations.Configurable;
+import annotation.annotations.Injectable;
 
 public class UIController {
+	@Injectable
 	@Configurable
-	private UIObservable observable = new UIObservable();
-	PropertyConfigurator pc = new PropertyConfigurator();
+	private IObservable observable;
 	@ConfigProperty(configName = "config.properties", propertyName = "UIController.serializerFileName")
 	private String serializerFileName;
 	@ConfigProperty(configName = "config.properties", propertyName = "UIController.serializerFilePath")
 	private String serializerFilePath;
 	private static Serializer serializer;
-	
+	@Configurable
+	private MenuBuilder mb = new MenuBuilder();
 
 	public void init() {
 		try {
@@ -38,10 +39,7 @@ public class UIController {
 
 	public void start() {
 		Menu menu = null;
-
 		try {
-			MenuBuilder mb = new MenuBuilder();
-			pc.configure(mb);
 			menu = mb.buildMenu();
 		} catch (Throwable e) {
 			observable.notifyAllObservers(e);

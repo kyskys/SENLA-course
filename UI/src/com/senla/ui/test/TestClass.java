@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.senla.service.interfaces.ISitService;
+import com.senla.storage.interfaces.IMasterStorage;
 import com.senla.ui.observer.interfaces.IObserver;
 
-import annotation.ConfigProperty;
 import annotation.PropertyConfigurator;
+import annotation.annotations.ConfigProperty;
+import dependency.DependencyManager;
 
 public class TestClass {
 
@@ -20,7 +23,11 @@ public class TestClass {
 			System.out.println(Arrays.toString(test.array));
 			System.out.println(test.list);
 			System.out.println(test.list1);
-			int i=0;
+			Class as = ISitService.class;
+			DependencyManager.getInstance(IMasterStorage.class);
+			ClassLoader cl = ClassLoader.getSystemClassLoader();
+			System.out.println(cl.loadClass("com.senla.service.SitService"));
+			int i = 0;
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -35,8 +42,8 @@ public class TestClass {
 class Test {
 	@ConfigProperty(configName = "config.properties", propertyName = "Test.isBlaBlaEnabled", type = Boolean.class)
 	public boolean q;
-	@ConfigProperty(configName = "configs.properties", propertyName = "Test.array", type = Integer.class)
-	public Integer[] array;
+	@ConfigProperty(configName = "configs.properties", propertyName = "Test.array", type = int.class)
+	public int[] array;
 	@ConfigProperty(configName = "configs.properties", propertyName = "Test.list", type = IObserver.class)
 	public List<IObserver> list;
 	public List<IObserver> list1 = new ArrayList<IObserver>();

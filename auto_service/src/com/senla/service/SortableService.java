@@ -3,7 +3,7 @@ package com.senla.service;
 import java.util.List;
 
 import com.senla.entities.BaseEntity;
-import com.senla.service.intefraces.ISortableService;
+import com.senla.service.interfaces.ISortableService;
 import com.senla.sort.SortParameters;
 import com.senla.storage.interfaces.ISortableStorage;
 

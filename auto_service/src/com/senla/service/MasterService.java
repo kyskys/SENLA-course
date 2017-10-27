@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.senla.entities.Master;
 import com.senla.entities.Order;
-import com.senla.service.intefraces.IMasterService;
+import com.senla.service.interfaces.IMasterService;
 import com.senla.storage.interfaces.IMasterStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISortableStorage;

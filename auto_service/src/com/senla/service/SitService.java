@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
-import com.senla.service.intefraces.ISitService;
 import com.senla.storage.interfaces.IAbstractStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
 import dependency.DependencyManager;
+import main.ISitService;
 
 public class SitService extends AbstractService<Sit> implements ISitService {
 	private ISitStorage sitStorage = DependencyManager.getInstance(ISitStorage.class);

@@ -2,7 +2,7 @@ package com.senla.service;
 
 import com.senla.entities.Garage;
 import com.senla.entities.Sit;
-import com.senla.service.intefraces.IGarageService;
+import com.senla.service.interfaces.IGarageService;
 import com.senla.storage.interfaces.IAbstractStorage;
 import com.senla.storage.interfaces.IGarageStorage;
 import com.senla.storage.interfaces.ISitStorage;
@@ -13,7 +13,7 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 
 	private IGarageStorage garageStorage = DependencyManager.getInstance(IGarageStorage.class);
 	private ISitStorage sitStorage = DependencyManager.getInstance(ISitStorage.class);
-	
+
 	@Override
 	public IAbstractStorage<Garage> getStorage() {
 		return garageStorage;
