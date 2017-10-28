@@ -7,7 +7,7 @@ import com.senla.ui.observer.interfaces.IExceptionObserver;
 import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.observer.interfaces.IObserver;
 
-import annotation.annotations.ConfigProperty;
+import annotation.ConfigProperty;
 
 public class UIObservable implements IObservable {
 	@ConfigProperty(configName="config.properties",propertyName="UIObservable.observers",type=IObserver.class)

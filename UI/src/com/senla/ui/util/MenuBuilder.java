@@ -11,9 +11,9 @@ import com.senla.ui.action.sit.*;
 import com.senla.ui.menu.Menu;
 import com.senla.ui.menu.MenuPoint;
 
-import annotation.annotations.ConfigProperty;
-import annotation.annotations.Configurable;
-import annotation.annotations.Injectable;
+import annotation.ConfigProperty;
+import annotation.Configurable;
+import annotation.Injectable;
 
 public class MenuBuilder {
 	@ConfigProperty(configName = "config.properties", propertyName = "MenuBuilder.isCreateDeleteSitEnabled", type = boolean.class)

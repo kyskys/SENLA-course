@@ -8,16 +8,16 @@ import com.senla.service.interfaces.ISitService;
 import com.senla.storage.interfaces.IMasterStorage;
 import com.senla.ui.observer.interfaces.IObserver;
 
-import annotation.PropertyConfigurator;
-import annotation.annotations.ConfigProperty;
+import annotation.ConfigProperty;
 import dependency.DependencyManager;
+import handlers.ConfigPropertyHandler;
 
 public class TestClass {
 
 	public static void main(String[] args) {
 		try {
 			Test test = new Test();
-			PropertyConfigurator pc = new PropertyConfigurator();
+			ConfigPropertyHandler pc = new ConfigPropertyHandler();
 			pc.configure(test);
 			System.out.println(test.q);
 			System.out.println(Arrays.toString(test.array));

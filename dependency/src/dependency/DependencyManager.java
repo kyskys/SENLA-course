@@ -7,7 +7,6 @@ import java.util.Properties;
 
 public class DependencyManager {
 	static Map<Object, Object> instanceMap = new HashMap<Object, Object>();
-
 	static {
 		initMap();
 	}
@@ -31,7 +30,7 @@ public class DependencyManager {
 		}
 	}
 
-	@SuppressWarnings("unchecked")	
+	@SuppressWarnings("unchecked")
 	public static <T> T getInstance(Class<T> c) {
 		return (T) instanceMap.get(c);
 	}

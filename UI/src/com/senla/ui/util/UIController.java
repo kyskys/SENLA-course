@@ -4,10 +4,9 @@ import com.senla.ui.menu.Menu;
 import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.serialisation.Serializer;
 
-import annotation.PropertyConfigurator;
-import annotation.annotations.ConfigProperty;
-import annotation.annotations.Configurable;
-import annotation.annotations.Injectable;
+import annotation.ConfigProperty;
+import annotation.Configurable;
+import annotation.Injectable;
 
 public class UIController {
 	@Injectable

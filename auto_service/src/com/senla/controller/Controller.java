@@ -6,14 +6,11 @@ import com.senla.entities.Garage;
 import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
-import com.senla.service.interfaces.IGarageService;
-import com.senla.service.interfaces.IMasterService;
-import com.senla.service.interfaces.IOrderService;
+import com.senla.service.interfaces.*;
 import com.senla.sort.SortParameters;
 import com.senla.util.Utils;
 
-import annotation.annotations.Injectable;
-import main.ISitService;
+import annotation.Injectable;
 
 public class Controller implements IController {
 	@Injectable

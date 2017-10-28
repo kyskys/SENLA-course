@@ -5,22 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.senla.entities.*;
-import com.senla.storage.*;
+import com.senla.storage.interfaces.*;
 import com.senla.util.IdSequence;
 
 import dependency.DependencyManager;
 import serialisation.SerializeUtil;
 
 public class Serializer {
-	private List<Master> masters  = DependencyManager.getInstance(MasterStorage.class).getAll();
-	private List<Order> orders=  DependencyManager.getInstance(OrderStorage.class).getAll();
-	private List<Garage> garages = DependencyManager.getInstance(GarageStorage.class).getAll();
-	private List<Sit> sits = DependencyManager.getInstance(SitStorage.class).getAll();
+	private List<Master> masters = DependencyManager.getInstance(IMasterStorage.class).getAll();
+	private List<Order> orders = DependencyManager.getInstance(IOrderStorage.class).getAll();
+	private List<Garage> garages = DependencyManager.getInstance(IGarageStorage.class).getAll();
+	private List<Sit> sits = DependencyManager.getInstance(ISitStorage.class).getAll();
 	private SerializeUtil util;
 
 	public Serializer(String fileName, String filePath) {
-		
 		this.util = new SerializeUtil(fileName, filePath);
+
 	}
 
 	public void save() throws IOException {

@@ -2,13 +2,13 @@ package com.senla.ui.main;
 
 import com.senla.ui.util.UIController;
 
-import annotation.PropertyConfigurator;
+import handlers.AnnotationHandler;
 
 public class Main {
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		UIController ui = new UIController();
-		PropertyConfigurator pc = new PropertyConfigurator();
+		AnnotationHandler pc = new AnnotationHandler();
 		pc.configure(ui);
 		ui.init();
 		ui.start();
