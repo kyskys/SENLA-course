@@ -2,6 +2,8 @@ package handlers;
 
 import java.lang.reflect.Field;
 
+import util.AnnotationHandler;
+
 public class ConfigurableHandler implements IHandler {
 
 	@Override

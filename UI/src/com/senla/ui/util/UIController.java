@@ -28,7 +28,7 @@ public class UIController {
 			// observable.addObserver(errorLogger);
 			// observable.addObserver(logger);
 			// observable.addObserver(consoleDisplayer);
-			serializer = new Serializer(serializerFilePath, serializerFileName);
+			serializer = new Serializer(serializerFileName, serializerFilePath);
 			serializer.updateProperties();
 			serializer.load();
 		} catch (Throwable e) {
