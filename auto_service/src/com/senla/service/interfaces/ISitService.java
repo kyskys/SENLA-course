@@ -14,4 +14,8 @@ public interface ISitService extends IAbstractService<Sit> {
 	public void addOrderToSit(Long idOrder, Long idSit);
 
 	public void removeOrderFromSit(Long idSit);
+	
+	public void addGarageToSit(Long idGarage, Long idSit);
+	
+	public void removeGarageFromSit(Long idGarage, Long idSit);
 }

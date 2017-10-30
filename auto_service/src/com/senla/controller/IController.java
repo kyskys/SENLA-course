@@ -8,78 +8,78 @@ import com.senla.entities.Order;
 import com.senla.entities.Sit;
 
 public interface IController {
-	public Garage getGarage(long id);
+	Garage getGarage(long id);
 
-	public Master getMaster(long id);
+	Master getMaster(long id);
 
-	public Order getOrder(long id);
+	Order getOrder(long id);
 
-	public Sit getSit(long id);
+	Sit getSit(long id);
 
-	public void addMaster(Master master);
+	void addMaster(Master master);
 
-	public void removeMaster(long id);
+	void removeMaster(long id);
 
-	public void addOrder(Order order);
+	void addOrder(Order order);
 
-	public void removeOrder(long id);
+	void removeOrder(long id);
 
-	public void setOrderClosed(long id);
+	void setOrderClosed(long id);
 
-	public void setOrderCancelled(long id);
+	void setOrderCancelled(long id);
 
-	public void addGarage(Garage garage);
+	void addGarage(Garage garage);
 
-	public void removeGarage(long id);
+	void removeGarage(long id);
 
-	public void addSit(Sit sit);
+	void addSit(Sit sit);
 
-	public void removeSit(long id);
+	void removeSit(long id);
 
-	public String getFreeSitsAsString();
+	String getFreeSitsAsString();
 
-	public String getFreeSitsAtDateAsString(Date date);
+	String getFreeSitsAtDateAsString(Date date);
 
-	public String getOrdersAsString(String parameter);
+	String getOrdersAsString(String parameter);
 
-	public String getExecutingOrdersAsString(String parameter);
+	String getExecutingOrdersAsString(String parameter);
 
-	public void shiftOrdersTimeExecution(int days);
+	void shiftOrdersTimeExecution(int days);
 
-	public String getMastersAsString(String parameter);
+	String getMastersAsString(String parameter);
 
-	public String getMastersExecutingConcreteOrderAsString(long id);
+	String getMastersExecutingConcreteOrderAsString(long id);
 
-	public String getOrderExecutingByConcreteMasterAsString(long id);
+	String getOrderExecutingByConcreteMasterAsString(long id);
 
-	public String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter);
+	String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter);
 
-	public String getNearestFreeDateAsString();
+	String getNearestFreeDateAsString();
 
-	public String getMastersAsString();
+	String getMastersAsString();
 
-	public String getOrdersAsString();
+	String getOrdersAsString();
 
-	public String getGaragesAsString();
+	String getGaragesAsString();
 
-	public String getSitsAsString();
+	String getSitsAsString();
 
-	public void addSitToGarage(Long idGarage);
+	void removeSitFromGarage(Long idSit, Long idGarage);
 
-	public void removeSitFromGarage(Long idSit, Long idGarage);
+	void addOrderToMaster(Long idOrder, Long idMaster);
 
-	public void addOrderToMaster(Long idOrder, Long idMaster);
+	void removeOrderFromMaster(Long idMaster);
 
-	public void removeOrderFromMaster(Long idMaster);
+	void addMasterToOrder(Long idMaster, Long idOrder);
 
-	public void addMasterToOrder(Long idMaster, Long idOrder);
+	void removeMasterFromOrder(Long idMaster, Long idOrder);
 
-	public void removeMasterFromOrder(Long idMaster, Long idOrder);
+	void addOrderToSit(Long idOrder, Long idSit);
 
-	public void addOrderToSit(Long idOrder, Long idSit);
+	void removeOrderFromSit(Long idSit);
 
-	public void removeOrderFromSit(Long idSit);
+	String showFreeMastersOnDate(Date date);
 
-	public String showFreeMastersOnDate(Date date);
+	void addSitToGarage(Long idGarage, Long idSit);
 
 }

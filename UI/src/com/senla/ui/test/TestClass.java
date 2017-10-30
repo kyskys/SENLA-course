@@ -1,32 +1,27 @@
 package com.senla.ui.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.senla.service.interfaces.ISitService;
-import com.senla.storage.interfaces.IMasterStorage;
+import com.senla.ui.observer.ErrorLogger;
+import com.senla.ui.observer.interfaces.IExceptionObserver;
 import com.senla.ui.observer.interfaces.IObserver;
 
 import annotation.ConfigProperty;
-import dependency.DependencyManager;
-import handlers.ConfigPropertyHandler;
+import util.AnnotationHandler;
 
 public class TestClass {
 
 	public static void main(String[] args) {
 		try {
 			Test test = new Test();
-			ConfigPropertyHandler pc = new ConfigPropertyHandler();
-			pc.configure(test);
+			AnnotationHandler.configure(test);
 			System.out.println(test.q);
 			System.out.println(Arrays.toString(test.array));
 			System.out.println(test.list);
-			System.out.println(test.list1);
-			Class as = ISitService.class;
-			DependencyManager.getInstance(IMasterStorage.class);
-			ClassLoader cl = ClassLoader.getSystemClassLoader();
-			System.out.println(cl.loadClass("com.senla.service.SitService"));
+			IExceptionObserver error = new ErrorLogger();
+			error.display(new IOException("qq"));
 			int i = 0;
 		} catch (Throwable e) {
 			e.printStackTrace();

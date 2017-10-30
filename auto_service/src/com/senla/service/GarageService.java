@@ -7,12 +7,13 @@ import com.senla.storage.interfaces.IAbstractStorage;
 import com.senla.storage.interfaces.IGarageStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
-import dependency.DependencyManager;
+import annotation.Injectable;
 
 public class GarageService extends AbstractService<Garage> implements IGarageService {
-
-	private IGarageStorage garageStorage = DependencyManager.getInstance(IGarageStorage.class);
-	private ISitStorage sitStorage = DependencyManager.getInstance(ISitStorage.class);
+	@Injectable
+	private IGarageStorage garageStorage;
+	@Injectable
+	private ISitStorage sitStorage;
 
 	@Override
 	public IAbstractStorage<Garage> getStorage() {
@@ -20,12 +21,11 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	}
 
 	@Override
-	public void addSitToGarage(Long idGarage) {
+	public void addSitToGarage(Long idGarage, Long idSit) {
 		Garage garage = garageStorage.get(idGarage);
-		Sit sit = new Sit(garage);
-		if (sitStorage.create(sit)) {
-			garage.addSit(sit);
-		}
+		Sit sit = sitStorage.get(idSit);
+		garage.addSit(sit);
+		sit.setGarage(garage);
 	}
 
 	@Override

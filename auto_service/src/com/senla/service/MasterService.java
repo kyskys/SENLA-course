@@ -10,11 +10,13 @@ import com.senla.storage.interfaces.IMasterStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISortableStorage;
 
-import dependency.DependencyManager;
+import annotation.Injectable;
 
 public class MasterService extends SortableService<Master> implements IMasterService {
-	private IMasterStorage masterStorage = DependencyManager.getInstance(IMasterStorage.class);
-	private IOrderStorage orderStorage = DependencyManager.getInstance(IOrderStorage.class);
+	@Injectable
+	private IMasterStorage masterStorage;
+	@Injectable
+	private IOrderStorage orderStorage;
 
 	@Override
 	public ISortableStorage<Master> getStorage() {

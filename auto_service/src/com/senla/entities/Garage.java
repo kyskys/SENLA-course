@@ -24,6 +24,10 @@ public class Garage extends BaseEntity {
 		return sits;
 	}
 
+	public void setSits(List<Sit> sits) {
+		this.sits = sits;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("id: %s, sits: %s", id, sits);

@@ -10,16 +10,21 @@ import com.senla.service.interfaces.*;
 import com.senla.sort.SortParameters;
 import com.senla.util.Utils;
 
+import annotation.Configurable;
 import annotation.Injectable;
 
 public class Controller implements IController {
 	@Injectable
+	@Configurable
 	private IOrderService orderService;
 	@Injectable
+	@Configurable
 	private IMasterService masterService;
 	@Injectable
+	@Configurable
 	private ISitService sitService;
 	@Injectable
+	@Configurable
 	private IGarageService garageService;
 
 	@Override
@@ -165,8 +170,8 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void addSitToGarage(Long idGarage) {
-		garageService.addSitToGarage(idGarage);
+	public void addSitToGarage(Long idGarage, Long idSit) {
+		garageService.addSitToGarage(idGarage, idSit);
 	}
 
 	@Override

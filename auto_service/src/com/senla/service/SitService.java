@@ -3,18 +3,24 @@ package com.senla.service;
 import java.util.Date;
 import java.util.List;
 
+import com.senla.entities.Garage;
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
 import com.senla.service.interfaces.ISitService;
 import com.senla.storage.interfaces.IAbstractStorage;
+import com.senla.storage.interfaces.IGarageStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
-import dependency.DependencyManager;
+import annotation.Injectable;
 
 public class SitService extends AbstractService<Sit> implements ISitService {
-	private ISitStorage sitStorage = DependencyManager.getInstance(ISitStorage.class);
-	private IOrderStorage orderStorage = DependencyManager.getInstance(IOrderStorage.class);
+	@Injectable
+	private ISitStorage sitStorage;
+	@Injectable
+	private IOrderStorage orderStorage;
+	@Injectable
+	private IGarageStorage garageStorage;
 
 	@Override
 	public IAbstractStorage<Sit> getStorage() {
@@ -42,6 +48,22 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	public void removeOrderFromSit(Long idSit) {
 		Sit sit = sitStorage.get(idSit);
 		sit.setOrder(null);
+	}
+
+	@Override
+	public void addGarageToSit(Long idGarage, Long idSit) {
+		Sit sit = sitStorage.get(idSit);
+		Garage garage = garageStorage.get(idGarage);
+		sit.setGarage(garage);
+		garage.addSit(sit);
+	}
+
+	@Override
+	public void removeGarageFromSit(Long idGarage, Long idSit) {
+		Sit sit = sitStorage.get(idSit);
+		Garage garage = garageStorage.get(idGarage);
+		garage.removeSit(sit);
+		sit.setGarage(null);
 	}
 
 }

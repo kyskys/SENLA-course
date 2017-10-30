@@ -14,7 +14,9 @@ public class AddSitToGarage implements Action {
 		controller.getGaragesAsString();
 		System.out.println("type id of garage");
 		long idGarage = ConsoleReader.readLong();
-		controller.addSitToGarage(idGarage);
+		System.out.println("type id of sit");
+		long idSit = ConsoleReader.readLong();
+		controller.addSitToGarage(idSit, idGarage);
 		DependencyManager.getInstance(IObservable.class).notifyAllObservers(
 				String.format("sit successfully added to garage id: %s", idGarage));
 	}
