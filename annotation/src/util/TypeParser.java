@@ -40,8 +40,8 @@ public class TypeParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Object parseList(String toParse, Class<T> clazz)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public static <T> Object parseList(String toParse, Class<T> clazz) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+			 {
 		String[] values = toParse.split(" ");
 		List<T> list = new ArrayList<T>();
 		for (int i = 0; i < values.length; i++) {

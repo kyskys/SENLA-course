@@ -12,7 +12,7 @@ public class ConfigPropertyHandler implements IHandler {
 	private Configurations configs = new Configurations();
 
 	@Override
-	public void handle(Object object, Field field) throws IllegalArgumentException, IllegalAccessException {
+	public void handle(Object object, Field field) throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
 		ConfigProperty config = field.getAnnotation(ConfigProperty.class);
 		Properties props;
 		String propValue;
@@ -33,12 +33,8 @@ public class ConfigPropertyHandler implements IHandler {
 		if (field.getType().isArray()) {
 			field.set(object, field.getType().cast(TypeParser.parseArray(propValue, type)));
 		} else if (field.getType().isAssignableFrom(List.class)) {
-			try {
-				field.set(object, field.getType().cast(TypeParser.parseList(propValue, type)));
-			} catch (InstantiationException | ClassNotFoundException e) {
-				throw new IllegalArgumentException(e);
-				// mojno li tak delat? mojet svoi exception pridymat?
-			}
+			
+					field.set(object, TypeParser.parseList(propValue, type));
 		} else {
 			field.set(object, TypeParser.parse(propValue, type));
 		}
