@@ -5,7 +5,7 @@ import com.senla.service.interfaces.IGarageService;
 
 import annotation.Injectable;
 
-public class GarageSCVManager implements ISCVManager<Garage> {
+public class GarageSCVManager extends AbstractCSVManager<Garage> implements ISCVManager<Garage> {
 	@Injectable
 	private IGarageService garageService;
 
@@ -28,8 +28,12 @@ public class GarageSCVManager implements ISCVManager<Garage> {
 	}
 
 	@Override
-	public String exportSCV(Garage entity) {
-		return entity.toString();
+	public String[] exportSCV() {
+		return getListAsArray(garageService.getAll());
 	}
 
+	@Override
+	public String convertEntityToCSVString(Garage entity) {
+		return String.format("%s %s", entity.getId(), convertListToCSVString(entity.getSits()));
+	}
 }

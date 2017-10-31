@@ -8,21 +8,27 @@ import java.nio.file.Paths;
 import com.danco.training.TextFileWorker;
 import com.senla.entities.*;
 
+import annotation.Configurable;
+
 public class DataManager<T extends BaseEntity> {
 	private String path;
 	private TextFileWorker tfw;
+	@Configurable
 	private ISCVManager<T> manager;
 
-	public DataManager(String path) {
-		this.path = path;
+	public DataManager(String path, ISCVManager<T> manager) {
+		this.path = String.format("%s.txt", path);
+		this.manager = manager;
 	}
 
-	public void save(T entity) {
-		tfw.writeToFile(new String[] { manager.exportSCV(entity) });
+	public void exportEntities() {
+		tfw.writeToFile(manager.exportSCV());
 	}
 
-	public void load(T entity) {
-		manager.importSCV(tfw.readFromFile()[0]);
+	public void importEntities() {
+		String[] lines = tfw.readFromFile();
+		for (String line : lines)
+			manager.importSCV(line);
 	}
 
 	public void init() throws IOException {
@@ -32,8 +38,4 @@ public class DataManager<T extends BaseEntity> {
 		}
 		tfw = new TextFileWorker(path);
 	}
-}
-
-enum TypeEntityEnum {
-	GARAGE, SIT, ORDER, MASTER
 }

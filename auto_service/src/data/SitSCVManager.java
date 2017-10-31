@@ -1,11 +1,11 @@
 package data;
 
+import com.senla.entities.BaseEntity;
 import com.senla.entities.Sit;
 import com.senla.service.interfaces.ISitService;
-
 import annotation.Injectable;
 
-public class SitSCVManager implements ISCVManager<Sit> {
+public class SitSCVManager extends AbstractCSVManager<Sit> implements ISCVManager<Sit> {
 	@Injectable
 	private ISitService sitService;
 
@@ -28,8 +28,13 @@ public class SitSCVManager implements ISCVManager<Sit> {
 	}
 
 	@Override
-	public String exportSCV(Sit entity) {
-		return entity.toString();
+	public String[] exportSCV() {
+		return getListAsArray(sitService.getAll());
 	}
 
+	@Override
+	public String convertEntityToCSVString(Sit entity) {
+		return String.format("%s %s %s", entity.getId(), BaseEntity.getIdAsString(entity.getOrder()),
+				BaseEntity.getIdAsString(entity.getGarage()));
+	}
 }

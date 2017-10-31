@@ -1,11 +1,12 @@
 package data;
 
+import com.senla.entities.BaseEntity;
 import com.senla.entities.Master;
 import com.senla.service.interfaces.IMasterService;
 
 import annotation.Injectable;
 
-public class MasterSCVManager implements ISCVManager<Master> {
+public class MasterSCVManager extends AbstractCSVManager<Master> implements ISCVManager<Master> {
 	@Injectable
 	private IMasterService masterService;
 
@@ -27,8 +28,14 @@ public class MasterSCVManager implements ISCVManager<Master> {
 	}
 
 	@Override
-	public String exportSCV(Master entity) {
-		return entity.toString();
+	public String[] exportSCV() {
+		return getListAsArray(masterService.getAll());
+	}
+
+	@Override
+	public String convertEntityToCSVString(Master entity) {
+		return String.format("%s %s %s %s", entity.getId(), entity.getName(), entity.isBusy(),
+				BaseEntity.getIdAsString(entity.getOrder()));
 	}
 
 }

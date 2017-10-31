@@ -6,7 +6,7 @@ import com.senla.util.Utils;
 
 import annotation.Injectable;
 
-public class OrderSCVManager implements ISCVManager<Order> {
+public class OrderSCVManager extends AbstractCSVManager<Order> implements ISCVManager<Order> {
 	@Injectable
 	private IOrderService orderService;
 
@@ -35,7 +35,14 @@ public class OrderSCVManager implements ISCVManager<Order> {
 	}
 
 	@Override
-	public String exportSCV(Order entity) {
-		return entity.toString();
+	public String[] exportSCV() {
+		return getListAsArray(orderService.getAll());
+	}
+
+	@Override
+	public String convertEntityToCSVString(Order entity) {
+		return String.format("%s %s %s %s %s %s %s %s", entity.getId(), entity.getPrice(), entity.getAddedDate(),
+				entity.getStartWorkingOnDate(), entity.getEndingDate(), entity.isClosed(), entity.isCancelled(),
+				convertListToCSVString(entity.getMasters()));
 	}
 }
