@@ -9,6 +9,7 @@ import com.danco.training.TextFileWorker;
 import com.senla.entities.*;
 
 import annotation.Configurable;
+import util.AnnotationHandler;
 
 public class DataManager<T extends BaseEntity> {
 	private String path;
@@ -19,6 +20,7 @@ public class DataManager<T extends BaseEntity> {
 	public DataManager(String path, ISCVManager<T> manager) {
 		this.path = String.format("%s.txt", path);
 		this.manager = manager;
+		AnnotationHandler.configure(this);
 	}
 
 	public void exportEntities() {

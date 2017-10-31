@@ -28,6 +28,15 @@ public class ConsoleReader {
 		return i;
 	}
 
+	public static int readIntWithBounds(int upperBound, int lowerBound) {
+		int i;
+		do {
+			System.out.println(String.format("type integer between %s and %s", lowerBound, upperBound));
+			i = readInt();
+		} while (lowerBound > i || i > upperBound);
+		return i;
+	}
+
 	public static long readLong() {
 		long i;
 		try {

@@ -7,6 +7,8 @@ import com.senla.ui.action.garage.*;
 import com.senla.ui.action.master.*;
 import com.senla.ui.action.order.*;
 import com.senla.ui.action.other.CloneOrder;
+import com.senla.ui.action.other.ExportEntity;
+import com.senla.ui.action.other.ImportEntity;
 import com.senla.ui.action.sit.*;
 import com.senla.ui.menu.Menu;
 import com.senla.ui.menu.MenuPoint;
@@ -95,6 +97,8 @@ public class MenuBuilder {
 		sitMenu.add(new MenuPoint(controller, mainMenu, "back"));
 		// building other menu
 		otherMenu.add(new MenuPoint(controller, otherMenu, "clone order", new CloneOrder()));
+		otherMenu.add(new MenuPoint(controller, otherMenu, "export entity", new ExportEntity()));
+		otherMenu.add(new MenuPoint(controller, otherMenu, "import entity", new ImportEntity()));
 		otherMenu.add(new MenuPoint(controller, mainMenu, "back"));
 		return mainMenu;
 	}

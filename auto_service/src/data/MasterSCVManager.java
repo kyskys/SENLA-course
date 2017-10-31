@@ -23,8 +23,10 @@ public class MasterSCVManager extends AbstractCSVManager<Master> implements ISCV
 			master = masterService.get(idMaster);
 		}
 		master.setName(currentMasterData[1]);
-		master.setBusy(Boolean.valueOf(currentMasterData[3]));
-		masterService.addOrderToMaster(Long.valueOf(currentMasterData[4]), idMaster);
+		master.setBusy(Boolean.valueOf(currentMasterData[2]));
+		if (!currentMasterData[3].equals("-")) {
+			masterService.addOrderToMaster(Long.valueOf(currentMasterData[3]), idMaster);
+		}
 	}
 
 	@Override
