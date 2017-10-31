@@ -37,8 +37,10 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	public void addOrderToMaster(Long idOrder, Long idMaster) {
 		Master master = masterStorage.get(idMaster);
 		Order order = orderStorage.get(idOrder);
-		master.setOrder(order);
-		order.addMaster(master);
+		if (!order.getMasters().contains(master)) {
+			master.setOrder(order);
+			order.addMaster(master);
+		}
 	}
 
 	@Override

@@ -11,9 +11,9 @@ public class AddOrderToMaster implements Action {
 
 	@Override
 	public void doAction(IController controller) {
-		controller.getMastersAsString();
+		System.out.println(controller.getMastersAsString());
 		long idMaster = ConsoleReader.readLong();
-		controller.getOrdersAsString();
+		System.out.println(controller.getOrdersAsString());
 		long idOrder = ConsoleReader.readLong();
 		controller.addOrderToMaster(idOrder, idMaster);
 		DependencyManager.getInstance(IObservable.class).notifyAllObservers(

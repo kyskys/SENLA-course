@@ -20,7 +20,7 @@ public class MenuPoint {
 		this.menu = menu;
 	}
 
-	public Menu doWork() throws IllegalArgumentException, IllegalAccessException {
+	public Menu doWork() throws Throwable {
 		if (this.act != null) {
 			act.doAction(controller);
 		}

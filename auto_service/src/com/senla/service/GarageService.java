@@ -24,8 +24,10 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	public void addSitToGarage(Long idGarage, Long idSit) {
 		Garage garage = garageStorage.get(idGarage);
 		Sit sit = sitStorage.get(idSit);
-		garage.addSit(sit);
-		sit.setGarage(garage);
+		if (!garage.getSits().contains(sit)) {
+			garage.addSit(sit);
+			sit.setGarage(garage);
+		}
 	}
 
 	@Override
