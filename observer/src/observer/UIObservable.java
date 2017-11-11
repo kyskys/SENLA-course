@@ -1,13 +1,12 @@
-package com.senla.ui.observer;
+package observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.senla.ui.observer.interfaces.IExceptionObserver;
-import com.senla.ui.observer.interfaces.IObservable;
-import com.senla.ui.observer.interfaces.IObserver;
-
 import annotation.ConfigProperty;
+import observer.interfaces.IExceptionObserver;
+import observer.interfaces.IObservable;
+import observer.interfaces.IObserver;
 
 public class UIObservable implements IObservable {
 	@ConfigProperty(configName="config.properties",propertyName="UIObservable.observers",type=IObserver.class)

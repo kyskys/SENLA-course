@@ -1,4 +1,4 @@
-package com.senla.ui.observer.interfaces;
+package observer.interfaces;
 
 public interface IObservable {
 	public void addObserver(IObserver o);

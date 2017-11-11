@@ -1,8 +1,8 @@
-package com.senla.ui.observer;
+package observer;
 
 import org.apache.logging.log4j.LogManager;
 
-import com.senla.ui.observer.interfaces.IObserver;
+import observer.interfaces.IObserver;
 
 public class InfoLogger implements IObserver {
 	private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(InfoLogger.class);

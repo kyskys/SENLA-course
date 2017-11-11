@@ -1,8 +1,8 @@
-package com.senla.ui.observer;
+package observer;
 
 import java.io.PrintStream;
 
-import com.senla.ui.observer.interfaces.IObserver;
+import observer.interfaces.IObserver;
 
 public class ConsoleDisplayer implements IObserver {
 	private PrintStream displayer = System.out;
