@@ -1,30 +1,37 @@
 package message;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.io.Serializable;
 
-public class Message {
-	private String methodName;
-	private Parameter[] parameters;
+public class Message implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String message;
+	private Object[] parameters;
 
-	public Message(Method m) {
-		this.setParameters(m.getParameters());
-		this.setMethodName(m.getName());
+	public Message(String message) {
+		this.message = message;
 	}
 
-	public String getMethodName() {
-		return methodName;
+	public Message(String message, Object... parameters) {
+		this.parameters = parameters;
+		this.message = message;
 	}
 
-	public void setMethodName(String methodName) {
-		this.methodName = methodName;
+	public String getMessage() {
+		return message;
 	}
 
-	public Parameter[] getParameters() {
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Object[] getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(Parameter[] parameters) {
+	public void setParameters(Object[] parameters) {
 		this.parameters = parameters;
 	}
 }

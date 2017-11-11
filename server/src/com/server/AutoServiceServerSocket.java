@@ -2,7 +2,12 @@ package com.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+
+import com.senla.controller.IController;
 import com.server.ClientListener;
+
+import dependency.DependencyManager;
+import util.AnnotationHandler;
 
 public class AutoServiceServerSocket {
 	private final static int port = 6565;
@@ -14,6 +19,8 @@ public class AutoServiceServerSocket {
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ss = new ServerSocket(port);
+			IController cont = DependencyManager.getInstance(IController.class);
+			AnnotationHandler.configure(cont);
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);
