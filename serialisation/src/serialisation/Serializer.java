@@ -1,4 +1,4 @@
-package com.senla.ui.serialisation;
+package serialisation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import com.senla.storage.interfaces.*;
 import com.senla.util.IdSequence;
 
 import dependency.DependencyManager;
-import serialisation.SerializeUtil;
 
 public class Serializer {
 	private List<Master> masters = DependencyManager.getInstance(IMasterStorage.class).getAll();

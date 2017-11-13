@@ -6,9 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.senla.ui.util.UIController;
-import com.senla.message.Message;
-
 import annotation.ConfigProperty;
+import dependency.DependencyManager;
 import handler.MessageHandler;
 import util.AnnotationHandler;
 
@@ -17,7 +16,7 @@ public class AutoServiceClientSocket {
 	private static int port;
 	@ConfigProperty(configName = "system.properties", propertyName = "AutoServiceClientSocket.ip")
 	private static String ip;
-	private static MessageHandler handler;
+	private static MessageHandler handler = DependencyManager.getInstance(MessageHandler.class);
 	private static final String CONNECTION_SUCCESSFUL = "Connected to server!";
 
 	public static void main(String[] args) {
@@ -27,29 +26,10 @@ public class AutoServiceClientSocket {
 			System.out.println(CONNECTION_SUCCESSFUL);
 			UIController ui = new UIController();
 			AnnotationHandler.configure(ui);
+			handler.initStreams(in, out);
 			ui.start();
-			handler = new MessageHandler() {
-
-				@Override
-				public Message send(Message msg) {
-					try {
-						out.writeObject(msg);
-						out.flush();
-						return (Message) in.readObject();
-					} catch (IOException | ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return null;
-				}
-			};
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public Message send(Message msg) {
-		return handler.send(msg);
-	}
-
 }

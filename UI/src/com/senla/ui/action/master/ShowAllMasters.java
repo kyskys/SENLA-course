@@ -2,9 +2,9 @@ package com.senla.ui.action.master;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.interfaces.IObservable;
 
 import dependency.DependencyManager;
+import observer.interfaces.IObservable;
 
 public class ShowAllMasters implements Action {
 

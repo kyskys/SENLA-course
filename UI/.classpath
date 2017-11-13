@@ -8,5 +8,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoServiceAnnotation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DependencyInjection"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Observer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Message"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MessageHandler"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

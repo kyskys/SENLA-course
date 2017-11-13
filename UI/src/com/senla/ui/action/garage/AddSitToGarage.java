@@ -2,15 +2,16 @@ package com.senla.ui.action.garage;
 
 import com.senla.controller.IController;
 import com.senla.ui.action.Action;
-import com.senla.ui.observer.interfaces.IObservable;
 import com.senla.ui.util.ConsoleReader;
 
 import dependency.DependencyManager;
+import handler.MessageHandler;
+import observer.interfaces.IObservable;
 
 public class AddSitToGarage implements Action {
 
 	@Override
-	public void doAction(IController controller) {
+	public void doAction(MessageHandler socket) {
 		controller.getGaragesAsString();
 		System.out.println("type id of garage");
 		long idGarage = ConsoleReader.readLong();

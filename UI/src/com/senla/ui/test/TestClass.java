@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.senla.ui.observer.ErrorLogger;
-import com.senla.ui.observer.interfaces.IExceptionObserver;
-import com.senla.ui.observer.interfaces.IObserver;
 
 import annotation.ConfigProperty;
+import observer.ErrorLogger;
+import observer.interfaces.IExceptionObserver;
+import observer.interfaces.IObserver;
 import util.AnnotationHandler;
 
 public class TestClass {
