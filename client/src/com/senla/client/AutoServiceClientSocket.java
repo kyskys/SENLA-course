@@ -3,24 +3,37 @@ package com.senla.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
+import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.util.UIController;
 import annotation.ConfigProperty;
-import dependency.DependencyManager;
+import annotation.Configurable;
+import annotation.Injectable;
 import handler.MessageHandler;
 import util.AnnotationHandler;
 
 public class AutoServiceClientSocket {
-	@ConfigProperty(configName = "system.properties", propertyName = "AutoServiceClientSocket.port")
-	private static int port;
-	@ConfigProperty(configName = "system.properties", propertyName = "AutoServiceClientSocket.ip")
-	private static String ip;
-	private static MessageHandler handler = DependencyManager.getInstance(MessageHandler.class);
+	@ConfigProperty(configName = "config.properties", propertyName = "AutoServiceClientSocket.port", type = int.class)
+	private int port;
+	@ConfigProperty(configName = "config.properties", propertyName = "AutoServiceClientSocket.ip", type = String.class)
+	private String ip;
+	@Injectable
+	private MessageHandler handler;
+	@Injectable
+	@Configurable
+	private IObservable observers;
 	private static final String CONNECTION_SUCCESSFUL = "Connected to server!";
 
 	public static void main(String[] args) {
-		try (Socket socket = new Socket(ip, port);
+		AutoServiceClientSocket client = new AutoServiceClientSocket();
+		AnnotationHandler.configure(client);
+		client.start();
+	}
+
+	public void start() {
+		try (Socket socket = new Socket(InetAddress.getByName(ip), port);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());) {
 			System.out.println(CONNECTION_SUCCESSFUL);
@@ -29,7 +42,7 @@ public class AutoServiceClientSocket {
 			handler.initStreams(in, out);
 			ui.start();
 		} catch (IOException e) {
-			e.printStackTrace();
+			observers.notifyAllObservers(e);
 		}
 	}
 }

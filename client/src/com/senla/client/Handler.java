@@ -13,16 +13,10 @@ public class Handler implements MessageHandler {
 	private ObjectOutputStream oos;
 
 	@Override
-	public Message send(Message msg) {
-		try {
-			oos.writeObject(msg);
-			oos.flush();
-			return (Message) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public Message send(Message msg) throws IOException, ClassNotFoundException {
+		oos.writeObject(msg);
+		oos.flush();
+		return (Message) ois.readObject();
 	}
 
 	@Override

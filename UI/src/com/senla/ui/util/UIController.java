@@ -1,12 +1,14 @@
 package com.senla.ui.util;
 
+import java.io.IOException;
+
 import com.senla.message.Message;
+import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.menu.Menu;
 
 import annotation.Configurable;
 import annotation.Injectable;
 import handler.MessageHandler;
-import observer.interfaces.IObservable;
 
 public class UIController {
 	@Injectable
@@ -24,11 +26,16 @@ public class UIController {
 			while (menu != null) {
 				menu.showMenu();
 				long n = ConsoleReader.readLong();
-				menu = menu.getList().get((int) (n - 1)).doWork();
+				try {
+					menu = menu.getList().get((int) (n - 1)).doWork();
+				} catch (Throwable e) {
+					observable.notifyAllObservers(e);
+				}
 			}
 			handler.send(new Message("avada kedavra"));
-		} catch (Throwable e) {
+		} catch (ClassNotFoundException | IOException e) {
 			observable.notifyAllObservers(e);
 		}
+
 	}
 }
