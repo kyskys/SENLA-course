@@ -1,9 +1,9 @@
 package com.senla.ui.menu;
 
-import com.senla.ui.action.Action;
+import com.senla.ui.action.IAction;
 
 public class MenuPoint {
-	private Action act;
+	private IAction act;
 	private Menu menu;
 	private String title;
 
@@ -11,7 +11,7 @@ public class MenuPoint {
 		this(menu, title, null);
 	}
 
-	public MenuPoint(Menu menu, String title, Action act) {
+	public MenuPoint(Menu menu, String title, IAction act) {
 		this.act = act;
 		this.title = title;
 		this.menu = menu;

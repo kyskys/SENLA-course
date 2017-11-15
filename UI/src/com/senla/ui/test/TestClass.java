@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.senla.observer.interfaces.IExceptionObserver;
+import com.senla.observer.interfaces.IObserver;
+import com.senla.observer.ui.ErrorLogger;
+
 import annotation.ConfigProperty;
-import observer.ErrorLogger;
-import observer.interfaces.IExceptionObserver;
-import observer.interfaces.IObserver;
 import util.AnnotationHandler;
 
 public class TestClass {

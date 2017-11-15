@@ -1,12 +1,12 @@
 package com.senla.ui.main;
 
+import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.util.UIController;
 
 import annotation.ConfigProperty;
 import annotation.Injectable;
 import dependency.DependencyManager;
 import handler.MessageHandler;
-import observer.interfaces.IObservable;
 import util.AnnotationHandler;
 
 public class Main {

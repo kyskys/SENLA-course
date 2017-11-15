@@ -1,13 +1,12 @@
 package com.senla.ui.action.garage;
 
 import com.senla.ui.action.Action;
-import com.senla.ui.util.UIUtils;
 
-public class ShowAllGarages implements Action {
+public class ShowAllGarages extends Action {
 
 	@Override
 	public void doAction() {
-		UIUtils.notifyAllObservers(UIUtils.sendMessage("getGaragesAsString"));
+		notifyAllObservers(sendMessage("getGaragesAsString"));
 	}
 
 }

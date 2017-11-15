@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoServiceAnnotation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Serialisation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Message"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Observer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,12 +2,12 @@ package com.senla.ui.action.garage;
 
 import com.senla.controller.IController;
 import com.senla.entities.Garage;
+import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 import com.senla.util.Utils;
 
 import dependency.DependencyManager;
-import observer.interfaces.IObservable;
 
 public class RemoveSitFromGarage implements Action {
 
