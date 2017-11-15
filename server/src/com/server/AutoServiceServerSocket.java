@@ -57,8 +57,4 @@ public class AutoServiceServerSocket {
 			observable.notifyAllObservers(e);
 		}
 	}
-	// TODO sdelat serializaciu pri prerivanii treda
-	/*
-	 * 
-	 */
 }

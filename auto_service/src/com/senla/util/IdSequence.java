@@ -7,7 +7,7 @@ import com.senla.entities.BaseEntity;
 public class IdSequence {
 	private static long id = 0;
 
-	public static long getId() {
+	public static synchronized long getId() {
 		return ++id;
 	}
 
