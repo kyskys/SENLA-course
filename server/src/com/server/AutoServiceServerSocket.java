@@ -1,19 +1,17 @@
 package com.server;
 
-import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import com.senla.controller.IController;
 import com.senla.observer.interfaces.IObservable;
 
-import serialisation.Serializer;
 import com.server.ClientListener;
 
 import annotation.ConfigProperty;
 import annotation.Configurable;
 import annotation.Injectable;
+import serialisation.Serializer;
 import util.AnnotationHandler;
 
 public class AutoServiceServerSocket {
@@ -45,20 +43,22 @@ public class AutoServiceServerSocket {
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ss = new ServerSocket(port);
+			serializer = new Serializer(serializerFileName, serializerFilePath);
+			serializer.updateProperties();
+			serializer.load();
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);
-				ClientListener listener = new ClientListener(ss.accept(), controller, observable);
+				ClientListener listener = new ClientListener(ss.accept(), controller, observable, serializer);
 				listener.start();
 				System.out.println(SERVER_CONNECTION_SUCCESS);
 			}
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			observable.notifyAllObservers(e);
 		}
 	}
 	// TODO sdelat serializaciu pri prerivanii treda
 	/*
-	 * serializer = new Serializer(serializerFileName, serializerFilePath);
-	 * serializer.updateProperties(); serializer.load();
+	 * 
 	 */
 }

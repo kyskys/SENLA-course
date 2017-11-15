@@ -11,13 +11,17 @@ import com.senla.controller.IController;
 import com.senla.message.Message;
 import com.senla.observer.interfaces.IObservable;
 
+import serialisation.Serializer;
+
 public class ClientListener implements Runnable {
 	private Thread clientThread;
 	private IController controller;
 	private Socket socket;
 	private IObservable observable;
+	private Serializer serializer;
 	private static final String CLIENT_DISCONNECTED = "Client disconnected";
 	private static final String SESSION_END_SIGNAL = "avada kedavra";
+	private static final String START_SERIALIZATION = "serialize";
 
 	@Override
 	public void run() {
@@ -28,10 +32,13 @@ public class ClientListener implements Runnable {
 					ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());) {
 				while (true) {
 					Message msg = (Message) ois.readObject();
-					String stingPartOfMessage = msg.getMessage().toString();
-					if (stingPartOfMessage.equals(SESSION_END_SIGNAL)) {
+					String stringPartOfMessage = msg.getMessage().toString();
+					if (stringPartOfMessage.equals(SESSION_END_SIGNAL)) {
 						System.out.println(CLIENT_DISCONNECTED);
 						break;
+					} else if (stringPartOfMessage.equals(START_SERIALIZATION)) {
+						serializer.save();
+						oos.writeObject(new Message("data serialized"));
 					} else {
 						try {
 							Class<?>[] parametersClass = null;
@@ -42,7 +49,7 @@ public class ClientListener implements Runnable {
 									parametersClass[i] = parameters[i].getClass();
 								}
 							}
-							Method m = controllerClass.getMethod(stingPartOfMessage, parametersClass);
+							Method m = controllerClass.getMethod(stringPartOfMessage, parametersClass);
 							Object toSend = m.invoke(controller, msg.getParameters());
 							oos.writeObject(new Message(toSend == null ? "success" : toSend));
 						} catch (NoSuchMethodException e) {
@@ -65,10 +72,11 @@ public class ClientListener implements Runnable {
 		}
 	}
 
-	public ClientListener(Socket socket, IController controller, IObservable observable) {
+	public ClientListener(Socket socket, IController controller, IObservable observable, Serializer serializer) {
 		this.observable = observable;
 		this.socket = socket;
 		this.controller = controller;
+		this.serializer = serializer;
 	}
 
 	public void start() {
