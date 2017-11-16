@@ -25,17 +25,17 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public synchronized void setOrderCancelled(Long id) {
+	public void setOrderCancelled(Long id) {
 		orderStorage.setOrderCancelled(id);
 	}
 
 	@Override
-	public synchronized void setOrderClosed(Long id) {
+	public void setOrderClosed(Long id) {
 		orderStorage.setOrderClosed(id);
 	}
 
 	@Override
-	public synchronized void shiftOrderExecutionTime(int days) {
+	public void shiftOrderExecutionTime(int days) {
 		for (int i = 0; i < orderStorage.getAll().size(); i++) {
 			Date endingDate = orderStorage.getAll().get(i).getEndingDate();
 			endingDate.setTime(endingDate.getTime() + days * 86400000);
@@ -63,7 +63,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public synchronized void addMasterToOrder(Long idMaster, Long idOrder) {
+	public void addMasterToOrder(Long idMaster, Long idOrder) {
 		Master master = masterStorage.get(idMaster);
 		Order order = orderStorage.get(idOrder);
 		master.setOrder(order);
@@ -71,7 +71,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public synchronized void removeMasterFromOrder(Long idMaster, Long idOrder) {
+	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
 		Master master = masterStorage.get(idMaster);
 		Order order = orderStorage.get(idOrder);
 		master.setOrder(null);

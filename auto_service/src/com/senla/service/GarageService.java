@@ -21,7 +21,7 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	}
 
 	@Override
-	public synchronized void addSitToGarage(Long idGarage, Long idSit) {
+	public void addSitToGarage(Long idGarage, Long idSit) {
 		Garage garage = garageStorage.get(idGarage);
 		Sit sit = sitStorage.get(idSit);
 		if (!garage.getSits().contains(sit)) {
@@ -31,7 +31,7 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	}
 
 	@Override
-	public synchronized void removeSitFromGarage(Long idSit, Long idGarage) {
+	public void removeSitFromGarage(Long idSit, Long idGarage) {
 		Garage garage = garageStorage.get(idGarage);
 		Sit sit = sitStorage.get(idSit);
 		garage.removeSit(sit);

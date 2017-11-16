@@ -34,7 +34,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	}
 
 	@Override
-	public synchronized void addOrderToMaster(Long idOrder, Long idMaster) {
+	public void addOrderToMaster(Long idOrder, Long idMaster) {
 		Master master = masterStorage.get(idMaster);
 		Order order = orderStorage.get(idOrder);
 		if (!order.getMasters().contains(master)) {
@@ -44,7 +44,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	}
 
 	@Override
-	public synchronized void removeOrderFromMaster(Long idMaster) {
+	public void removeOrderFromMaster(Long idMaster) {
 		Master master = masterStorage.get(idMaster);
 		master.getOrder().removeMaster(master);
 		master.setOrder(null);

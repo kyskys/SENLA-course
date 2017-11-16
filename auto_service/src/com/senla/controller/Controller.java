@@ -29,52 +29,73 @@ public class Controller implements IController {
 
 	@Override
 	public void addMaster(Master master) {
-		masterService.create(master);
+		synchronized (masterService) {
+			masterService.create(master);
+		}
 	}
 
 	@Override
 	public void removeMaster(long id) {
-		masterService.delete(id);
+		synchronized (masterService) {
+			masterService.delete(id);
+		}
 	}
 
 	@Override
 	public void addOrder(Order order) {
-		orderService.create(order);
+		synchronized (orderService) {
+			orderService.create(order);
+		}
 	}
 
 	@Override
 	public void removeOrder(long id) {
-		orderService.delete(id);
+		synchronized (orderService) {
+			orderService.delete(id);
+		}
 	}
 
 	@Override
 	public void setOrderClosed(long id) {
-		orderService.setOrderClosed(id);
+		synchronized (orderService) {
+			orderService.setOrderClosed(id);
+		}
 	}
 
 	@Override
 	public void setOrderCancelled(long id) {
-		orderService.setOrderCancelled(id);
+		synchronized (orderService) {
+			orderService.setOrderCancelled(id);
+		}
+
 	}
 
 	@Override
 	public void addGarage(Garage garage) {
-		garageService.create(garage);
+		synchronized (garageService) {
+			garageService.create(garage);
+		}
 	}
 
 	@Override
 	public void removeGarage(long id) {
-		garageService.delete(id);
+		synchronized (garageService) {
+			garageService.delete(id);
+		}
 	}
 
 	@Override
 	public void addSit(Sit sit) {
-		sitService.create(sit);
+		synchronized (sitService) {
+			sitService.create(sit);
+		}
 	}
 
 	@Override
 	public void removeSit(long id) {
-		sitService.delete(id);
+		synchronized (sitService) {
+			sitService.delete(id);
+		}
 	}
 
 	@Override
@@ -119,7 +140,9 @@ public class Controller implements IController {
 
 	@Override
 	public void shiftOrdersTimeExecution(int days) {
-		orderService.shiftOrderExecutionTime(days);
+		synchronized (orderService) {
+			orderService.shiftOrderExecutionTime(days);
+		}
 	}
 
 	@Override
@@ -171,42 +194,58 @@ public class Controller implements IController {
 
 	@Override
 	public void addSitToGarage(Long idGarage, Long idSit) {
-		garageService.addSitToGarage(idGarage, idSit);
+		synchronized (garageService) {
+			garageService.addSitToGarage(idGarage, idSit);
+		}
 	}
 
 	@Override
 	public void removeSitFromGarage(Long idSit, Long idGarage) {
-		garageService.removeSitFromGarage(idSit, idGarage);
+		synchronized (garageService) {
+			garageService.removeSitFromGarage(idSit, idGarage);
+		}
 	}
 
 	@Override
 	public void addOrderToMaster(Long idOrder, Long idMaster) {
-		masterService.addOrderToMaster(idOrder, idMaster);
+		synchronized (masterService) {
+			masterService.addOrderToMaster(idOrder, idMaster);
+		}
 	}
 
 	@Override
 	public void removeOrderFromMaster(Long idMaster) {
-		masterService.removeOrderFromMaster(idMaster);
+		synchronized (masterService) {
+			masterService.removeOrderFromMaster(idMaster);
+		}
 	}
 
 	@Override
 	public void addMasterToOrder(Long idMaster, Long idOrder) {
-		orderService.addMasterToOrder(idMaster, idOrder);
+		synchronized (orderService) {
+			orderService.addMasterToOrder(idMaster, idOrder);
+		}
 	}
 
 	@Override
 	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
-		orderService.removeMasterFromOrder(idMaster, idOrder);
+		synchronized (orderService) {
+			orderService.removeMasterFromOrder(idMaster, idOrder);
+		}
 	}
 
 	@Override
 	public void addOrderToSit(Long idOrder, Long idSit) {
-		sitService.addOrderToSit(idOrder, idSit);
+		synchronized (sitService) {
+			sitService.addOrderToSit(idOrder, idSit);
+		}
 	}
 
 	@Override
 	public void removeOrderFromSit(Long idSit) {
-		sitService.removeOrderFromSit(idSit);
+		synchronized (sitService) {
+			sitService.removeOrderFromSit(idSit);
+		}
 	}
 
 	@Override
