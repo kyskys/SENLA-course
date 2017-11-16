@@ -2,18 +2,14 @@ package com.senla.ui.action.order;
 
 import java.util.Date;
 
-import com.senla.controller.IController;
 import com.senla.entities.Order;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class CreateOrder implements Action {
+public class CreateOrder extends Action {
 
 	@Override
-	public void doAction(IController controller) {
+	public void doAction() {
 		System.out.println("type price");
 		double price = ConsoleReader.readLong();
 		System.out.println("type ending date");
@@ -21,10 +17,7 @@ public class CreateOrder implements Action {
 		System.out.println("type start working on date");
 		Date startDate = ConsoleReader.readDate();
 		Order Order = new Order(price, endingDate, startDate);
-		controller.addOrder(Order);
-		DependencyManager.getInstance(IObservable.class)
-				.notifyAllObservers(String.format("order id: %s successfully created", Order.getId()));
-
+		notifyAllObservers(sendMessage("addOrder", Order));
 	}
 
 }

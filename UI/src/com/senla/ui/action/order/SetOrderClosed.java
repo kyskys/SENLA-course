@@ -1,22 +1,16 @@
 package com.senla.ui.action.order;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class SetOrderClosed implements Action {
+public class SetOrderClosed extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		controller.getOrdersAsString();
+	public void doAction() {
+		notifyAllObservers(sendMessage("getOrdersAsString"));
 		System.out.println("type id of order to set closed");
 		long idOrder = ConsoleReader.readLong();
-		controller.setOrderClosed(idOrder);
-		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("order id: %s successfully closed", idOrder));
-
+		notifyAllObservers(sendMessage("setOrderClosed", idOrder));
 	}
 
 }

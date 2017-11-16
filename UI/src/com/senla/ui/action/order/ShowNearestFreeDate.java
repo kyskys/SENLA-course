@@ -1,16 +1,12 @@
 package com.senla.ui.action.order;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 
-import dependency.DependencyManager;
-
-public class ShowNearestFreeDate implements Action {
+public class ShowNearestFreeDate extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		DependencyManager.getInstance(IObservable.class).notifyAllObservers(controller.getNearestFreeDateAsString());
+	public void doAction() {
+		notifyAllObservers(sendMessage("getNearestFreeDateAsString"));
 	}
 
 }

@@ -1,25 +1,19 @@
 package com.senla.ui.action.sit;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class AddOrderToSit implements Action {
+public class AddOrderToSit extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		controller.getOrdersAsString();
+	public void doAction() {
+		notifyAllObservers(sendMessage("getOrdersAsString"));
 		System.out.println("type id of order");
 		long idOrder = ConsoleReader.readLong();
-		controller.getSitsAsString();
+		notifyAllObservers(sendMessage("getSitsAsString"));
 		System.out.println("type id of sit");
 		long idSit = ConsoleReader.readLong();
-		controller.addOrderToSit(idOrder, idSit);
-		DependencyManager.getInstance(IObservable.class)
-				.notifyAllObservers(String.format("successfully added order id: %s to sit id: %s", idOrder, idSit));
+		notifyAllObservers(sendMessage("addOrderToSit", idOrder, idSit));
 	}
 
 }

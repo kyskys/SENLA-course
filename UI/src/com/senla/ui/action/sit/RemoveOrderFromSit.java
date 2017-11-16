@@ -1,22 +1,15 @@
 package com.senla.ui.action.sit;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class RemoveOrderFromSit implements Action {
+public class RemoveOrderFromSit extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		controller.getSitsAsString();
+	public void doAction() {
+		notifyAllObservers(sendMessage("getSitsAsString"));
 		System.out.println("type id of sit");
 		long idSit = ConsoleReader.readLong();
-		controller.removeSit(idSit);
-		DependencyManager.getInstance(IObservable.class)
-				.notifyAllObservers(String.format("successfully remove order from sit id: %s", idSit));
+		notifyAllObservers(sendMessage("removeSit", idSit));
 	}
-
 }

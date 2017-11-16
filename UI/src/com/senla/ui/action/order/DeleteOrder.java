@@ -1,21 +1,16 @@
 package com.senla.ui.action.order;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class DeleteOrder implements Action {
+public class DeleteOrder extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		controller.getOrdersAsString();
+	public void doAction() {
+		notifyAllObservers(sendMessage("getOrdersAsString"));
 		System.out.println("type id of order");
 		long idOrder = ConsoleReader.readLong();
-		controller.removeOrder(idOrder);
-		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("order id: %s successully deleted", idOrder));
+		notifyAllObservers(sendMessage("removeOrder", idOrder));
 	}
 
 }

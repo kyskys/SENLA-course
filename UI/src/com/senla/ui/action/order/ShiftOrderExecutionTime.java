@@ -1,20 +1,15 @@
 package com.senla.ui.action.order;
 
-import com.senla.controller.IController;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class ShiftOrderExecutionTime implements Action {
+public class ShiftOrderExecutionTime extends Action {
 
 	@Override
-	public void doAction(IController controller) {
+	public void doAction() {
 		System.out.println("type days to shift orders");
 		int days = ConsoleReader.readInt();
-		controller.shiftOrdersTimeExecution(days);
-		DependencyManager.getInstance(IObservable.class).notifyAllObservers("successfully shifted");
+		notifyAllObservers(sendMessage("shiftOrdersTimeExecution", days));
 	}
 
 }

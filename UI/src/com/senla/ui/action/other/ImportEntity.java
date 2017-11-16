@@ -2,7 +2,6 @@ package com.senla.ui.action.other;
 
 import java.io.IOException;
 
-import com.senla.controller.IController;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
@@ -12,10 +11,10 @@ import data.MasterSCVManager;
 import data.OrderSCVManager;
 import data.SitSCVManager;
 
-public class ImportEntity implements Action {
+public class ImportEntity extends Action {
 
 	@Override
-	public void doAction(IController controller) throws IOException {
+	public void doAction() {
 		System.out.println("type name of file");
 		String fileName = ConsoleReader.readString();
 		System.out.println("choose entity:\n1) master\n2) order\n3) sit\n4) garage");
@@ -33,8 +32,12 @@ public class ImportEntity implements Action {
 		} else if (num == 4) {
 			dm = new DataManager<>(fileName, new GarageSCVManager());
 		}
-		dm.init();
-		dm.importEntities();
+		try {
+			dm.init();
+			dm.importEntities();
+		} catch (IOException e) {
+			notifyAllObservers(e);
+		}
 	}
 
 }

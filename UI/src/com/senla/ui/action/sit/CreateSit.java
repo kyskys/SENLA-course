@@ -1,25 +1,20 @@
 package com.senla.ui.action.sit;
 
-import com.senla.controller.IController;
 import com.senla.entities.Garage;
 import com.senla.entities.Sit;
-import com.senla.observer.interfaces.IObservable;
 import com.senla.ui.action.Action;
 import com.senla.ui.util.ConsoleReader;
 
-import dependency.DependencyManager;
-
-public class CreateSit implements Action {
+public class CreateSit extends Action {
 
 	@Override
-	public void doAction(IController controller) {
-		controller.getGaragesAsString();
+	public void doAction() {
+		notifyAllObservers(sendMessage("getGaragesAsString"));
 		System.out.println("type id of garage");
 		long idGarage = ConsoleReader.readLong();
-		Garage garage = controller.getGarage(idGarage);
+		Garage garage = (Garage) sendMessage("getGarage", idGarage);
 		Sit sit = new Sit(garage);
 		garage.addSit(sit);
-		controller.addSit(sit);
-		DependencyManager.getInstance(IObservable.class).notifyAllObservers(String.format("successfully created sit id: %s", sit.getId()));
+		notifyAllObservers(sendMessage("addSit", sit));
 	}
 }
