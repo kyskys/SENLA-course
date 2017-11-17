@@ -25,7 +25,6 @@ public class ClientListener implements Runnable {
 
 	@Override
 	public void run() {
-		Class<?> controllerClass = controller.getClass();
 		{
 			try (Socket socket = this.socket;
 					ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -35,45 +34,27 @@ public class ClientListener implements Runnable {
 					String stringPartOfMessage = msg.getMessage().toString();
 					if (stringPartOfMessage.equals(SESSION_END_SIGNAL)) {
 						System.out.println(CLIENT_DISCONNECTED);
+						oos.writeObject(new Message("Goodbye!"));
 						break;
 					} else if (stringPartOfMessage.equals(START_SERIALIZATION)) {
 						serializer.save();
 						oos.writeObject(new Message("data serialized"));
 					} else {
-						try {
-							Class<?>[] parametersClass = null;
-							Object[] parameters = msg.getParameters();
-							if (parameters != null) {
-								parametersClass = new Class<?>[parameters.length];
-								for (int i = 0; i < parameters.length; i++) {
-									parametersClass[i] = parameters[i].getClass();
-								}
-							}
-							Method m = controllerClass.getMethod(stringPartOfMessage, parametersClass);
-							Object toSend = m.invoke(controller, msg.getParameters());
-							oos.writeObject(new Message(toSend == null ? "success" : toSend));
-						} catch (NoSuchMethodException e) {
-							oos.writeObject(new Message("no such method"));
-							observable.notifyAllObservers(e);
-						} catch (SecurityException | IllegalAccessException | IllegalArgumentException
-								| InvocationTargetException e) {
-							oos.writeObject(new Message(e.getMessage()));
-							observable.notifyAllObservers(e);
-						}
-
+						Object toSend = MethodInvoker.invoke(controller, msg.getMessage().toString(),
+								msg.getParameters());
+						oos.writeObject(new Message(toSend == null ? "success" : toSend));
 					}
-
 				}
 			} catch (IOException | ClassNotFoundException e) {
-				observable.notifyAllObservers(e);
+				// observable.notifyAllObservers(e);
 			} finally {
 				clientThread.interrupt();
 			}
 		}
 	}
 
-	public ClientListener(Socket socket, IController controller, IObservable observable, Serializer serializer) {
-		this.observable = observable;
+	public ClientListener(Socket socket, IController controller, Serializer serializer) {
+		// this.observable = observable;
 		this.socket = socket;
 		this.controller = controller;
 		this.serializer = serializer;
