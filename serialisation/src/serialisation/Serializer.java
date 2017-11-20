@@ -32,14 +32,18 @@ public class Serializer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void load() throws ClassNotFoundException, IOException {
+	public void load() {
 		List<Object> list;
-		list = (List<Object>) util.deserializeObject();
-		masters.addAll((List<Master>) list.get(0));
-		orders.addAll((List<Order>) list.get(1));
-		garages.addAll((List<Garage>) list.get(2));
-		sits.addAll((List<Sit>) list.get(3));
-		IdSequence.recountId(masters, orders, garages, sits);
+		try {
+			list = (List<Object>) util.deserializeObject();
+			masters.addAll((List<Master>) list.get(0));
+			orders.addAll((List<Order>) list.get(1));
+			garages.addAll((List<Garage>) list.get(2));
+			sits.addAll((List<Sit>) list.get(3));
+			IdSequence.recountId(masters, orders, garages, sits);
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void updateProperties() throws IOException {

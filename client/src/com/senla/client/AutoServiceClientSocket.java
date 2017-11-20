@@ -21,9 +21,9 @@ public class AutoServiceClientSocket {
 	private String ip;
 	@Injectable
 	private MessageHandler handler;
-	@Injectable
-	@Configurable
-	private IObservable observers;
+	// @Injectable
+	// @Configurable
+	// private IObservable observers;
 	private static final String CONNECTION_SUCCESSFUL = "Connected to server!";
 
 	public static void main(String[] args) {
@@ -42,7 +42,8 @@ public class AutoServiceClientSocket {
 			handler.initStreams(in, out);
 			ui.start();
 		} catch (IOException e) {
-			observers.notifyAllObservers(e);
+			// observers.notifyAllObservers(e);
+			e.printStackTrace();
 		}
 	}
 }

@@ -38,20 +38,20 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public void addOrderToSit(Long idOrder, Long idSit) {
+	public synchronized void addOrderToSit(Long idOrder, Long idSit) {
 		Order order = orderStorage.get(idOrder);
 		Sit sit = sitStorage.get(idSit);
 		sit.setOrder(order);
 	}
 
 	@Override
-	public void removeOrderFromSit(Long idSit) {
+	public synchronized void removeOrderFromSit(Long idSit) {
 		Sit sit = sitStorage.get(idSit);
 		sit.setOrder(null);
 	}
 
 	@Override
-	public void addGarageToSit(Long idGarage, Long idSit) {
+	public synchronized void addGarageToSit(Long idGarage, Long idSit) {
 		Sit sit = sitStorage.get(idSit);
 		Garage garage = garageStorage.get(idGarage);
 		sit.setGarage(garage);
@@ -59,7 +59,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public void removeGarageFromSit(Long idGarage, Long idSit) {
+	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) {
 		Sit sit = sitStorage.get(idSit);
 		Garage garage = garageStorage.get(idGarage);
 		garage.removeSit(sit);

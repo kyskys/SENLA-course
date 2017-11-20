@@ -10,12 +10,16 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 
 	@Override
 	public boolean create(T entity) {
-		return getStorage().create(entity);
+		synchronized (getStorage()) {
+			return getStorage().create(entity);
+		}
 	}
 
 	@Override
 	public boolean delete(Long id) {
-		return getStorage().delete(id);
+		synchronized (getStorage()) {
+			return getStorage().delete(id);
+		}
 	}
 
 	@Override

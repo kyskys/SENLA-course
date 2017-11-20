@@ -8,6 +8,7 @@ import java.util.List;
 import com.senla.observer.interfaces.IExceptionObserver;
 import com.senla.observer.interfaces.IObserver;
 import com.senla.observer.ui.ErrorLogger;
+import com.senla.ui.action.garage.ShowAllGarages;
 
 import annotation.ConfigProperty;
 import util.AnnotationHandler;
@@ -15,17 +16,11 @@ import util.AnnotationHandler;
 public class TestClass {
 
 	public static void main(String[] args) {
-		try {
-			Test test = new Test();
-			AnnotationHandler.configure(test);
-			System.out.println(test.q);
-			System.out.println(Arrays.toString(test.array));
-			System.out.println(test.list);
-			IExceptionObserver error = new ErrorLogger();
-			error.display(new IOException("qq"));
-			int i = 0;
-		} catch (Throwable e) {
-			e.printStackTrace();
+		ShowAllGarages gs = new ShowAllGarages();
+		Class<?> clazz = gs.getClass();
+		while (clazz != null) {
+			clazz = clazz.getSuperclass();
+			System.out.println(clazz);
 		}
 		/*
 		 * System.out.println(test.c); System.out.println(test.v);
@@ -33,21 +28,4 @@ public class TestClass {
 		 */
 	}
 
-}
-
-class Test {
-	@ConfigProperty(configName = "config.properties", propertyName = "Test.isBlaBlaEnabled", type = Boolean.class)
-	public boolean q;
-	@ConfigProperty(configName = "configs.properties", propertyName = "Test.array", type = int.class)
-	public int[] array;
-	@ConfigProperty(configName = "configs.properties", propertyName = "Test.list", type = IObserver.class)
-	public List<IObserver> list;
-	public List<IObserver> list1 = new ArrayList<IObserver>();
-	/*
-	 * @ConfigProperty(configName = "configs.properties", propertyName =
-	 * "Test.long", type = Long.class) public long c;
-	 * 
-	 * @ConfigProperty(configName = "configs.properties", propertyName =
-	 * "Test.collection", type = Collections.class) public List<?> v;
-	 */
 }

@@ -24,9 +24,9 @@ public class AutoServiceServerSocket {
 	@Injectable
 	@Configurable
 	private IController controller;
-	@Injectable
-	@Configurable
-	private IObservable observable;
+	//@Injectable
+	//@Configurable
+	//private IObservable observable;
 	private Serializer serializer;
 
 	private final static String SERVER_INITIALIZATION = "Server started";
@@ -49,12 +49,12 @@ public class AutoServiceServerSocket {
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);
-				ClientListener listener = new ClientListener(ss.accept(), controller, observable, serializer);
+				ClientListener listener = new ClientListener(ss.accept(), controller, serializer);
 				listener.start();
 				System.out.println(SERVER_CONNECTION_SUCCESS);
 			}
-		} catch (IOException | ClassNotFoundException e) {
-			observable.notifyAllObservers(e);
+		} catch (IOException e) {
+			//observable.notifyAllObservers(e);
 		}
 	}
 }

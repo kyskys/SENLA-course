@@ -11,9 +11,9 @@ import annotation.Injectable;
 import handler.MessageHandler;
 
 public class UIController {
-	@Injectable
-	@Configurable
-	private IObservable observable;
+	//@Injectable
+	//@Configurable
+	//private IObservable observable;
 	@Injectable
 	private MessageHandler handler;
 	@Configurable
@@ -29,12 +29,14 @@ public class UIController {
 				try {
 					menu = menu.getList().get((int) (n - 1)).doWork();
 				} catch (Throwable e) {
-					observable.notifyAllObservers(e);
+					//observable.notifyAllObservers(e);
+					e.printStackTrace();
 				}
 			}
-			handler.send(new Message("avada kedavra"));
+			System.out.println(handler.send(new Message("avada kedavra")).getMessage());
 		} catch (ClassNotFoundException | IOException e) {
-			observable.notifyAllObservers(e);
+			//observable.notifyAllObservers(e);
+			e.printStackTrace();
 		}
 
 	}
