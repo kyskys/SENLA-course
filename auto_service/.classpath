@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DependencyInjection"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoServiceAnnotation"/>
 	<classpathentry kind="lib" path="C:/Users/Kowka/Documents/SENLA-course/auto_service/textFileWorker.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Database"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

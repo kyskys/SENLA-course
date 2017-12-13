@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Serialisation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Message"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Observer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Database"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
