@@ -11,8 +11,10 @@ import com.server.ClientListener;
 import annotation.ConfigProperty;
 import annotation.Configurable;
 import annotation.Injectable;
+import connector.DBConnector;
 import serialisation.Serializer;
 import util.AnnotationHandler;
+import util.ConnectionManager;
 
 public class AutoServiceServerSocket {
 	@ConfigProperty(configName = "config.properties", propertyName = "AutoServiceServerSocket.port", type = int.class)
@@ -24,9 +26,9 @@ public class AutoServiceServerSocket {
 	@Injectable
 	@Configurable
 	private IController controller;
-	//@Injectable
-	//@Configurable
-	//private IObservable observable;
+	// @Injectable
+	// @Configurable
+	// private IObservable observable;
 	private Serializer serializer;
 
 	private final static String SERVER_INITIALIZATION = "Server started";
@@ -46,6 +48,8 @@ public class AutoServiceServerSocket {
 			serializer = new Serializer(serializerFileName, serializerFilePath);
 			serializer.updateProperties();
 			serializer.load();
+			DBConnector db = new DBConnector();
+			ConnectionManager.setConnection(db.getConnection());
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);
@@ -54,7 +58,7 @@ public class AutoServiceServerSocket {
 				System.out.println(SERVER_CONNECTION_SUCCESS);
 			}
 		} catch (IOException e) {
-			//observable.notifyAllObservers(e);
+			// observable.notifyAllObservers(e);
 		}
 	}
 }

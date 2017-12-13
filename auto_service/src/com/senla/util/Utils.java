@@ -1,5 +1,8 @@
 package com.senla.util;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
@@ -9,6 +12,7 @@ import java.util.List;
 import com.senla.entities.BaseEntity;
 
 public class Utils {
+	
 	public static <T extends BaseEntity> String getListAsString(List<T> list) {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < list.size(); i++) {

@@ -1,38 +1,44 @@
 package com.senla.storage;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
-
 import com.senla.entities.BaseEntity;
 import com.senla.storage.interfaces.IAbstractStorage;
-import com.senla.util.IdSequence;
+import com.senla.storage.interfaces.IHandleQuery;
 
-public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T> {
-	protected List<T> list = new ArrayList<T>();
+import util.ConnectionManager;
 
-	@Override
-	public boolean create(T entity) {
-		entity.setId(IdSequence.getId());
-		return list.add(entity);
+public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T>, IHandleQuery<T> {
+	protected String createQuery;
+	protected String deleteQuery;
+	protected String selectAllQuery;
+	protected String selectQuery;
+
+	AbstractStorage(String... queries) {
+		createQuery = queries[0];
+		deleteQuery = queries[1];
+		selectAllQuery = queries[2];
+		selectQuery = queries[3];
 	}
 
 	@Override
-	public boolean delete(Long id) {
-		return list.remove(get(id));
+	public boolean create(T entity) throws SQLException {
+		return handleCreateQuery(ConnectionManager.getStatement(createQuery), entity);
 	}
 
 	@Override
-	public List<T> getAll() {
-		return list;
+	public boolean delete(Long id) throws SQLException {
+		return handleDeleteQuery(ConnectionManager.getStatement(deleteQuery), id);
 	}
 
 	@Override
-	public T get(Long id) {
-		for (T entity : list) {
-			if (entity.getId().equals(id)) {
-				return entity;
-			}
-		}
-		return null;
+	public List<T> getAll() throws SQLException {
+		return handleSelectAllQuery(ConnectionManager.getStatement(selectAllQuery));
 	}
+
+	@Override
+	public T get(Long id) throws SQLException {
+		return handleGetQuery(ConnectionManager.getStatement(selectQuery), id);
+	}
+	
 }

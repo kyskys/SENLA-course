@@ -7,7 +7,7 @@ import com.senla.service.interfaces.IAbstractService;
 import com.senla.storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractService<T extends BaseEntity> implements IAbstractService<T> {
-
+	
 	@Override
 	public boolean create(T entity) {
 		synchronized (getStorage()) {
