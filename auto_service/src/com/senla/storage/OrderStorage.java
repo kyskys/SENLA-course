@@ -112,7 +112,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	}
 
 	@Override
-	public Date showNearestDate() throws SQLException {
+	public Date getNearestDate() throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(GET_NEAREST_DATE)) {
 			ResultSet rs = statement.executeQuery();
 			return rs.getDate(0);

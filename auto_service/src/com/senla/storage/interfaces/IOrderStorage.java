@@ -17,5 +17,5 @@ public interface IOrderStorage extends ISortableStorage<Order> {
 
 	void setOrderClosed(Long id, Boolean value) throws SQLException;
 
-	Date showNearestDate() throws SQLException;
+	Date getNearestDate() throws SQLException;
 }
