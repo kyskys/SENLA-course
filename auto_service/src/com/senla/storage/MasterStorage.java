@@ -1,53 +1,101 @@
 package com.senla.storage;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.senla.entities.Master;
-import com.senla.entities.Order;
-import com.senla.sort.SortMastersByAlphabet;
-import com.senla.sort.SortMastersByBusy;
 import com.senla.sort.SortParameters;
 import com.senla.storage.interfaces.IMasterStorage;
-import com.senla.util.Utils;
 
 public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
 
+	private static final String CREATE_QUERY = "insert into auto_service_db.master(master_id,name,busy) values(?,?,?)";
+	private static final String DELETE_QUERY = "delete from auto_service_db.master where master_id = ?";
+	private static final String UPDATE_QUERY = "update auto_service_db.master set master_id = ? busy = ? name = ? where master_id = ?";
+	private static final String GET_ONE_QUERY = "select * from auto_service_db.master where master_id = ?";
+	private static final String GET_ALL_QUERY = "select * from auto_service_db.master";
+
 	@Override
-	protected void sort(List<Master> listToSort, SortParameters parameter) {
-		Comparator<Master> comparator = null;
-		switch (parameter) {
-		case ALPHABET: {
-			comparator = new SortMastersByAlphabet();
-			break;
+	public boolean create(Master entity) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
+			statement.setLong(0, entity.getId());
+			statement.setBoolean(1, entity.isBusy());
+			statement.setString(2, entity.getName());
+			statement.executeQuery();
+			return true;
 		}
-		case BUSY: {
-			comparator = new SortMastersByBusy();
-			break;
-		}
-		default:
-			return;
-		}
-		listToSort.sort(Utils.nullSafeCompare(comparator));
 	}
 
 	@Override
-	public Order getOrderExecutingByConcreteMaster(Long id) {
-		return get(id).getOrder();
+	public boolean delete(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
+			statement.setLong(0, id);
+			statement.executeQuery();
+			return true;
+		}
 	}
 
 	@Override
-	public List<Master> getFreeMastersOnDate(Date date) {
+	public Master get(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ONE_QUERY)) {
+			statement.setLong(0, id);
+			ResultSet rs = statement.executeQuery();
+			Master master = new Master(new String());
+			master.setId(rs.getLong("master_id"));
+			master.setName(rs.getString("name"));
+			master.setBusy(rs.getBoolean("busy"));
+			return master;
+		}
+	}
+
+	@Override
+	public boolean update(Master entity) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
+			statement.setLong(0, entity.getId());
+			statement.setBoolean(1, entity.isBusy());
+			statement.setString(2, entity.getName());
+			statement.executeQuery();
+			return true;
+		}
+	}
+
+	@Override
+	public List<Master> getAll(SortParameters parameter) throws SQLException {
 		List<Master> result = new ArrayList<Master>();
-		for (int i = 0; i < list.size(); i++) {
-			Master master = list.get(i);
-			if (master.getOrder().getEndingDate().before(date)) {
+		try (PreparedStatement statement = getConnection()
+				.prepareStatement(String.format("%s %s", GET_ALL_QUERY, sort(parameter)))) {
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Master master = new Master(new String());
+				master.setId(rs.getLong("master_id"));
+				master.setName(rs.getString("name"));
+				master.setBusy(rs.getBoolean("busy"));
 				result.add(master);
 			}
+			return result;
 		}
-		return result;
+	}
+
+	@Override
+	protected String sort(SortParameters parameter) throws SQLException {
+		switch (parameter) {
+		case ALPHABET: {
+			return "order by name";
+		}
+		case BUSY: {
+			return "order by busy";
+		}
+		default:
+			return "order by master_id";
+		}
+	}
+
+	@Override
+	public List<Master> getAll() throws SQLException {
+		return getAll(null);
 	}
 
 }

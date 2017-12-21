@@ -1,7 +1,8 @@
 package com.senla.entities;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.senla.util.IdSequence;
@@ -21,7 +22,7 @@ public class Order extends BaseEntity implements Cloneable {
 		this.setEndingDate(endingDate);
 		this.setPrice(price);
 		this.setStartWorkingOnDate(startWorkingOnDate);
-		setAddedDate(new Date());
+		setAddedDate(Date.valueOf(LocalDate.now()));
 		masters = new ArrayList<Master>();
 	}
 

@@ -9,46 +9,61 @@ import java.util.List;
 import com.senla.entities.Garage;
 import com.senla.storage.interfaces.IGarageStorage;
 
-import util.ConnectionManager;
-
 public class GarageStorage extends AbstractStorage<Garage> implements IGarageStorage {
-	public GarageStorage() {
-		super("insert into auto_service_db.garage(idgarage) values(?)", "delete from garage where idgarage = ?",
-				"select * from auto_service_db.garage(idgarage)", "select * from garage where idgarage = ?");
-	}
+	private static final String CREATE_QUERY = "insert into auto_service_db.garage(garage_id) values(?)";
+	private static final String DELETE_QUERY = "delete from auto_service_db.garage where garage_id = ?";
+	private static final String UPDATE_QUERY = "update auto_service_db.garage set garage_id = ? where garage_id = ?";
+	private static final String GET_ONE_QUERY = "select * from auto_service_db.garage where garage_id = ?";
+	private static final String GET_ALL_QUERY = "select * from auto_service_db.garage";
 
 	@Override
-	public boolean handleCreateQuery(PreparedStatement state, Garage entity) throws SQLException {
-		state.setLong(0, entity.getId());
-		return ConnectionManager.executeTransaction(state) != null;
-	}
-
-	@Override
-	public boolean handleDeleteQuery(PreparedStatement state, Long id) throws SQLException {
-		state.setLong(0, id);
-		return ConnectionManager.executeTransaction(state) != null;
-	}
-
-	@Override
-	public Garage handleGetQuery(PreparedStatement state, Long id) throws SQLException {
-		return null;
-		/*
-		 * state.setLong(0, id); ResultSet res =
-		 * ConnectionManager.executeTransaction(state); Garage garage = new
-		 * Garage(); garage.setId(res.get); return garage;
-		 */
-	}
-
-	@Override
-	public List<Garage> handleSelectAllQuery(PreparedStatement state) throws SQLException {
-		List<Garage> list = new ArrayList<Garage>();
-		ResultSet res = ConnectionManager.executeTransaction(state);
-		while (res.next()) {
-			Garage garage = new Garage();
-			garage.setId(Long.getLong(res.getString(0)));
-			list.add(garage);
+	public boolean create(Garage entity) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
+			statement.setLong(0, entity.getId());
+			statement.executeQuery();
+			return true;
 		}
-		return list;
 	}
 
+	@Override
+	public boolean delete(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
+			statement.setLong(0, id);
+			statement.executeQuery();
+			return true;
+		}
+	}
+
+	@Override
+	public Garage get(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ONE_QUERY)) {
+			statement.setLong(0, id);
+			ResultSet rs = statement.executeQuery();
+			Garage garage = new Garage();
+			garage.setId(rs.getLong("garage_id"));
+			return garage;
+		}
+	}
+
+	@Override
+	public List<Garage> getAll() throws SQLException {
+		List<Garage> result = new ArrayList<Garage>();
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ALL_QUERY)) {
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Garage garage = new Garage();
+				garage.setId(rs.getLong("garage_id"));
+				result.add(garage);
+			}
+			return result;
+		}
+	}
+
+	@Override
+	public boolean update(Garage entity) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
+			statement.setLong(0, entity.getId());
+			return true;
+		}
+	}
 }
