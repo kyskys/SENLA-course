@@ -15,5 +15,5 @@ public interface IAbstractStorage<T extends BaseEntity> {
 	T get(Long id) throws SQLException;
 
 	List<T> getAll() throws SQLException;
-
+	
 }

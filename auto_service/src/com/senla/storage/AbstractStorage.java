@@ -15,7 +15,7 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 
 	private static Connection connection;
 
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		return connection;
 	}
 	
