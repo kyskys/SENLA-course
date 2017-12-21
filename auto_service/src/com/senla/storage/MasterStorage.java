@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.senla.entities.Master;
+import com.senla.entities.Order;
 import com.senla.sort.SortParameters;
 import com.senla.storage.interfaces.IMasterStorage;
 
@@ -46,6 +47,9 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 			master.setId(rs.getLong("master_id"));
 			master.setName(rs.getString("name"));
 			master.setBusy(rs.getBoolean("busy"));
+			Order order = new Order(0, null, null);
+			order.setId(rs.getLong("order_id"));
+			master.setOrder(order);
 			return master;
 		}
 	}
@@ -72,6 +76,9 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 				master.setId(rs.getLong("master_id"));
 				master.setName(rs.getString("name"));
 				master.setBusy(rs.getBoolean("busy"));
+				Order order = new Order(0, null, null);
+				order.setId(rs.getLong("order_id"));
+				master.setOrder(order);
 				result.add(master);
 			}
 			return result;
