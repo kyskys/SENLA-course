@@ -30,19 +30,19 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 
 		switch (parameter) {
 		case ADDED_DATE: {
-			return "order by added_date";
+			return "added_date";
 		}
 		case ENDING_DATE: {
-			return "order by ending_date";
+			return "ending_date";
 		}
 		case PRICE: {
-			return "order by price";
+			return "price";
 		}
 		case START_WORKING_ON_DATE: {
-			return "order by start_date";
+			return "start_date";
 		}
 		default:
-			return "order by order_id";
+			return "order_id";
 		}
 
 	}
@@ -51,7 +51,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	public List<Order> getExecutingOrders(SortParameters parameter) throws SQLException {
 		List<Order> result = new ArrayList<Order>();
 		try (PreparedStatement statement = getConnection()
-				.prepareStatement(String.format("%s %s", GET_EXECUTING_ORDERS, sort(parameter)))) {
+				.prepareStatement(String.format("%s order by %s", GET_EXECUTING_ORDERS, sort(parameter)))) {
 			statement.setDate(0, Date.valueOf(LocalDate.now()));
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
@@ -74,7 +74,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			throws SQLException {
 		List<Order> result = new ArrayList<Order>();
 		try (PreparedStatement statement = getConnection()
-				.prepareStatement(String.format("%s %s", GET_ORDERS_FOR_PERIOD_OF_TIME, sort(parameter)))) {
+				.prepareStatement(String.format("%s order by %s", GET_ORDERS_FOR_PERIOD_OF_TIME, sort(parameter)))) {
 			statement.setDate(0, beforeDate);
 			statement.setDate(1, afterDate);
 			ResultSet rs = statement.executeQuery();
@@ -120,7 +120,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	}
 
 	@Override
-	public boolean create(Order entity) throws SQLException {
+	public void create(Order entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
 			statement.setLong(0, entity.getId());
 			statement.setDate(1, entity.getAddedDate());
@@ -130,21 +130,19 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			statement.setBoolean(5, entity.isCancelled());
 			statement.setDouble(6, entity.getPrice());
 			statement.executeQuery();
-			return true;
 		}
 	}
 
 	@Override
-	public boolean delete(Long id) throws SQLException {
+	public void delete(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
 			statement.setLong(0, id);
 			statement.executeQuery();
-			return true;
 		}
 	}
 
 	@Override
-	public boolean update(Order entity) throws SQLException {
+	public void update(Order entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
 			statement.setLong(0, entity.getId());
 			statement.setDate(1, entity.getAddedDate());
@@ -154,7 +152,6 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			statement.setBoolean(5, entity.isCancelled());
 			statement.setDouble(6, entity.getPrice());
 			statement.executeQuery();
-			return true;
 		}
 	}
 
@@ -183,7 +180,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	public List<Order> getAll(SortParameters parameter) throws SQLException {
 		List<Order> result = new ArrayList<Order>();
 		try (PreparedStatement statement = getConnection()
-				.prepareStatement(String.format("%s %s", GET_ALL_QUERY, sort(parameter)))) {
+				.prepareStatement(String.format("%s order by %s", GET_ALL_QUERY, sort(parameter)))) {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Order order = new Order(0, null, null);

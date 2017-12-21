@@ -1,35 +1,23 @@
 package com.senla.service;
 
-import java.util.List;
+import java.sql.Connection;
 
 import com.senla.entities.BaseEntity;
 import com.senla.service.interfaces.IAbstractService;
 import com.senla.storage.interfaces.IAbstractStorage;
 
+import connector.DBConnector;
+
 public abstract class AbstractService<T extends BaseEntity> implements IAbstractService<T> {
-	
-	@Override
-	public boolean create(T entity) {
-		synchronized (getStorage()) {
-			return getStorage().create(entity);
-		}
+
+	static {
+		connection = DBConnector.getConnection();
 	}
 
-	@Override
-	public boolean delete(Long id) {
-		synchronized (getStorage()) {
-			return getStorage().delete(id);
-		}
-	}
+	private static Connection connection;
 
-	@Override
-	public T get(Long id) {
-		return getStorage().get(id);
-	}
-
-	@Override
-	public List<T> getAll() {
-		return getStorage().getAll();
+	public static Connection getConnection() {
+		return connection;
 	}
 
 	abstract public IAbstractStorage<T> getStorage();

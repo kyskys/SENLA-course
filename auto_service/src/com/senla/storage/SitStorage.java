@@ -17,31 +17,28 @@ public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 	private static final String GET_ALL_QUERY = "select * from auto_service_db.sit";
 
 	@Override
-	public boolean create(Sit entity) throws SQLException {
+	public void create(Sit entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
 			statement.setLong(0, entity.getId());
 			statement.setLong(1, entity.getGarage() != null ? entity.getGarage().getId() : null);
 			statement.setLong(2, entity.getOrder() != null ? entity.getOrder().getId() : null);
-			return true;
 		}
 	}
 
 	@Override
-	public boolean delete(Long id) throws SQLException {
+	public void delete(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
 			statement.setLong(0, id);
 			statement.executeQuery();
-			return true;
 		}
 	}
 
 	@Override
-	public boolean update(Sit entity) throws SQLException {
+	public void update(Sit entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
 			statement.setLong(0, entity.getId());
 			statement.setLong(1, entity.getGarage() != null ? entity.getGarage().getId() : null);
 			statement.setLong(2, entity.getOrder() != null ? entity.getOrder().getId() : null);
-			return true;
 		}
 	}
 

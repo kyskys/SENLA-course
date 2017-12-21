@@ -1,5 +1,8 @@
 package com.senla.service;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,14 +21,20 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	@Injectable
 	private IOrderStorage orderStorage;
 
+	private static final String GET_ORDER_EXECUTING_BY_CONCRETE_MASTER = "select * from auto_service_db.order where order_id=(select order_id from auto_service_db.master where master_id=?";
+
 	@Override
 	public ISortableStorage<Master> getStorage() {
 		return masterStorage;
 	}
 
 	@Override
-	public Order getOrderExecutingByConcreteMaster(Long id) {
-		return masterStorage.getOrderExecutingByConcreteMaster(id);
+	public Order getOrderExecutingByConcreteMaster(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ORDER_EXECUTING_BY_CONCRETE_MASTER)) {
+			statement.setLong(0, id);
+			ResultSet rs = statement.executeQuery();
+			
+		}
 	}
 
 	@Override

@@ -17,20 +17,18 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	private static final String GET_ALL_QUERY = "select * from auto_service_db.garage";
 
 	@Override
-	public boolean create(Garage entity) throws SQLException {
+	public void create(Garage entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
 			statement.setLong(0, entity.getId());
-			statement.executeQuery();
-			return true;
+			statement.executeUpdate();
 		}
 	}
 
 	@Override
-	public boolean delete(Long id) throws SQLException {
+	public void delete(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
 			statement.setLong(0, id);
-			statement.executeQuery();
-			return true;
+			statement.executeUpdate();
 		}
 	}
 
@@ -60,10 +58,10 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	}
 
 	@Override
-	public boolean update(Garage entity) throws SQLException {
+	public void update(Garage entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
 			statement.setLong(0, entity.getId());
-			return true;
+			statement.executeUpdate();
 		}
 	}
 }
