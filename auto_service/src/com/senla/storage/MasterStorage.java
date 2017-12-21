@@ -43,7 +43,7 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 		try (PreparedStatement statement = getConnection().prepareStatement(GET_ONE_QUERY)) {
 			statement.setLong(0, id);
 			ResultSet rs = statement.executeQuery();
-			Master master = new Master(null);
+			Master master = new Master();
 			master.setId(rs.getLong("master_id"));
 			master.setName(rs.getString("name"));
 			master.setBusy(rs.getBoolean("busy"));
@@ -72,7 +72,7 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 				.prepareStatement(String.format("%s order by %s", GET_ALL_QUERY, sort(parameter)))) {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				Master master = new Master(new String());
+				Master master = new Master();
 				master.setId(rs.getLong("master_id"));
 				master.setName(rs.getString("name"));
 				master.setBusy(rs.getBoolean("busy"));

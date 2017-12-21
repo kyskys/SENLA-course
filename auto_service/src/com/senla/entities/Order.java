@@ -18,6 +18,10 @@ public class Order extends BaseEntity implements Cloneable {
 	private boolean cancelled;
 	private List<Master> masters;
 
+	public Order() {
+
+	}
+
 	public Order(double price, Date endingDate, Date startWorkingOnDate) {
 		this.setEndingDate(endingDate);
 		this.setPrice(price);

@@ -18,7 +18,6 @@ public class ClientListener implements Runnable {
 	private IController controller;
 	private Socket socket;
 	private IObservable observable;
-	private Serializer serializer;
 	private static final String CLIENT_DISCONNECTED = "Client disconnected";
 	private static final String SESSION_END_SIGNAL = "avada kedavra";
 	private static final String START_SERIALIZATION = "serialize";
@@ -36,9 +35,6 @@ public class ClientListener implements Runnable {
 						System.out.println(CLIENT_DISCONNECTED);
 						oos.writeObject(new Message("Goodbye!"));
 						break;
-					} else if (stringPartOfMessage.equals(START_SERIALIZATION)) {
-						serializer.save();
-						oos.writeObject(new Message("data serialized"));
 					} else {
 						Object toSend = MethodInvoker.invoke(controller, msg.getMessage().toString(),
 								msg.getParameters());
@@ -53,11 +49,10 @@ public class ClientListener implements Runnable {
 		}
 	}
 
-	public ClientListener(Socket socket, IController controller, Serializer serializer) {
+	public ClientListener(Socket socket, IController controller) {
 		// this.observable = observable;
 		this.socket = socket;
 		this.controller = controller;
-		this.serializer = serializer;
 	}
 
 	public void start() {

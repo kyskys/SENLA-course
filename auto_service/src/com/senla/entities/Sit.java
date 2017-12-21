@@ -6,6 +6,10 @@ public class Sit extends BaseEntity {
 	private Order order;
 	private Garage garage;
 
+	public Sit() {
+
+	}
+
 	public Sit(Garage garage) {
 		this.garage = garage;
 	}

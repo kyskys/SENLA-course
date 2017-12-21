@@ -1,7 +1,7 @@
 package com.senla.controller;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 
 import com.senla.entities.Garage;
 import com.senla.entities.Master;

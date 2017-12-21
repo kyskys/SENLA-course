@@ -45,15 +45,12 @@ public class AutoServiceServerSocket {
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ss = new ServerSocket(port);
-			serializer = new Serializer(serializerFileName, serializerFilePath);
-			serializer.updateProperties();
-			serializer.load();
 			DBConnector db = new DBConnector();
 			ConnectionManager.setConnection(db.getConnection());
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);
-				ClientListener listener = new ClientListener(ss.accept(), controller, serializer);
+				ClientListener listener = new ClientListener(ss.accept(), controller);
 				listener.start();
 				System.out.println(SERVER_CONNECTION_SUCCESS);
 			}

@@ -7,6 +7,10 @@ public class Master extends BaseEntity {
 	private boolean busy;
 	private String name;
 
+	public Master() {
+
+	}
+
 	public Master(String name) {
 		this.setName(name);
 	}

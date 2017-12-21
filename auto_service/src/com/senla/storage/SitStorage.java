@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.senla.entities.Garage;
+import com.senla.entities.Order;
 import com.senla.entities.Sit;
 import com.senla.storage.interfaces.ISitStorage;
 
@@ -46,8 +48,14 @@ public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 	public Sit get(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(GET_ONE_QUERY)) {
 			ResultSet rs = statement.executeQuery();
-			Sit sit = new Sit(null);
+			Sit sit = new Sit();
 			sit.setId(rs.getLong("sit_id"));
+			Garage garage = new Garage();
+			garage.setId(rs.getLong("garage_id"));
+			sit.setGarage(garage);
+			Order order = new Order();
+			order.setId(rs.getLong("order_id"));
+			sit.setOrder(order);
 			return sit;
 		}
 	}
@@ -58,8 +66,14 @@ public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 		try (PreparedStatement statement = getConnection().prepareStatement(GET_ALL_QUERY)) {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				Sit sit = new Sit(null);
+				Sit sit = new Sit();
 				sit.setId(rs.getLong("sit_id"));
+				Garage garage = new Garage();
+				garage.setId(rs.getLong("garage_id"));
+				sit.setGarage(garage);
+				Order order = new Order();
+				order.setId(rs.getLong("order_id"));
+				sit.setOrder(order);
 				result.add(sit);
 			}
 		}

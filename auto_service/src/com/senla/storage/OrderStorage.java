@@ -55,7 +55,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			statement.setDate(0, Date.valueOf(LocalDate.now()));
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				Order order = new Order(0, null, null);
+				Order order = new Order();
 				order.setId(rs.getLong("order_id"));
 				order.setAddedDate(rs.getDate("added_date"));
 				order.setStartWorkingOnDate(rs.getDate("start_date"));
@@ -79,7 +79,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 			statement.setDate(1, afterDate);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				Order order = new Order(0, null, null);
+				Order order = new Order();
 				order.setId(rs.getLong("order_id"));
 				order.setAddedDate(rs.getDate("added_date"));
 				order.setStartWorkingOnDate(rs.getDate("start_date"));
@@ -159,7 +159,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	public Order get(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(GET_ONE_QUERY)) {
 			ResultSet rs = statement.executeQuery();
-			Order order = new Order(0, null, null);
+			Order order = new Order();
 			order.setId(rs.getLong("order_id"));
 			order.setAddedDate(rs.getDate("added_date"));
 			order.setStartWorkingOnDate(rs.getDate("start_date"));
@@ -183,7 +183,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 				.prepareStatement(String.format("%s order by %s", GET_ALL_QUERY, sort(parameter)))) {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				Order order = new Order(0, null, null);
+				Order order = new Order();
 				order.setId(rs.getLong("order_id"));
 				order.setAddedDate(rs.getDate("added_date"));
 				order.setStartWorkingOnDate(rs.getDate("start_date"));

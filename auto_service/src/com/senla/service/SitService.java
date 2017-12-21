@@ -175,14 +175,19 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 
 	@Override
 	public Sit get(Long id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Sit sit = getStorage().get(id);
+		sit.setOrder(orderStorage.get(sit.getOrder().getId()));
+		sit.setGarage(garageStorage.get(sit.getGarage().getId()));
+		return sit;
 	}
 
 	@Override
 	public List<Sit> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Sit> result = getStorage().getAll();
+		for (Sit sit : result) {
+			sit = getStorage().get(sit.getId());
+		}
+		return result;
 	}
 
 }
