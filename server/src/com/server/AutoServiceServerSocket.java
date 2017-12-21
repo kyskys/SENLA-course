@@ -29,7 +29,7 @@ public class AutoServiceServerSocket {
 	// @Injectable
 	// @Configurable
 	// private IObservable observable;
-	private Serializer serializer;
+	//private Serializer serializer;
 
 	private final static String SERVER_INITIALIZATION = "Server started";
 	private final static String SERVER_WAITING_FOR_CONNECTION = "waiting for a client...";

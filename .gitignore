@@ -1,2 +1,3 @@
 database/config.properties
 database/src/com/senla/Test.java
+UI/src/com/senla/ui/test/TestClass.java

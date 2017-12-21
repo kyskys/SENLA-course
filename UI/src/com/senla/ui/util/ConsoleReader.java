@@ -1,9 +1,8 @@
 package com.senla.ui.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.InputMismatchException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.sql.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -12,8 +11,7 @@ public class ConsoleReader {
 
 	final private static String ERR_WRONG_INPUT = "wrong input, please repeat";
 	final private static String ERR_EMPTY_INPUT = "empty input, please repeat";
-	final private static String ERR_WRONG_FORMAT_INPUT = "wrong format of input, must be dd.mm.yyyy, please repeat";
-
+	
 	public static int readInt() {
 		int i;
 		try {
@@ -61,20 +59,19 @@ public class ConsoleReader {
 	}
 
 	public static Date readDate() {
-		Date d = null;
 		try {
-			System.out.println("enter date, dd.mm.yyyy");
-			String s = in.nextLine();
-			SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
-			d = f.parse(s);
-
-		} catch (InputMismatchException e) {
+			System.out.println("enter year, yyyy");
+			int year = readInt();
+			System.out.println("enter month, mm");
+			int month = readInt();
+			System.out.println("enter day, dd");
+			int day = readInt();
+			LocalDate date = LocalDate.of(year, month, day);
+			return Date.valueOf(date);
+		} catch (DateTimeException e) {
 			System.out.println(ERR_WRONG_INPUT);
 			return readDate();
-		} catch (ParseException e) {
-			System.out.println(ERR_WRONG_FORMAT_INPUT);
-			return readDate();
 		}
-		return d;
+		
 	}
 }

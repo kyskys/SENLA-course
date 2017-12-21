@@ -14,18 +14,17 @@ import annotation.ConfigProperty;
 import util.AnnotationHandler;
 
 public class TestClass {
+	public static TestClass obj;
 
 	public static void main(String[] args) {
-		ShowAllGarages gs = new ShowAllGarages();
-		Class<?> clazz = gs.getClass();
-		while (clazz != null) {
-			clazz = clazz.getSuperclass();
-			System.out.println(clazz);
-		}
-		/*
-		 * System.out.println(test.c); System.out.println(test.v);
-		 * System.out.println(test.isBlaBlaEnabled);
-		 */
+
 	}
 
+	public static void init1() {
+		obj = new TestClass();
+	}
+
+	public static void init2() {
+		obj = new TestClass();
+	}
 }

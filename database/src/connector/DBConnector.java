@@ -10,7 +10,7 @@ import annotation.ConfigProperty;
 import util.AnnotationHandler;
 
 public class DBConnector {
-	private Connection connection = null;
+	private static Connection connection = null;
 	@ConfigProperty(configName = "config.properties", propertyName = "DBConnector.user", type = String.class)
 	private String user;
 	@ConfigProperty(configName = "config.properties", propertyName = "DBConnector.password", type = String.class)
@@ -28,7 +28,7 @@ public class DBConnector {
 		connection.setSchema("auto_service_db");
 	}
 
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		return connection;
 	}
 }

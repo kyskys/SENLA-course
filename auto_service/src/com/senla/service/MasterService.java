@@ -22,9 +22,9 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	@Injectable
 	private IOrderStorage orderStorage;
 
-	private static final String GET_ORDER_EXECUTING_BY_CONCRETE_MASTER = "select order_id from auto_service_db.master where master_id=?";
-	private static final String GET_FREE_MASTERS_ON_DATE = "select master_id, busy, name, order_id from auto_service_db.master left join from auto_service_db.order on master.order_id=order.order_id where ? < ending_date";
-	private static final String REMOVE_ORDER_FROM_MASTER = "update auto_service_db.master set (order_id) values(null) where order_id=?";
+	private static final String GET_ORDER_EXECUTING_BY_CONCRETE_MASTER_QUERY = "select order_id from auto_service_db.master where master_id=?";
+	private static final String GET_FREE_MASTERS_ON_DATE_QUERY = "select master_id, busy, name, order_id from auto_service_db.master left join from auto_service_db.order on master.order_id=order.order_id where ? < ending_date";
+	private static final String REMOVE_ORDER_FROM_MASTER_QUERY = "update auto_service_db.master set (order_id) values(null) where order_id=?";
 
 	@Override
 	public ISortableStorage<Master> getStorage() {
@@ -33,7 +33,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 
 	@Override
 	public Order getOrderExecutingByConcreteMaster(Long id) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_ORDER_EXECUTING_BY_CONCRETE_MASTER)) {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ORDER_EXECUTING_BY_CONCRETE_MASTER_QUERY)) {
 			statement.setLong(0, id);
 			ResultSet rs = statement.executeQuery();
 			return orderStorage.get(rs.getLong("order_id"));
@@ -43,7 +43,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	@Override
 	public List<Master> getFreeMastersOnDate(Date date) throws SQLException {
 		List<Master> result = new ArrayList<Master>();
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_MASTERS_ON_DATE)) {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_MASTERS_ON_DATE_QUERY)) {
 			statement.setDate(0, date);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
@@ -83,7 +83,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 
 	@Override
 	public synchronized void removeOrderFromMaster(Long idMaster) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_ORDER_FROM_MASTER)) {
+		try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_ORDER_FROM_MASTER_QUERY)) {
 			statement.setLong(0, idMaster);
 			statement.executeUpdate();
 			getConnection().commit();

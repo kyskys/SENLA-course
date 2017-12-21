@@ -1,6 +1,6 @@
 package com.senla.ui.action.order;
 
-import java.util.Date;
+import java.sql.Date;
 
 import com.senla.entities.Order;
 import com.senla.ui.action.Action;
