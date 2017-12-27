@@ -3,17 +3,20 @@ package com.senla.storage.interfaces;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.senla.entities.BaseEntity;
 
 public interface IAbstractStorage<T extends BaseEntity> {
-	void create(T entity) throws SQLException;
+	void create(Session session, T entity) throws SQLException;
 
-	void delete(Long id) throws SQLException;
+	void delete(Session session, T entity) throws SQLException;
 
-	void update(T entity) throws SQLException;
+	void update(Session session, T entity) throws SQLException;
 
-	T get(Long id) throws SQLException;
+	T get(Session session, Long id) throws SQLException;
 
-	List<T> getAll() throws SQLException;
-	
+	List<T> getAll(Session session) throws SQLException;
+
+	Class<T> getGenericClass();
 }

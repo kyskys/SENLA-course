@@ -13,7 +13,7 @@ import annotation.Injectable;
 import connector.DBConnector;
 import server.ClientListener;
 import util.AnnotationHandler;
-import util.ConnectionManager;
+import util.SessionManager;
 
 public class AutoServiceServerSocket {
 	@ConfigProperty(configName = "config.properties", propertyName = "AutoServiceServerSocket.port", type = int.class)
@@ -39,7 +39,7 @@ public class AutoServiceServerSocket {
 		try {
 			@SuppressWarnings("resource")
 			ServerSocket ss = new ServerSocket(port);
-			ConnectionManager.setConnection(DBConnector.getConnection());
+			SessionManager.setConnection(DBConnector.getConnection());
 			System.out.println(SERVER_INITIALIZATION);
 			while (true) {
 				System.out.println(SERVER_WAITING_FOR_CONNECTION);

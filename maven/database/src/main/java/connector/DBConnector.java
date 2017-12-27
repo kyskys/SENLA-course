@@ -1,32 +1,27 @@
 package connector;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.persistence.Persistence;
 
-import annotation.ConfigProperty;
-import util.AnnotationHandler;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class DBConnector {
-	private static Connection connection = null;
-	@ConfigProperty(configName = "config.properties", propertyName = "DBConnector.user", type = String.class)
-	private String user;
-	@ConfigProperty(configName = "config.properties", propertyName = "DBConnector.password", type = String.class)
-	private String password;
-	@ConfigProperty(configName = "config.properties", propertyName = "DBConnector.url", type = String.class)
-	private String url;
+	static {
+		init();
+	}
+	private static SessionFactory sessionFactory;
 
-	public DBConnector() {
-		AnnotationHandler.configure(this);
+	public static void init() {
+		Configuration configuration = new Configuration().configure();
+		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+				.applySettings(configuration.getProperties()).build();
+		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 	}
 
-	public void init() throws SQLException {
-		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-		connection = DriverManager.getConnection(url, user, password);
-		connection.setSchema("auto_service_db");
-	}
-
-	public static Connection getConnection() {
-		return connection;
+	public static Session getSession() {
+		return sessionFactory.openSession();
 	}
 }
