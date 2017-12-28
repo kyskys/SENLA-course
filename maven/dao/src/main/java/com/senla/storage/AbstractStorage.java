@@ -41,8 +41,8 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 		CriteriaQuery<T> query = builder.createQuery(getGenericClass());
 		Root<T> root = query.from(getGenericClass());
 		query.select(root);
-		Query<T> q = session.createQuery(query);
-		return q.getResultList();
+		Query<T> result = session.createQuery(query);
+		return result.getResultList();
 	}
 
 }

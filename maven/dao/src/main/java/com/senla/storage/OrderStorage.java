@@ -1,12 +1,16 @@
 package com.senla.storage;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import com.senla.entities.Order;
 import com.senla.util.SortParameters;
@@ -18,9 +22,9 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	public Class<Order> getGenericClass() {
 		return Order.class;
 	}
-	
+
 	@Override
-	protected String sort(SortParameters parameter) throws SQLException {
+	public String convertToFieldName(SortParameters parameter) throws SQLException {
 
 		switch (parameter) {
 		case ADDED_DATE: {
@@ -42,75 +46,62 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	}
 
 	@Override
-	public List<Order> getExecutingOrders(SortParameters parameter) throws SQLException {
-		List<Order> result = new ArrayList<Order>();
-		try (PreparedStatement statement = getConnection()
-				.prepareStatement(String.format("%s order by %s", GET_EXECUTING_ORDERS, sort(parameter)))) {
-			statement.setDate(0, Date.valueOf(LocalDate.now()));
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Order order = new Order();
-				order.setId(rs.getLong("order_id"));
-				order.setAddedDate(rs.getDate("added_date"));
-				order.setStartWorkingOnDate(rs.getDate("start_date"));
-				order.setEndingDate(rs.getDate("ending_date"));
-				order.setClosed(rs.getBoolean("closed"));
-				order.setCancelled(rs.getBoolean("cancelled"));
-				order.setPrice(rs.getDouble("price"));
-				result.add(order);
-			}
-			return result;
-		}
+	public List<Order> getExecutingOrders(Session session, SortParameters parameter) throws SQLException {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Order> query = builder.createQuery(Order.class);
+		Root<Order> root = query.from(Order.class);
+		query.select(root)
+				.where(builder.and(
+						builder.and(
+								builder.lessThan(root.get("ending_date"), Date.valueOf(LocalDate.now())),
+								builder.notEqual(root.get("cancelled"), 1), 
+								builder.notEqual(root.get("closed"), 1))));
+		Query<Order> result = session.createQuery(query);
+		return result.getResultList();
 	}
 
 	@Override
-	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter)
-			throws SQLException {
-		List<Order> result = new ArrayList<Order>();
-		try (PreparedStatement statement = getConnection()
-				.prepareStatement(String.format("%s order by %s", GET_ORDERS_FOR_PERIOD_OF_TIME, sort(parameter)))) {
-			statement.setDate(0, beforeDate);
-			statement.setDate(1, afterDate);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Order order = new Order();
-				order.setId(rs.getLong("order_id"));
-				order.setAddedDate(rs.getDate("added_date"));
-				order.setStartWorkingOnDate(rs.getDate("start_date"));
-				order.setEndingDate(rs.getDate("ending_date"));
-				order.setClosed(rs.getBoolean("closed"));
-				order.setCancelled(rs.getBoolean("cancelled"));
-				order.setPrice(rs.getDouble("price"));
-				result.add(order);
-			}
-			return result;
-		}
+	public List<Order> getOrdersForPeriodOfTime(Session session, Date beforeDate, Date afterDate,
+			SortParameters parameter) throws SQLException {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Order> query = builder.createQuery(Order.class);
+		Root<Order> root = query.from(Order.class);
+		query.select(root)
+				.where(builder.and(
+						builder.lessThan(root.get("start_date"), beforeDate),
+						builder.greaterThan(root.get("ending_date"), afterDate)))
+				.orderBy(builder.asc(root.get(convertToFieldName(parameter))));
+		Query<Order> result = session.createQuery(query);
+		return result.getResultList();
 	}
 
 	@Override
-	public void setOrderCancelled(Long id, Boolean value) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(SET_ORDER_CANCELLED)) {
-			statement.setBoolean(0, value);
-			statement.setLong(1, id);
-			statement.executeQuery();
-		}
+	public void setOrderCancelled(Session session, Long id, Boolean value) throws SQLException {
+		Order order = session.get(Order.class, id);
+		order.setCancelled(value);
+		session.update(order);
 	}
 
 	@Override
-	public void setOrderClosed(Long id, Boolean value) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(SET_ORDER_CLOSED)) {
-			statement.setBoolean(0, value);
-			statement.setLong(1, id);
-			statement.executeQuery();
-		}
+	public void setOrderClosed(Session session, Long id, Boolean value) throws SQLException {
+		Order order = session.get(Order.class, id);
+		order.setClosed(value);
+		session.update(order);
 	}
 
 	@Override
-	public Date getNearestDate() throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_NEAREST_DATE)) {
-			ResultSet rs = statement.executeQuery();
-			return rs.getDate(0);
-		}
+	public Date getNearestDate(Session session) throws SQLException {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Date> query = builder.createQuery(Date.class);
+		Root<Order> root = query.from(Order.class);
+		query.select(builder.least
+				(root.get("ending_date")))
+			 		.where(builder.and(
+			 				builder.notEqual(root.get("cancelled"), 1), 
+			 				builder.notEqual(root.get("closed"), 1))
+				);
+		Query<Date> result = session.createQuery(query);
+		return result.getSingleResult();
 	}
 
 }
