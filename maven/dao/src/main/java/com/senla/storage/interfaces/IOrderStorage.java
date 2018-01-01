@@ -4,20 +4,21 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.util.List;
 
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
 
 import com.senla.entities.Order;
 import com.senla.util.SortParameters;
 
 public interface IOrderStorage extends ISortableStorage<Order> {
-	
-	List<Order> getExecutingOrders(Session session, SortParameters parameter) throws SQLException;
 
-	List<Order> getOrdersForPeriodOfTime(Session session, Date beforeDate, Date afterDate, SortParameters parameter) throws SQLException;
+	List<Order> getExecutingOrders(EntityManager manager, SortParameters parameter) throws SQLException;
 
-	void setOrderCancelled(Session session, Long id, Boolean value) throws SQLException;
+	List<Order> getOrdersForPeriodOfTime(EntityManager manager, Date beforeDate, Date afterDate,
+			SortParameters parameter) throws SQLException;
 
-	void setOrderClosed(Session session, Long id, Boolean value) throws SQLException;
+	void setOrderCancelled(EntityManager manager, Long id, Boolean value) throws SQLException;
 
-	Date getNearestDate(Session session) throws SQLException;
+	void setOrderClosed(EntityManager manager, Long id, Boolean value) throws SQLException;
+
+	Date getNearestDate(EntityManager manager) throws SQLException;
 }

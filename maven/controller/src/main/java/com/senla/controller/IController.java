@@ -1,85 +1,83 @@
 package com.senla.controller;
 
-import java.sql.SQLException;
-
 import com.senla.entities.*;
 
 import java.sql.Date;
 
 
 public interface IController {
-	Garage getGarage(long id) throws SQLException;
+	Garage getGarage(long id) throws Throwable;
 
-	Master getMaster(long id) throws SQLException;
+	Master getMaster(long id) throws Throwable;
 
-	Order getOrder(long id) throws SQLException;
+	Order getOrder(long id) throws Throwable;
 
-	Sit getSit(long id) throws SQLException;
+	Sit getSit(long id) throws Throwable;
 
-	void addMaster(Master master) throws SQLException;
+	void addMaster(Master master) throws Throwable;
 
-	void removeMaster(long id) throws SQLException;
+	void removeMaster(Master master) throws Throwable;
 
-	void addOrder(Order order) throws SQLException;
+	void addOrder(Order order) throws Throwable;
 
-	void removeOrder(long id) throws SQLException;
+	void removeOrder(Order order) throws Throwable;
 
-	void setOrderClosed(long id, Boolean value) throws SQLException;
+	void setOrderClosed(long id, Boolean value) throws Throwable;
 
-	void setOrderCancelled(long id, Boolean value) throws SQLException;
+	void setOrderCancelled(long id, Boolean value) throws Throwable;
 
-	void addGarage(Garage garage) throws SQLException;
+	void addGarage(Garage garage) throws Throwable;
 
-	void removeGarage(long id) throws SQLException;
+	void removeGarage(Garage garage) throws Throwable;
 
-	void addSit(Sit sit) throws SQLException;
+	void addSit(Sit sit) throws Throwable;
 
-	void removeSit(long id) throws SQLException;
+	void removeSit(Sit sit) throws Throwable;
 
-	String getFreeSitsAsString() throws SQLException;
+	String getFreeSitsAsString() throws Throwable;
 
-	String getFreeSitsAtDateAsString(Date date) throws SQLException;
+	String getFreeSitsAtDateAsString(Date date) throws Throwable;
 
-	String getOrdersAsString(String parameter) throws SQLException;
+	String getOrdersAsString(String parameter) throws Throwable;
 
-	String getExecutingOrdersAsString(String parameter) throws SQLException;
+	String getExecutingOrdersAsString(String parameter) throws Throwable;
 
-	void shiftOrdersTimeExecution(int days) throws SQLException;
+	void shiftOrdersTimeExecution(int days) throws Throwable;
 
-	String getMastersAsString(String parameter) throws SQLException;
+	String getMastersAsString(String parameter) throws Throwable;
 
-	String getMastersExecutingConcreteOrderAsString(long id) throws SQLException;
+	String getMastersExecutingConcreteOrderAsString(long id) throws Throwable;
 
-	String getOrderExecutingByConcreteMasterAsString(long id) throws SQLException;
+	String getOrderExecutingByConcreteMasterAsString(long id) throws Throwable;
 
-	String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter) throws SQLException;
+	String getOrdersForPeriodOfTimeAsString(Date beforeDate, Date afterDate, String parameter) throws Throwable;
 
-	String getNearestFreeDateAsString() throws SQLException;
+	String getNearestFreeDateAsString() throws Throwable;
 
-	String getMastersAsString() throws SQLException;
+	String getMastersAsString() throws Throwable;
 
-	String getOrdersAsString() throws SQLException;
+	String getOrdersAsString() throws Throwable;
 
-	String getGaragesAsString() throws SQLException;
+	String getGaragesAsString() throws Throwable;
 
-	String getSitsAsString() throws SQLException;
+	String getSitsAsString() throws Throwable;
 
-	void removeSitFromGarage(Long idSit, Long idGarage) throws SQLException;
+	void removeSitFromGarage(Long idSit, Long idGarage) throws Throwable;
 
-	void addOrderToMaster(Long idOrder, Long idMaster) throws SQLException;
+	void addOrderToMaster(Long idOrder, Long idMaster) throws Throwable;
 
-	void removeOrderFromMaster(Long idMaster) throws SQLException;
+	void removeOrderFromMaster(Long idMaster) throws Throwable;
 
-	void addMasterToOrder(Long idMaster, Long idOrder) throws SQLException;
+	void addMasterToOrder(Long idMaster, Long idOrder) throws Throwable;
 
-	void removeMasterFromOrder(Long idMaster, Long idOrder) throws SQLException;
+	void removeMasterFromOrder(Long idMaster, Long idOrder) throws Throwable;
 
-	void addOrderToSit(Long idOrder, Long idSit) throws SQLException;
+	void addOrderToSit(Long idOrder, Long idSit) throws Throwable;
 
-	void removeOrderFromSit(Long idSit) throws SQLException;
+	void removeOrderFromSit(Long idSit) throws Throwable;
 
-	String showFreeMastersOnDate(Date date) throws SQLException;
+	String showFreeMastersOnDate(Date date) throws Throwable;
 
-	void addSitToGarage(Long idGarage, Long idSit) throws SQLException;
+	void addSitToGarage(Long idGarage, Long idSit) throws Throwable;
 
 }

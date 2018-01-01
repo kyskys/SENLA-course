@@ -1,27 +1,23 @@
 package connector;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 public class DBConnector {
 	static {
 		init();
 	}
-	private static SessionFactory sessionFactory;
+	private static EntityManagerFactory factory;
+	private static final String PERSISTENCE_NAME = "PERSISTENCE";
 
 	public static void init() {
-		Configuration configuration = new Configuration().configure();
-		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties()).build();
-		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		if (factory == null) {
+			factory = Persistence.createEntityManagerFactory(PERSISTENCE_NAME);
+		}
 	}
 
-	public static Session getSession() {
-		return sessionFactory.openSession();
+	public static EntityManager getManager() {
+		return factory.createEntityManager();
 	}
 }

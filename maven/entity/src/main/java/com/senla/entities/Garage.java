@@ -1,19 +1,22 @@
 package com.senla.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "auto_service_db.garage")
-public class Garage implements BaseEntity {
+@Table(name = "garages")
+public class Garage implements BaseEntity, Serializable {
+
+	private static final long serialVersionUID = 7650116542125324882L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,10 +25,6 @@ public class Garage implements BaseEntity {
 
 	@OneToMany(mappedBy = "garage", fetch = FetchType.LAZY)
 	private List<Sit> sits;
-
-	public Garage() {
-
-	}
 
 	public boolean addSit(Sit sit) {
 		return sits.add(sit);
@@ -52,4 +51,6 @@ public class Garage implements BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 }

@@ -12,9 +12,9 @@ public class DependencyManager {
 	}
 
 	public static void initMap() {
-		loadMapForPath("resources/configStorage.properties");
-		loadMapForPath("resources/configService.properties");
-		loadMapForPath("resources/system.properties");
+		loadMapForPath("src/main/resources/configStorage.properties");
+		loadMapForPath("src/main/resources/configService.properties");
+		//loadMapForPath("resources/system.properties");
 
 	}
 

@@ -18,6 +18,11 @@
 			<artifactId>database</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
+		
+<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
+
+
 		<dependency>
 			<groupId>com.senla.course</groupId>
 			<artifactId>entity</artifactId>

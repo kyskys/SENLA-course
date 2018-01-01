@@ -1,12 +1,14 @@
 package com.senla.service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import com.senla.entities.Garage;
 import com.senla.entities.Order;
@@ -27,167 +29,86 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	@Injectable
 	private IGarageStorage garageStorage;
 
-	private static final String GET_FREE_SITS_AT_DATE_QUERY = "select sit.sit_id, sit.order_id, sit.garage_id from auto_service_db.sit left join auto_service_db.order on sit.order_id = order.order_id where ending_date < ?";
-	private static final String REMOVE_ORDER_FROM_SIT_QUERY = "update auto_service_db.sit set order_id = null where order_id = ?";
-
 	@Override
 	public IAbstractStorage<Sit> getStorage() {
 		return sitStorage;
 	}
 
 	@Override
-	public List<Sit> getFreeSits() throws SQLException {
-		List<Sit> result = new ArrayList<Sit>();
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_SITS_AT_DATE_QUERY)) {
-			statement.setDate(0, Date.valueOf(LocalDate.now()));
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Sit sit = getStorage().get(rs.getLong("sit_id"));
-				sit.setGarage(garageStorage.get(rs.getLong("garage_id")));
-				sit.setOrder(orderStorage.get(rs.getLong("order_id")));
-				result.add(sit);
-			}
-		}
-		return result;
+	public List<Sit> getFreeSits() throws Throwable {
+		return executeTransactionAction(manager -> {
+			CriteriaBuilder builder = manager.getCriteriaBuilder();
+			CriteriaQuery<Sit> query = builder.createQuery(Sit.class);
+			Root<Sit> root = query.from(Sit.class);
+			Subquery<Order> subQuery = query.subquery(Order.class);
+			Root<Order> subRoot = subQuery.from(Order.class);
+			query.select(root).where(root.get("order").in(subQuery.select(subRoot)
+					.where(builder.lessThan(root.get("ending_date"), Date.valueOf(LocalDate.now())))));
+			TypedQuery<Sit> sits = manager.createQuery(query);
+			return sits.getResultList();
+		});
 	}
 
 	@Override
-	public List<Sit> getFreeSitsAtDate(Date date) throws SQLException {
-		List<Sit> result = new ArrayList<Sit>();
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_SITS_AT_DATE_QUERY)) {
-			statement.setDate(0, date);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Sit sit = getStorage().get(rs.getLong("sit_id"));
-				sit.setGarage(garageStorage.get(rs.getLong("garage_id")));
-				sit.setOrder(orderStorage.get(rs.getLong("order_id")));
-				result.add(sit);
-			}
-		}
-		return result;
+	public List<Sit> getFreeSitsAtDate(Date date) throws Throwable {
+		return executeTransactionAction(manager -> {
+			CriteriaBuilder builder = manager.getCriteriaBuilder();
+			CriteriaQuery<Sit> query = builder.createQuery(Sit.class);
+			Root<Sit> root = query.from(Sit.class);
+			Subquery<Order> subQuery = query.subquery(Order.class);
+			Root<Order> subRoot = subQuery.from(Order.class);
+			query.select(root).where(root.get("order")
+					.in(subQuery.select(subRoot).where(builder.lessThan(root.get("ending_date"), date))));
+			TypedQuery<Sit> sits = manager.createQuery(query);
+			return sits.getResultList();
+		});
 	}
 
 	@Override
-	public synchronized void addOrderToSit(Long idOrder, Long idSit) throws SQLException {
-		try {
-			getConnection().setAutoCommit(false);
-			Order order = orderStorage.get(idOrder);
-			Sit sit = sitStorage.get(idSit);
+	public synchronized void addOrderToSit(Long idOrder, Long idSit) throws Throwable {
+		executeSimpleTransactionAction(manager -> {
+			Order order = orderStorage.get(manager, idOrder);
+			Sit sit = sitStorage.get(manager, idSit);
+			order.setSit(sit);
 			sit.setOrder(order);
-			orderStorage.update(order);
-			sitStorage.update(sit);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
+			sitStorage.update(manager, sit);
+			orderStorage.update(manager, order);
+		});
 	}
 
 	@Override
-	public synchronized void removeOrderFromSit(Long idSit) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_ORDER_FROM_SIT_QUERY)) {
-			statement.setLong(0, idSit);
-			statement.executeUpdate();
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
+	public synchronized void removeOrderFromSit(Long idSit) throws Throwable {
+		executeSimpleTransactionAction(manager -> {
+			Sit sit = sitStorage.get(manager, idSit);
+			Order order = sit.getOrder();
+			order.setSit(null);
+			sit.setOrder(null);
+			sitStorage.update(manager, sit);
+			orderStorage.update(manager, order);
+		});
 	}
 
 	@Override
-	public synchronized void addGarageToSit(Long idGarage, Long idSit) throws SQLException {
-		try {
-			getConnection().setAutoCommit(false);
-			Sit sit = sitStorage.get(idSit);
-			Garage garage = garageStorage.get(idGarage);
-			sit.setGarage(garage);
+	public synchronized void addGarageToSit(Long idGarage, Long idSit) throws Throwable {
+		executeSimpleTransactionAction(manager -> {
+			Garage garage = garageStorage.get(manager, idGarage);
+			Sit sit = sitStorage.get(manager, idSit);
 			garage.addSit(sit);
-			sitStorage.update(sit);
-			garageStorage.update(garage);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
+			sit.setGarage(garage);
+			sitStorage.update(manager, sit);
+			garageStorage.update(manager, garage);
+		});
 	}
 
 	@Override
-	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws SQLException {
-		try {
-			getStorage().delete(idSit);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
+	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws Throwable {
+		executeSimpleTransactionAction(manager -> {
+			Garage garage = garageStorage.get(manager, idGarage);
+			Sit sit = sitStorage.get(manager, idSit);
+			garage.removeSit(sit);
+			sit.setGarage(null);
+			sitStorage.update(manager, sit);
+			garageStorage.update(manager, garage);
+		});
 	}
-
-	@Override
-	public void create(Sit entity) throws SQLException {
-		try {
-			getConnection().setAutoCommit(false);
-			getStorage().create(entity);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
-	}
-
-	@Override
-	public void delete(Long id) throws SQLException {
-		try {
-			getConnection().setAutoCommit(false);
-			getStorage().delete(id);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
-	}
-
-	@Override
-	public void update(Sit entity) throws SQLException {
-		try {
-			getConnection().setAutoCommit(false);
-			getStorage().update(entity);
-			getConnection().commit();
-			getConnection().setAutoCommit(true);
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
-	}
-
-	@Override
-	public Sit get(Long id) throws SQLException {
-		Sit sit = getStorage().get(id);
-		sit.setOrder(orderStorage.get(sit.getOrder().getId()));
-		sit.setGarage(garageStorage.get(sit.getGarage().getId()));
-		return sit;
-	}
-
-	@Override
-	public List<Sit> getAll() throws SQLException {
-		List<Sit> result = getStorage().getAll();
-		for (Sit sit : result) {
-			sit = getStorage().get(sit.getId());
-		}
-		return result;
-	}
-
 }

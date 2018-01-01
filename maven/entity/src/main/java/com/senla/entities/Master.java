@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "auto_service_db.master")
+@Table(name = "masters")
 public class Master implements BaseEntity {
 
 	@Id
@@ -68,6 +68,6 @@ public class Master implements BaseEntity {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
-
 	}
+
 }

@@ -6,13 +6,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "orders")
 public class Order implements BaseEntity, Cloneable {
 
 	@Id
@@ -22,26 +26,26 @@ public class Order implements BaseEntity, Cloneable {
 
 	@Column(name = "price", nullable = false, unique = false)
 	private double price;
-	
+
 	@Column(name = "added_date", nullable = false, unique = false)
 	private Date addedDate;
-	
+
 	@Column(name = "start_date", nullable = true, unique = false)
 	private Date startWorkingOnDate;
-	
+
 	@Column(name = "ending_date", nullable = false, unique = false)
 	private Date endingDate;
-	
+
 	@Column(name = "closed", nullable = false, unique = false)
 	private boolean closed;
-	
+
 	@Column(name = "cancelled", nullable = false, unique = false)
 	private boolean cancelled;
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	private List<Master> masters;
 
-	@OneToOne(mappedBy = "order")
+	@OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
 	private Sit sit;
 
 	public Order() {
@@ -147,4 +151,5 @@ public class Order implements BaseEntity, Cloneable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 }
