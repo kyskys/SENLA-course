@@ -25,7 +25,7 @@ public class Order implements BaseEntity, Cloneable {
 	private Long id;
 
 	@Column(name = "price", nullable = false, unique = false)
-	private double price;
+	private Double price;
 
 	@Column(name = "added_date", nullable = false, unique = false)
 	private Date addedDate;
@@ -52,7 +52,7 @@ public class Order implements BaseEntity, Cloneable {
 
 	}
 
-	public Order(double price, Date endingDate, Date startWorkingOnDate) {
+	public Order(Double price, Date endingDate, Date startWorkingOnDate) {
 		this.setEndingDate(endingDate);
 		this.setPrice(price);
 		this.setStartWorkingOnDate(startWorkingOnDate);
@@ -84,11 +84,11 @@ public class Order implements BaseEntity, Cloneable {
 		this.endingDate = endingDate;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
