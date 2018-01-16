@@ -30,12 +30,28 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 
 	@Override
 	public void setOrderCancelled(Long id, Boolean value) throws SQLException {
-		orderStorage.setOrderCancelled(id, value);
+		try {
+			getConnection().setAutoCommit(false);
+			orderStorage.setOrderCancelled(id, value);
+			getConnection().commit();
+		} catch (SQLException e) {
+			getConnection().rollback();
+		} finally {
+			getConnection().setAutoCommit(true);
+		}
 	}
 
 	@Override
 	public void setOrderClosed(Long id, Boolean value) throws SQLException {
-		orderStorage.setOrderClosed(id, value);
+		try {
+			getConnection().setAutoCommit(false);
+			orderStorage.setOrderClosed(id, value);
+			getConnection().commit();
+		} catch (SQLException e) {
+			getConnection().rollback();
+		} finally {
+			getConnection().setAutoCommit(true);
+		}
 	}
 
 	@Override
@@ -49,7 +65,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 		} finally {
 			getConnection().setAutoCommit(true);
 		}
-
 	}
 
 	@Override
@@ -76,6 +91,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	@Override
 	public void addMasterToOrder(Long idMaster, Long idOrder) throws SQLException {
 		try {
+			getConnection().setAutoCommit(false);
 			Master master = masterStorage.get(idMaster);
 			Order order = orderStorage.get(idOrder);
 			master.setOrder(order);
@@ -93,6 +109,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	@Override
 	public void removeMasterFromOrder(Long idMaster) throws SQLException {
 		try {
+			getConnection().setAutoCommit(false);
 			Master master = masterStorage.get(idMaster);
 			master.setOrder(null);
 			masterStorage.update(master);
