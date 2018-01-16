@@ -44,7 +44,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			getConnection().setAutoCommit(false);
 			orderStorage.shiftOrderExecutionTime(days);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -81,10 +80,9 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			Order order = orderStorage.get(idOrder);
 			master.setOrder(order);
 			order.addMaster(master);
-			getStorage().update(order);
+			orderStorage.update(order);
 			masterStorage.update(master);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -93,16 +91,12 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public void removeMasterFromOrder(Long idMaster, Long idOrder) throws SQLException {
+	public void removeMasterFromOrder(Long idMaster) throws SQLException {
 		try {
 			Master master = masterStorage.get(idMaster);
-			Order order = orderStorage.get(idOrder);
-			order.removeMaster(master);
 			master.setOrder(null);
-			getStorage().update(order);
 			masterStorage.update(master);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -116,7 +110,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			getConnection().setAutoCommit(false);
 			getStorage().create(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -130,7 +123,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			getConnection().setAutoCommit(false);
 			getStorage().delete(id);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -144,7 +136,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			getConnection().setAutoCommit(false);
 			getStorage().update(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {

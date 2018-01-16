@@ -24,7 +24,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	private static final String GET_EXECUTING_ORDERS = "select * from auto_service_db.order where start_date < ?";
 	private static final String GET_ORDERS_FOR_PERIOD_OF_TIME = " select * from auto_service_db.order where start_date < ? and ending_date > ?";
 	private static final String GET_NEAREST_DATE = "select min(ending_date) from auto_service_db.order where cancelled!=1 and closed!=1";
-	private static final String SHIFT_ORDER_EXECUTION_TIME_QUERY = "set sql_safe_updates = 0; update auto_service_db.order set ending_date = adddate(ending_date, interval ? day);";
+	private static final String SHIFT_ORDER_EXECUTION_TIME_QUERY = "set sql_safe_updates = 0; update auto_service_db.order set ending_date = adddate(ending_date, interval ? day);set sql_safe_updates = 1;";
 
 	@Override
 	public List<Order> getExecutingOrders(SortParameters parameter) throws SQLException {

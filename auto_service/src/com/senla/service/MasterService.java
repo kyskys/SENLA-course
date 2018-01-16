@@ -45,7 +45,6 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 			masterStorage.update(master);
 			orderStorage.update(order);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -65,7 +64,6 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 			masterStorage.update(master);
 			orderStorage.update(order);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -79,7 +77,6 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 			getConnection().setAutoCommit(false);
 			masterStorage.create(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -93,7 +90,6 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 			getConnection().setAutoCommit(false);
 			masterStorage.delete(id);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -107,7 +103,6 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 			getConnection().setAutoCommit(false);
 			masterStorage.update(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {

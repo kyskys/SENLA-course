@@ -21,7 +21,7 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	public void create(Garage entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
 			statement.setLong(0, entity.getId());
-			statement.executeUpdate();
+			statement.executeQuery();
 		}
 	}
 
@@ -29,18 +29,7 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	public void delete(Long id) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
 			statement.setLong(0, id);
-			statement.executeUpdate();
-		}
-		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_GARAGE_FROM_SITS_QUERY)) {
-			getConnection().setAutoCommit(false);
-			getStorage().delete(id);
-			statement.setLong(0, id);
-			statement.executeUpdate();
-			getConnection().commit();
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
+			statement.executeQuery();
 		}
 	}
 
@@ -73,7 +62,7 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	public void update(Garage entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(UPDATE_QUERY)) {
 			statement.setLong(0, entity.getId());
-			statement.executeUpdate();
+			statement.executeQuery();
 		}
 	}
 }

@@ -41,7 +41,6 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 			sitStorage.update(sit);
 			garageStorage.update(garage);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -50,15 +49,11 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	}
 
 	@Override
-	public void removeSitFromGarage(Long idSit, Long idGarage) throws SQLException {
+	public void removeSitFromGarage(Long idSit) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			Garage garage = garageStorage.get(idGarage);
-			Sit sit = sitStorage.get(idSit);
-			garage.removeSit(sit);
 			sitStorage.delete(idSit);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -72,7 +67,6 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 			getConnection().setAutoCommit(false);
 			garageStorage.create(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -86,7 +80,6 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 			getConnection().setAutoCommit(false);
 			garageStorage.delete(id);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {

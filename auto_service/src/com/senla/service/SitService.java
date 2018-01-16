@@ -52,7 +52,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			orderStorage.update(order);
 			sitStorage.update(sit);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -68,7 +67,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			sit.setOrder(null);
 			sitStorage.update(sit);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -87,7 +85,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			sitStorage.update(sit);
 			garageStorage.update(garage);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -98,9 +95,9 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	@Override
 	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws SQLException {
 		try {
+			getConnection().setAutoCommit(false);
 			getStorage().delete(idSit);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -114,7 +111,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			getConnection().setAutoCommit(false);
 			getStorage().create(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -128,7 +124,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			getConnection().setAutoCommit(false);
 			getStorage().delete(id);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -142,7 +137,6 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 			getConnection().setAutoCommit(false);
 			getStorage().update(entity);
 			getConnection().commit();
-			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
@@ -162,7 +156,8 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	public List<Sit> getAll() throws SQLException {
 		List<Sit> result = getStorage().getAll();
 		for (Sit sit : result) {
-			sit = getStorage().get(sit.getId());
+			sit.setOrder(orderStorage.get(sit.getOrder().getId()));
+			sit.setGarage(garageStorage.get(sit.getGarage().getId()));
 		}
 		return result;
 	}
