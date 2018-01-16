@@ -147,7 +147,7 @@ public class Controller implements IController {
 
 	@Override
 	public String getOrderExecutingByConcreteMasterAsString(long id) throws SQLException {
-		return masterService.getOrderExecutingByConcreteMaster(id).toString();
+		return orderService.getOrderExecutingByConcreteMaster(id).toString();
 	}
 
 	@Override
@@ -201,8 +201,8 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void removeOrderFromMaster(Long idMaster) throws SQLException {
-		masterService.removeOrderFromMaster(idMaster);
+	public void removeOrderFromMaster(Long idMaster, Long idOrder) throws SQLException {
+		masterService.removeOrderFromMaster(idMaster, idOrder);
 
 	}
 

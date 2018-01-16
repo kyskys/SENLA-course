@@ -23,9 +23,6 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	@Injectable
 	private IOrderStorage orderStorage;
 
-	private static final String DELETE_GARAGE_FROM_SITS_QUERY = "update auto_service_db.sit set (garage_id) values (null) where garage_id = ?";
-	private static final String GET_GARAGE_SITS_QUERY = "select * from auto_service_db.sit where garage_id = ?";
-
 	@Override
 	public IAbstractStorage<Garage> getStorage() {
 		return garageStorage;
@@ -56,6 +53,9 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	public void removeSitFromGarage(Long idSit, Long idGarage) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
+			Garage garage = garageStorage.get(idGarage);
+			Sit sit = sitStorage.get(idSit);
+			garage.removeSit(sit);
 			sitStorage.delete(idSit);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
@@ -70,10 +70,7 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	public void create(Garage entity) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			getStorage().create(entity);
-			for (Sit sit : entity.getSits()) {
-				sitStorage.create(sit);
-			}
+			garageStorage.create(entity);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -85,45 +82,28 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 
 	@Override
 	public void delete(Long id) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_GARAGE_FROM_SITS_QUERY)) {
+		try {
 			getConnection().setAutoCommit(false);
-			getStorage().delete(id);
-			statement.setLong(0, id);
-			statement.executeUpdate();
+			garageStorage.delete(id);
 			getConnection().commit();
+			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
 		} finally {
 			getConnection().setAutoCommit(true);
 		}
-
 	}
 
 	@Override
 	public Garage get(Long id) throws SQLException {
-		Garage garage = getStorage().get(id);
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_GARAGE_SITS_QUERY)) {
-			statement.setLong(0, id);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Sit sit = new Sit(null);
-				sit.setId(rs.getLong("sit_id"));
-				sit.setOrder(orderStorage.get(rs.getLong("order_id")));
-				sit.setGarage(garage);
-				garage.addSit(sit);
-			}
-		} catch (SQLException e) {
-			getConnection().rollback();
-		} finally {
-			getConnection().setAutoCommit(true);
-		}
-		return garage;
-
+			Garage garage = garageStorage.get(id);
+			garage.setSits(sitStorage.getGarageSits(id));
+			return garage;
 	}
 
 	@Override
 	public List<Garage> getAll() throws SQLException {
-		List<Garage> garages = getStorage().getAll();
+		List<Garage> garages = null;
 		for (Garage garage : garages) {
 			garage = get(garage.getId());
 		}

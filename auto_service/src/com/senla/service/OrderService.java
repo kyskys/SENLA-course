@@ -23,10 +23,6 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	@Injectable
 	private IMasterStorage masterStorage;
 
-	private static final String SHIFT_ORDER_EXECUTION_TIME_QUERY = "set sql_safe_updates = 0; update auto_service_db.order set ending_date = adddate(ending_date, interval ? day);";
-	private static final String GET_MASTERS_EXECUTING_CONCRETE_ORDER_QUERY = "select * from auto_service_db.master where order_id = ?";
-	private static final String REMOVE_MASTER_FROM_ORDER_QUERY = "update auto_service_db.master set (order_id) values(null) where order_id=?";
-
 	@Override
 	public ISortableStorage<Order> getStorage() {
 		return orderStorage;
@@ -44,10 +40,9 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 
 	@Override
 	public void shiftOrderExecutionTime(int days) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(SHIFT_ORDER_EXECUTION_TIME_QUERY)) {
+		try {
 			getConnection().setAutoCommit(false);
-			statement.setInt(0, days);
-			statement.executeUpdate();
+			orderStorage.shiftOrderExecutionTime(days);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -65,22 +60,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 
 	@Override
 	public List<Master> getMastersExecutingConcreteOrder(Long id) throws SQLException {
-		List<Master> result = new ArrayList<Master>();
-		try (PreparedStatement statement = getConnection()
-				.prepareStatement(GET_MASTERS_EXECUTING_CONCRETE_ORDER_QUERY)) {
-			statement.setLong(0, id);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Master master = new Master(null);
-				master.setId(rs.getLong("master_id"));
-				master.setBusy(rs.getBoolean("busy"));
-				master.setName(rs.getString("name"));
-				master.setOrder(orderStorage.get(id));
-				result.add(master);
-			}
-			return result;
-		}
-
+		return masterStorage.getMastersExecutingConcreteOrder(id);
 	}
 
 	@Override
@@ -114,9 +94,13 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 
 	@Override
 	public void removeMasterFromOrder(Long idMaster, Long idOrder) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_MASTER_FROM_ORDER_QUERY)) {
-			statement.setLong(0, idMaster);
-			statement.executeUpdate();
+		try {
+			Master master = masterStorage.get(idMaster);
+			Order order = orderStorage.get(idOrder);
+			order.removeMaster(master);
+			master.setOrder(null);
+			getStorage().update(order);
+			masterStorage.update(master);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -182,6 +166,11 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 			order.setMasters(getMastersExecutingConcreteOrder(order.getId()));
 		}
 		return result;
+	}
+
+	@Override
+	public Order getOrderExecutingByConcreteMaster(Long id) throws SQLException {
+		return orderStorage.get(masterStorage.getMasterIdByOrderId(id));
 	}
 
 }

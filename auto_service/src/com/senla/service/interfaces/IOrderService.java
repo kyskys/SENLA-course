@@ -27,5 +27,7 @@ public interface IOrderService extends ISortableService<Order> {
 	public void addMasterToOrder(Long idMaster, Long idOrder) throws SQLException;
 
 	public void removeMasterFromOrder(Long idMaster, Long idOrder) throws SQLException;
+	
+	Order getOrderExecutingByConcreteMaster(Long id) throws SQLException;
 
 }

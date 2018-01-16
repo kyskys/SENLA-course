@@ -22,54 +22,27 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	@Injectable
 	private IOrderStorage orderStorage;
 
-	private static final String GET_ORDER_EXECUTING_BY_CONCRETE_MASTER_QUERY = "select order_id from auto_service_db.master where master_id=?";
-	private static final String GET_FREE_MASTERS_ON_DATE_QUERY = "select master_id, busy, name, order_id from auto_service_db.master left join from auto_service_db.order on master.order_id=order.order_id where ? < ending_date";
-	private static final String REMOVE_ORDER_FROM_MASTER_QUERY = "update auto_service_db.master set (order_id) values(null) where order_id=?";
-
 	@Override
 	public ISortableStorage<Master> getStorage() {
 		return masterStorage;
 	}
 
 	@Override
-	public Order getOrderExecutingByConcreteMaster(Long id) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_ORDER_EXECUTING_BY_CONCRETE_MASTER_QUERY)) {
-			statement.setLong(0, id);
-			ResultSet rs = statement.executeQuery();
-			return orderStorage.get(rs.getLong("order_id"));
-		}
-	}
-
-	@Override
 	public List<Master> getFreeMastersOnDate(Date date) throws SQLException {
-		List<Master> result = new ArrayList<Master>();
-		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_MASTERS_ON_DATE_QUERY)) {
-			statement.setDate(0, date);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Master master = new Master(null);
-				master.setId(rs.getLong("master_id"));
-				master.setBusy(rs.getBoolean("busy"));
-				master.setName(rs.getString("name"));
-				master.setOrder(orderStorage.get(rs.getLong("order_id")));
-				result.add(master);
-			}
-		}
-		return result;
-
+		return masterStorage.getFreeMastersOnDate(date);
 	}
 
 	@Override
 	public synchronized void addOrderToMaster(Long idOrder, Long idMaster) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			Master master = getStorage().get(idMaster);
+			Master master = masterStorage.get(idMaster);
 			Order order = orderStorage.get(idOrder);
 			if (!order.getMasters().contains(master)) {
 				master.setOrder(order);
 				order.addMaster(master);
 			}
-			getStorage().update(master);
+			masterStorage.update(master);
 			orderStorage.update(order);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
@@ -82,10 +55,15 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	}
 
 	@Override
-	public synchronized void removeOrderFromMaster(Long idMaster) throws SQLException {
-		try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_ORDER_FROM_MASTER_QUERY)) {
-			statement.setLong(0, idMaster);
-			statement.executeUpdate();
+	public synchronized void removeOrderFromMaster(Long idMaster, Long idOrder) throws SQLException {
+		try {
+			getConnection().setAutoCommit(false);
+			Master master = masterStorage.get(idMaster);
+			Order order = orderStorage.get(idOrder);
+			order.removeMaster(master);
+			master.setOrder(null);
+			masterStorage.update(master);
+			orderStorage.update(order);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -99,7 +77,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	public void create(Master entity) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			getStorage().create(entity);
+			masterStorage.create(entity);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -113,7 +91,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	public void delete(Long id) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			getStorage().delete(id);
+			masterStorage.delete(id);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -127,7 +105,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	public void update(Master entity) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
-			getStorage().update(entity);
+			masterStorage.update(entity);
 			getConnection().commit();
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
@@ -139,7 +117,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 
 	@Override
 	public Master get(Long id) throws SQLException {
-		Master master = getStorage().get(id);
+		Master master = masterStorage.get(id);
 		Order order = master.getOrder() != null ? orderStorage.get(master.getOrder().getId()) : null;
 		master.setOrder(order);
 		return master;
@@ -147,7 +125,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 
 	@Override
 	public List<Master> getAll() throws SQLException {
-		List<Master> result = getStorage().getAll();
+		List<Master> result = masterStorage.getAll();
 		for (Master master : result) {
 			Order order = master.getOrder() != null ? orderStorage.get(master.getOrder().getId()) : null;
 			master.setOrder(order);

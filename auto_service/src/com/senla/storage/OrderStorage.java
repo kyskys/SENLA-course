@@ -24,28 +24,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 	private static final String GET_EXECUTING_ORDERS = "select * from auto_service_db.order where start_date < ?";
 	private static final String GET_ORDERS_FOR_PERIOD_OF_TIME = " select * from auto_service_db.order where start_date < ? and ending_date > ?";
 	private static final String GET_NEAREST_DATE = "select min(ending_date) from auto_service_db.order where cancelled!=1 and closed!=1";
-
-	@Override
-	protected String sort(SortParameters parameter) throws SQLException {
-
-		switch (parameter) {
-		case ADDED_DATE: {
-			return "added_date";
-		}
-		case ENDING_DATE: {
-			return "ending_date";
-		}
-		case PRICE: {
-			return "price";
-		}
-		case START_WORKING_ON_DATE: {
-			return "start_date";
-		}
-		default:
-			return "order_id";
-		}
-
-	}
+	private static final String SHIFT_ORDER_EXECUTION_TIME_QUERY = "set sql_safe_updates = 0; update auto_service_db.order set ending_date = adddate(ending_date, interval ? day);";
 
 	@Override
 	public List<Order> getExecutingOrders(SortParameters parameter) throws SQLException {
@@ -194,6 +173,14 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 				result.add(order);
 			}
 			return result;
+		}
+	}
+
+	@Override
+	public void shiftOrderExecutionTime(int days) throws SQLException {
+		try(PreparedStatement statement = getConnection().prepareStatement(SHIFT_ORDER_EXECUTION_TIME_QUERY)) {
+			statement.setInt(0, days);
+			statement.executeQuery();
 		}
 	}
 

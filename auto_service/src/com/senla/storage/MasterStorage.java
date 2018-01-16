@@ -1,5 +1,6 @@
 package com.senla.storage;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,10 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 	private static final String UPDATE_QUERY = "update auto_service_db.master set master_id = ? busy = ? name = ? where master_id = ?";
 	private static final String GET_ONE_QUERY = "select * from auto_service_db.master where master_id = ?";
 	private static final String GET_ALL_QUERY = "select * from auto_service_db.master";
-
+	private static final String GET_FREE_MASTERS_ON_DATE_QUERY = "select master_id, busy, name, order_id from auto_service_db.master left join from auto_service_db.order on master.order_id=order.order_id where ? < ending_date";
+	private static final String GET_ORDER_EXECUTING_BY_CONCRETE_MASTER = "select order_id from master where master_id = ?";
+	private static final String GET_MASTERS_EXECUTING_CONCRETE_ORDER_QUERY = "select * from auto_service_db.master where order_id = ?";
+	
 	@Override
 	public void create(Master entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
@@ -76,7 +80,7 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 				master.setId(rs.getLong("master_id"));
 				master.setName(rs.getString("name"));
 				master.setBusy(rs.getBoolean("busy"));
-				Order order = new Order(0, null, null);
+				Order order = new Order();
 				order.setId(rs.getLong("order_id"));
 				master.setOrder(order);
 				result.add(master);
@@ -86,22 +90,54 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 	}
 
 	@Override
-	protected String sort(SortParameters parameter) throws SQLException {
-		switch (parameter) {
-		case ALPHABET: {
-			return "name";
-		}
-		case BUSY: {
-			return "busy";
-		}
-		default:
-			return "master_id";
+	public List<Master> getAll() throws SQLException {
+		return getAll(null);
+	}
+
+	@Override
+	public Long getMasterIdByOrderId(Long id) throws SQLException {
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_ORDER_EXECUTING_BY_CONCRETE_MASTER)) {
+			ResultSet rs = statement.executeQuery();
+			return rs.getLong("order_id");
 		}
 	}
 
 	@Override
-	public List<Master> getAll() throws SQLException {
-		return getAll(null);
+	public List<Master> getFreeMastersOnDate(Date date) throws SQLException {
+		List<Master> result = new ArrayList<Master>();
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_FREE_MASTERS_ON_DATE_QUERY)) {
+			statement.setDate(0, date);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Master master = new Master(null);
+				master.setId(rs.getLong("master_id"));
+				master.setBusy(rs.getBoolean("busy"));
+				master.setName(rs.getString("name"));
+				Order order = new Order();
+				order.setId(rs.getLong("order_id"));
+				result.add(master);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<Master> getMastersExecutingConcreteOrder(Long id) throws SQLException {
+		List<Master> result = new ArrayList<Master>();
+		try (PreparedStatement statement = getConnection().prepareStatement(GET_MASTERS_EXECUTING_CONCRETE_ORDER_QUERY)) {
+			statement.setLong(0, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Master master = new Master(null);
+				master.setId(rs.getLong("master_id"));
+				master.setBusy(rs.getBoolean("busy"));
+				master.setName(rs.getString("name"));
+				Order order = new Order();
+				order.setId(rs.getLong("order_id"));
+				result.add(master);
+			}
+		}
+		return result;
 	}
 
 }

@@ -69,7 +69,7 @@ public interface IController {
 
 	void addOrderToMaster(Long idOrder, Long idMaster) throws SQLException;
 
-	void removeOrderFromMaster(Long idMaster) throws SQLException;
+	void removeOrderFromMaster(Long idMaster, Long idOrder) throws SQLException;
 
 	void addMasterToOrder(Long idMaster, Long idOrder) throws SQLException;
 

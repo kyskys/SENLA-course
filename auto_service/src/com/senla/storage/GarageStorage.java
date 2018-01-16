@@ -15,7 +15,8 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 	private static final String UPDATE_QUERY = "update auto_service_db.garage set garage_id = ? where garage_id = ?";
 	private static final String GET_ONE_QUERY = "select * from auto_service_db.garage where garage_id = ?";
 	private static final String GET_ALL_QUERY = "select * from auto_service_db.garage";
-
+	private static final String DELETE_GARAGE_FROM_SITS_QUERY = "update auto_service_db.sit set (garage_id) values (null) where garage_id = ?";
+	
 	@Override
 	public void create(Garage entity) throws SQLException {
 		try (PreparedStatement statement = getConnection().prepareStatement(CREATE_QUERY)) {
@@ -29,6 +30,17 @@ public class GarageStorage extends AbstractStorage<Garage> implements IGarageSto
 		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_QUERY)) {
 			statement.setLong(0, id);
 			statement.executeUpdate();
+		}
+		try (PreparedStatement statement = getConnection().prepareStatement(DELETE_GARAGE_FROM_SITS_QUERY)) {
+			getConnection().setAutoCommit(false);
+			getStorage().delete(id);
+			statement.setLong(0, id);
+			statement.executeUpdate();
+			getConnection().commit();
+		} catch (SQLException e) {
+			getConnection().rollback();
+		} finally {
+			getConnection().setAutoCommit(true);
 		}
 	}
 
