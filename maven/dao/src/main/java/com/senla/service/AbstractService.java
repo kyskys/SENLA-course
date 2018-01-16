@@ -26,7 +26,7 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 		void execute(EntityManager manager) throws SQLException;
 	}
 
-	protected <R> R executeTransactionAction(TransactionAction<R> action) throws Throwable {
+	protected <R> R executeTransactionAction(TransactionAction<R> action) throws SQLException {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -36,11 +36,11 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 			R result = action.execute(manager);
 			manager.getTransaction().commit();
 			return result;
-		} catch (Throwable e) {
+		} catch (SQLException e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			throw new Throwable(e);
+			throw new SQLException(e);
 		} finally
 
 		{
@@ -50,7 +50,7 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 		}
 	}
 
-	void executeSimpleTransactionAction(SimpleTransactionAction action) throws Throwable {
+	protected void executeSimpleTransactionAction(SimpleTransactionAction action) throws SQLException {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -59,11 +59,11 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 			transaction.begin();
 			action.execute(manager);
 			manager.getTransaction().commit();
-		} catch (Throwable e) {
+		} catch (SQLException e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			throw new Throwable(e);
+			throw new SQLException(e);
 		} finally
 
 		{
@@ -74,27 +74,27 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 	}
 
 	@Override
-	public void create(T entity) throws Throwable {
+	public void create(T entity) throws SQLException {
 		executeSimpleTransactionAction(manager -> getStorage().create(manager, entity));
 	}
 
 	@Override
-	public void delete(T entity) throws Throwable {
+	public void delete(T entity) throws SQLException {
 		executeSimpleTransactionAction(manager -> getStorage().delete(manager, entity));
 	}
 
 	@Override
-	public void update(T entity) throws Throwable {
+	public void update(T entity) throws SQLException {
 		executeSimpleTransactionAction(manager -> getStorage().update(manager, entity));
 	}
 
 	@Override
-	public T get(Long id) throws Throwable {
+	public T get(Long id) throws SQLException {
 		return executeTransactionAction(manager -> getStorage().get(manager, id));
 	}
 
 	@Override
-	public List<T> getAll() throws Throwable {
+	public List<T> getAll() throws SQLException {
 		return executeTransactionAction(manager -> getStorage().getAll(manager));
 	}
 

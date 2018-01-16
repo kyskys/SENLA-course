@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.util.SortParameters;
 
@@ -21,4 +22,8 @@ public interface IOrderStorage extends ISortableStorage<Order> {
 	void setOrderClosed(EntityManager manager, Long id, Boolean value) throws SQLException;
 
 	Date getNearestDate(EntityManager manager) throws SQLException;
+
+	List<Master> getMastersExecutingConcreteOrder(EntityManager manager, Long id) throws SQLException;
+
+	void shiftOrderExecutionTime(EntityManager manager, int days) throws SQLException;
 }

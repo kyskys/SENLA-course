@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Order implements BaseEntity, Cloneable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id", nullable = false, unique = true)
 	private Long id;
 

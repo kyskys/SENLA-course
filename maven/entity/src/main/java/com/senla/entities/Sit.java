@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Sit implements BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sit_id", nullable = false, unique = true)
 	private Long id;
 

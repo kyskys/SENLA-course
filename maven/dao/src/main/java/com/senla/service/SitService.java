@@ -1,14 +1,8 @@
 package com.senla.service;
 
-import java.time.LocalDate;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
-
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 
 import com.senla.entities.Garage;
 import com.senla.entities.Order;
@@ -35,37 +29,21 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public List<Sit> getFreeSits() throws Throwable {
+	public List<Sit> getFreeSits() throws SQLException {
 		return executeTransactionAction(manager -> {
-			CriteriaBuilder builder = manager.getCriteriaBuilder();
-			CriteriaQuery<Sit> query = builder.createQuery(Sit.class);
-			Root<Sit> root = query.from(Sit.class);
-			Subquery<Order> subQuery = query.subquery(Order.class);
-			Root<Order> subRoot = subQuery.from(Order.class);
-			query.select(root).where(root.get("order").in(subQuery.select(subRoot)
-					.where(builder.lessThan(root.get("ending_date"), Date.valueOf(LocalDate.now())))));
-			TypedQuery<Sit> sits = manager.createQuery(query);
-			return sits.getResultList();
+			return sitStorage.getFreeSits(manager);
 		});
 	}
 
 	@Override
-	public List<Sit> getFreeSitsAtDate(Date date) throws Throwable {
+	public List<Sit> getFreeSitsAtDate(Date date) throws SQLException {
 		return executeTransactionAction(manager -> {
-			CriteriaBuilder builder = manager.getCriteriaBuilder();
-			CriteriaQuery<Sit> query = builder.createQuery(Sit.class);
-			Root<Sit> root = query.from(Sit.class);
-			Subquery<Order> subQuery = query.subquery(Order.class);
-			Root<Order> subRoot = subQuery.from(Order.class);
-			query.select(root).where(root.get("order")
-					.in(subQuery.select(subRoot).where(builder.lessThan(root.get("ending_date"), date))));
-			TypedQuery<Sit> sits = manager.createQuery(query);
-			return sits.getResultList();
+			return sitStorage.getFreeSitsAtDate(manager, date);
 		});
 	}
 
 	@Override
-	public synchronized void addOrderToSit(Long idOrder, Long idSit) throws Throwable {
+	public synchronized void addOrderToSit(Long idOrder, Long idSit) throws SQLException {
 		executeSimpleTransactionAction(manager -> {
 			Order order = orderStorage.get(manager, idOrder);
 			Sit sit = sitStorage.get(manager, idSit);
@@ -77,7 +55,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void removeOrderFromSit(Long idSit) throws Throwable {
+	public synchronized void removeOrderFromSit(Long idSit) throws SQLException {
 		executeSimpleTransactionAction(manager -> {
 			Sit sit = sitStorage.get(manager, idSit);
 			Order order = sit.getOrder();
@@ -89,7 +67,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void addGarageToSit(Long idGarage, Long idSit) throws Throwable {
+	public synchronized void addGarageToSit(Long idGarage, Long idSit) throws SQLException {
 		executeSimpleTransactionAction(manager -> {
 			Garage garage = garageStorage.get(manager, idGarage);
 			Sit sit = sitStorage.get(manager, idSit);
@@ -101,7 +79,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws Throwable {
+	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws SQLException {
 		executeSimpleTransactionAction(manager -> {
 			Garage garage = garageStorage.get(manager, idGarage);
 			Sit sit = sitStorage.get(manager, idSit);

@@ -1,6 +1,5 @@
 package com.senla.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.FetchType;
@@ -14,12 +13,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "garages")
-public class Garage implements BaseEntity, Serializable {
-
-	private static final long serialVersionUID = 7650116542125324882L;
+public class Garage implements BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "garage_id", nullable = false, unique = true)
 	private Long id;
 

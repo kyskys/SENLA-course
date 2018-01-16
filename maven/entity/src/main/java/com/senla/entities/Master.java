@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Master implements BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "master_id", nullable = false, unique = true)
 	private Long id;
 

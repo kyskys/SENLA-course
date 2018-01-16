@@ -21,7 +21,7 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 
 	@Override
 	public void delete(EntityManager manager, T entity) throws SQLException {
-		manager.remove(entity);
+		manager.remove(manager.merge(entity));
 	}
 
 	@Override
@@ -43,5 +43,4 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 		TypedQuery<T> result = manager.createQuery(query);
 		return result.getResultList();
 	}
-
 }
