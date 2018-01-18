@@ -271,8 +271,28 @@
 		<url-pattern>/sit</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>SitServlet</servlet-name>
-		<url-pattern>/sit</url-pattern>
+		<servlet-name>AddGarageToSitServlet</servlet-name>
+		<url-pattern>/sit/addGarage</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetFreeSitsAtDateServlet</servlet-name>
+		<url-pattern>/sits/freeOnDate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetFreeSitsServlet</servlet-name>
+		<url-pattern>/sits/free</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetSitsServlet</servlet-name>
+		<url-pattern>/sits</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RemoveGarageFromSitServlet</servlet-name>
+		<url-pattern>/sit/removeGarage</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RemoveOrderFromSitServlet</servlet-name>
+		<url-pattern>/sit/removeOrder</url-pattern>
 	</servlet-mapping>
 
 </web-app>
