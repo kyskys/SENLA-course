@@ -232,8 +232,48 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public List<Master> showFreeMastersOnDate(Date date) throws SQLException {
+	public List<Master> getFreeMastersOnDate(Date date) throws SQLException {
 		return masterService.getFreeMastersOnDate(date);
+	}
+
+	@Override
+	public void updateMaster(Master master) throws SQLException {
+		masterService.update(master);
+	}
+
+	@Override
+	public void updateGarage(Garage garage) throws SQLException {
+		garageService.update(garage);
+	}
+
+	@Override
+	public void updateOrder(Order order) throws SQLException {
+		orderService.update(order);
+	}
+
+	@Override
+	public void updateSit(Sit sit) throws SQLException {
+		sitService.update(sit);
+	}
+
+	@Override
+	public void deleteMaster(Master master) throws SQLException {
+		masterService.delete(master);
+	}
+
+	@Override
+	public void deleteGarage(Garage garage) throws SQLException {
+		garageService.delete(garage);
+	}
+
+	@Override
+	public void deleteOrder(Order order) throws SQLException {
+		orderService.delete(order);
+	}
+
+	@Override
+	public void deleteSit(Sit sit) throws SQLException {
+		sitService.delete(sit);
 	}
 
 }

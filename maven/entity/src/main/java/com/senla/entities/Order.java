@@ -42,7 +42,7 @@ public class Order implements BaseEntity, Cloneable {
 	@Column(name = "cancelled", nullable = false, unique = false)
 	private boolean cancelled;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
 	private List<Master> masters;
 
 	@OneToOne(mappedBy = "order", fetch = FetchType.LAZY)

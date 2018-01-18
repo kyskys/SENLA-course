@@ -1,8 +1,6 @@
 package master;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Master;
 
 import dependency.DependencyManager;
+import master.dto.MasterDto;
+import static util.Mapper.getMapper;
 
 public class MasterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,29 +25,11 @@ public class MasterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<Master> masters = controller.getMasters();
-			List<String> columns = new ArrayList<String>();
-			columns.add("ID");
-			columns.add("Name");
-			columns.add("Busy");
-			columns.add("Order ID");
-			List<List<String>> content = new ArrayList<List<String>>();
-			for (Master master : masters) {
-				List<String> temp = new ArrayList<String>();
-				temp.add(master.getId().toString());
-				temp.add(master.getName());
-				temp.add(String.valueOf(master.isBusy()));
-				temp.add(master.getOrder() != null ? master.getOrder().getId().toString() : "none");
-				content.add(temp);
-			}
-			request.setAttribute("pageTitle", "Master Table");
-			request.setAttribute("columns", columns);
-			request.setAttribute("content", content);
-			request.setAttribute("hasDeleteLink", true);
-			request.setAttribute("hasEditLink", true);
-			request.setAttribute("deleteLinkValue", "/webapps/deleteMaster");
-			request.setAttribute("editLinkValue", "/webapps/editMaster");
-			request.getRequestDispatcher("TablePageTemplate.jsp").forward(request, response);
+			Long idMaster = Long.valueOf(request.getParameter("id"));
+			MasterDto master = new MasterDto(controller.getMaster(idMaster));
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			getMapper().writeValue(response.getOutputStream(), master);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -55,7 +37,43 @@ public class MasterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			MasterDto dto = getMapper().readValue(request.getInputStream(), MasterDto.class);
+			Master master = new Master();
+			master.setBusy(dto.getBusy());
+			master.setName(dto.getName());
+			master.setId(dto.getId());
+			controller.addMasterToOrder(dto.getId(), dto.getOrder());
+			controller.updateMaster(master);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			MasterDto dto = getMapper().readValue(request.getInputStream(), MasterDto.class);
+			Master master = new Master();
+			master.setBusy(dto.getBusy());
+			master.setName(dto.getName());
+			master.setId(dto.getId());
+			controller.addMaster(master);
+			controller.addMasterToOrder(dto.getId(), dto.getOrder());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			MasterDto dto = getMapper().readValue(request.getInputStream(), MasterDto.class);
+			Master master = new Master();
+			master.setId(dto.getId());
+			controller.deleteMaster(master);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
 }

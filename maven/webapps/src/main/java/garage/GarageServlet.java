@@ -1,8 +1,6 @@
 package garage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Garage;
 
 import dependency.DependencyManager;
+import garage.dto.GarageDto;
+import static util.Mapper.getMapper;
 
 public class GarageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,23 +25,11 @@ public class GarageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<Garage> garages = controller.getGarages();
-			List<String> columns = new ArrayList<String>();
-			columns.add("ID");
-			List<List<String>> content = new ArrayList<List<String>>();
-			for (Garage garage : garages) {
-				List<String> temp = new ArrayList<String>();
-				temp.add(garage.getId().toString());
-				content.add(temp);
-			}
-			request.setAttribute("pageTitle", "Garage Table");
-			request.setAttribute("columns", columns);
-			request.setAttribute("content", content);
-			request.setAttribute("hasDeleteLink", true);
-			request.setAttribute("hasEditLink", true);
-			request.setAttribute("deleteLinkValue", "/webapps/deleteGarage");
-			request.setAttribute("editLinkValue", "/webapps/editGarage");
-			request.getRequestDispatcher("TablePageTemplate.jsp").forward(request, response);
+			Long idGarage = Long.valueOf(request.getParameter("id"));
+			GarageDto garage = new GarageDto(controller.getGarage(idGarage));
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			getMapper().writeValue(response.getOutputStream(), garage);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -49,7 +37,44 @@ public class GarageServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			GarageDto dto = getMapper().readValue(request.getInputStream(), GarageDto.class);
+			Garage garage = new Garage();
+			garage.setId(dto.getId());
+			for(Long idSit : dto.getSits()) {
+				controller.addSitToGarage(dto.getId(), idSit);
+			}
+			controller.updateGarage(garage);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			GarageDto dto = getMapper().readValue(request.getInputStream(), GarageDto.class);
+			Garage garage = new Garage();
+			garage.setId(dto.getId());
+			controller.addGarage(garage);
+			for(Long idSit : dto.getSits()) {
+				controller.addSitToGarage(dto.getId(), idSit);
+			}
+			controller.updateGarage(garage);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			GarageDto dto = getMapper().readValue(request.getInputStream(), GarageDto.class);
+			Garage garage = new Garage();
+			garage.setId(dto.getId());
+			controller.deleteGarage(garage);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
 }

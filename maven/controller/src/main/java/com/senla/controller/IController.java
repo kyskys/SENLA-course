@@ -6,8 +6,23 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public interface IController {
+	void updateMaster(Master master) throws SQLException;
+
+	void updateGarage(Garage garage) throws SQLException;
+
+	void updateOrder(Order order) throws SQLException;
+
+	void updateSit(Sit sit) throws SQLException;
+
+	void deleteMaster(Master master) throws SQLException;
+
+	void deleteGarage(Garage garage) throws SQLException;
+
+	void deleteOrder(Order order) throws SQLException;
+
+	void deleteSit(Sit sit) throws SQLException;
+
 	Garage getGarage(long id) throws SQLException;
 
 	Master getMaster(long id) throws SQLException;
@@ -78,7 +93,7 @@ public interface IController {
 
 	void removeOrderFromSit(Long idSit) throws SQLException;
 
-	List<Master> showFreeMastersOnDate(Date date) throws SQLException;
+	List<Master> getFreeMastersOnDate(Date date) throws SQLException;
 
 	void addSitToGarage(Long idGarage, Long idSit) throws SQLException;
 

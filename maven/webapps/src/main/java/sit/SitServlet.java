@@ -1,8 +1,8 @@
 package sit;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +13,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Sit;
 
 import dependency.DependencyManager;
+import sit.dto.SitDto;
+import util.Mapper;
 
 public class SitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,27 +27,10 @@ public class SitServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<Sit> sits = controller.getSits();
-			List<String> columns = new ArrayList<String>();
-			columns.add("ID");
-			columns.add("Order ID");
-			columns.add("Garage ID");
-			List<List<String>> content = new ArrayList<List<String>>();
-			for (Sit sit : sits) {
-				List<String> temp = new ArrayList<String>();
-				temp.add(sit.getId().toString());
-				temp.add(sit.getOrder() != null ? sit.getOrder().getId().toString() : "none");
-				temp.add(sit.getGarage() != null ? sit.getGarage().getId().toString() : "none");
-				content.add(temp);
-			}
-			request.setAttribute("pageTitle", "Sit Table");
-			request.setAttribute("columns", columns);
-			request.setAttribute("content", content);
-			request.setAttribute("hasDeleteLink", true);
-			request.setAttribute("hasEditLink", true);
-			request.setAttribute("deleteLinkValue", "/webapps/deleteSit");
-			request.setAttribute("editLinkValue", "/webapps/editSit");
-			request.getRequestDispatcher("TablePageTemplate.jsp").forward(request, response);
+			List<SitDto> Sits = controller.getSits().stream().map(SitDto::new).collect(Collectors.toList());
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			Mapper.getMapper().writeValue(response.getOutputStream(), Sits);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -53,7 +38,42 @@ public class SitServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			SitDto dto = Mapper.getMapper().readValue(request.getInputStream(), SitDto.class);
+			Sit sit = new Sit();
+			sit.setId(dto.getId());
+			sit.setGarage(controller.getGarage(dto.getGarage()));
+			sit.setOrder(controller.getOrder(dto.getOrder()));
+			controller.updateSit(sit);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			SitDto dto = Mapper.getMapper().readValue(request.getInputStream(), SitDto.class);
+			Sit sit = new Sit();
+			sit.setId(dto.getId());
+			controller.addSit(sit);
+			sit.setGarage(dto.getGarage()!=null?controller.getGarage(dto.getGarage()):null);
+			sit.setOrder(dto.getOrder()!=null?controller.getOrder(dto.getOrder()):null);
+			controller.updateSit(sit);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			SitDto dto = Mapper.getMapper().readValue(request.getInputStream(), SitDto.class);
+			Sit sit = new Sit();
+			sit.setId(dto.getId());
+			controller.deleteSit(sit);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
 }

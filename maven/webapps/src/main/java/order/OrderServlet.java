@@ -1,8 +1,8 @@
 package order;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +13,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Order;
 
 import dependency.DependencyManager;
+import order.dto.OrderDto;
+import util.Mapper;
 
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,35 +27,10 @@ public class OrderServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<Order> orders = controller.getOrders();
-			List<String> columns = new ArrayList<String>();
-			columns.add("ID");
-			columns.add("Price");
-			columns.add("Added date");
-			columns.add("Start date");
-			columns.add("Ending date");
-			columns.add("Closed");
-			columns.add("Cancelled");
-			List<List<String>> content = new ArrayList<List<String>>();
-			for (Order order : orders) {
-				List<String> temp = new ArrayList<String>();
-				temp.add(order.getId().toString());
-				temp.add(order.getPrice() != null ? order.getPrice().toString() : "none");
-				temp.add(order.getAddedDate().toString());
-				temp.add(order.getStartWorkingOnDate().toString());
-				temp.add(order.getEndingDate().toString());
-				temp.add(String.valueOf(order.isClosed()));
-				temp.add(String.valueOf(order.isCancelled()));
-				content.add(temp);
-			}
-			request.setAttribute("pageTitle", "Order Table");
-			request.setAttribute("columns", columns);
-			request.setAttribute("content", content);
-			request.setAttribute("hasDeleteLink", true);
-			request.setAttribute("hasEditLink", true);
-			request.setAttribute("deleteLinkValue", "/webapps/deleteOrder");
-			request.setAttribute("editLinkValue", "/webapps/editOrder");
-			request.getRequestDispatcher("TablePageTemplate.jsp").forward(request, response);
+			List<OrderDto> orders = controller.getOrders().stream().map(OrderDto::new).collect(Collectors.toList());
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			Mapper.getMapper().writeValue(response.getOutputStream(), orders);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -61,7 +38,56 @@ public class OrderServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		try {
+			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+			Order order = new Order();
+			order.setId(dto.getId());
+			order.setPrice(dto.getPrice());
+			order.setAddedDate(dto.getAddedDate());
+			order.setEndingDate(dto.getEndingDate());
+			order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
+			order.setCancelled(dto.isCancelled());
+			order.setClosed(dto.isClosed());
+			for(Long idMaster : dto.getMasters()) {
+				controller.addMasterToOrder(idMaster, dto.getId());
+			}
+			controller.updateOrder(order);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+			Order order = new Order();
+			order.setId(dto.getId());
+			order.setPrice(dto.getPrice());
+			order.setAddedDate(dto.getAddedDate());
+			order.setEndingDate(dto.getEndingDate());
+			order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
+			order.setCancelled(dto.isCancelled());
+			order.setClosed(dto.isClosed());
+			controller.addOrder(order);
+			for(Long idMaster : dto.getMasters()) {
+				controller.addMasterToOrder(idMaster, dto.getId());
+			}
+			controller.updateOrder(order);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+			Order order = new Order();
+			order.setId(dto.getId());
+			controller.deleteOrder(order);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -49,7 +49,7 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 			}
 		}
 	}
-
+	
 	protected void executeSimpleTransactionAction(SimpleTransactionAction action) throws SQLException {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
