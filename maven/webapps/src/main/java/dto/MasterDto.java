@@ -1,4 +1,4 @@
-package master.dto;
+package dto;
 
 import com.senla.entities.Master;
 

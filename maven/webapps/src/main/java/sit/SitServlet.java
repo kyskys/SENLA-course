@@ -1,8 +1,6 @@
 package sit;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +11,7 @@ import com.senla.controller.IController;
 import com.senla.entities.Sit;
 
 import dependency.DependencyManager;
-import sit.dto.SitDto;
+import dto.SitDto;
 import util.Mapper;
 
 public class SitServlet extends HttpServlet {
@@ -27,10 +25,11 @@ public class SitServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<SitDto> Sits = controller.getSits().stream().map(SitDto::new).collect(Collectors.toList());
-			response.setContentType("application/json");
+			Long idSit = Long.valueOf(request.getParameter("id"));
+			SitDto sit = new SitDto(controller.getSit(idSit));
+					response.setContentType("application/json");
 			response.setCharacterEncoding("utf-8");
-			Mapper.getMapper().writeValue(response.getOutputStream(), Sits);
+			Mapper.getMapper().writeValue(response.getOutputStream(), sit);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

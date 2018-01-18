@@ -19,7 +19,7 @@ public class SetOrderCancelledServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			Long idOrder = Long.valueOf(request.getParameter("order"));

@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
-import master.dto.MasterDto;
+import dto.MasterDto;
+
 import static util.Mapper.getMapper;
 
 public class GetFreeMastersOnDateServlet extends HttpServlet {

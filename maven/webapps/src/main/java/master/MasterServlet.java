@@ -11,7 +11,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Master;
 
 import dependency.DependencyManager;
-import master.dto.MasterDto;
+import dto.MasterDto;
+
 import static util.Mapper.getMapper;
 
 public class MasterServlet extends HttpServlet {

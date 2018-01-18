@@ -1,5 +1,7 @@
 package garage;
 
+import static util.Mapper.getMapper;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
+import dto.SitGarageChainDto;
 
 public class RemoveSitFromGarageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,12 +22,11 @@ public class RemoveSitFromGarageServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Long idGarage = Long.valueOf(request.getParameter("sit"));
-			Long idSit = Long.valueOf(request.getParameter("garage"));
-			controller.removeSitFromGarage(idSit, idGarage);
+			SitGarageChainDto chain = getMapper().readValue(request.getInputStream(), SitGarageChainDto.class);
+			controller.removeSitFromGarage(chain.getSit(), chain.getGarage());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

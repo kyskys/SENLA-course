@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
+import dto.SitGarageChainDto;
+
+import static util.Mapper.getMapper;
 
 public class AddSitToGarageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,12 +22,12 @@ public class AddSitToGarageServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Long idGarage = Long.valueOf(request.getParameter("sit"));
-			Long idSit = Long.valueOf(request.getParameter("garage"));
-			controller.addSitToGarage(idGarage, idSit);
+			
+			SitGarageChainDto chain = getMapper().readValue(request.getInputStream(), SitGarageChainDto.class);
+			controller.addSitToGarage(chain.getGarage(), chain.getSit());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

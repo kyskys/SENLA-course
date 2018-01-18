@@ -13,7 +13,7 @@ import com.senla.controller.IController;
 import com.senla.entities.Order;
 
 import dependency.DependencyManager;
-import order.dto.OrderDto;
+import dto.OrderDto;
 import util.Mapper;
 
 public class OrderServlet extends HttpServlet {

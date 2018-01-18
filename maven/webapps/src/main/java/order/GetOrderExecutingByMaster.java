@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
-import order.dto.OrderDto;
+import dto.OrderDto;
+
 import static util.Mapper.getMapper;
 
 public class GetOrderExecutingByMaster extends HttpServlet {

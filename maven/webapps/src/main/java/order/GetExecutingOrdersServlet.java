@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
-import order.dto.OrderDto;
+import dto.OrderDto;
 
-public class GetExecutingOrderServlet extends HttpServlet {
+public class GetExecutingOrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController controller = DependencyManager.getInstance(IController.class);
 
-	public GetExecutingOrderServlet() {
+	public GetExecutingOrdersServlet() {
 		super();
 	}
 

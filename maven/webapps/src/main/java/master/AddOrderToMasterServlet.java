@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
+import dto.MasterOrderChainDto;
+
+import static util.Mapper.getMapper;
 
 public class AddOrderToMasterServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -19,12 +22,11 @@ public class AddOrderToMasterServlet extends HttpServlet{
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Long idMaster = Long.valueOf(request.getParameter("master"));
-			Long idOrder = Long.valueOf(request.getParameter("order"));
-			controller.addOrderToMaster(idOrder, idMaster);
+			MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
+			controller.addOrderToMaster(chain.getOrder(), chain.getMaster());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

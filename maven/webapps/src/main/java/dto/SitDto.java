@@ -1,4 +1,4 @@
-package sit.dto;
+package dto;
 
 import com.senla.entities.Sit;
 

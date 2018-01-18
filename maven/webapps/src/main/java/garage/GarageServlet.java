@@ -11,7 +11,8 @@ import com.senla.controller.IController;
 import com.senla.entities.Garage;
 
 import dependency.DependencyManager;
-import garage.dto.GarageDto;
+import dto.GarageDto;
+
 import static util.Mapper.getMapper;
 
 public class GarageServlet extends HttpServlet {

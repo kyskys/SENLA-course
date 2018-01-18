@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.senla.controller.IController;
 
 import dependency.DependencyManager;
-import garage.dto.GarageDto;
+import dto.GarageDto;
+
 import static util.Mapper.getMapper;
 
 public class GetGaragesServlet extends HttpServlet {
