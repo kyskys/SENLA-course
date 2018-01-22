@@ -31,7 +31,7 @@ public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 		Subquery<Order> subQuery = query.subquery(Order.class);
 		Root<Order> subRoot = subQuery.from(Order.class);
 		query.select(root).where(root.get("order").in(subQuery.select(subRoot)
-				.where(builder.lessThan(root.get("ending_date"), Date.valueOf(LocalDate.now())))));
+				.where(builder.lessThan(subRoot.get("endingDate"), Date.valueOf(LocalDate.now())))));
 		TypedQuery<Sit> sits = manager.createQuery(query);
 		return sits.getResultList();
 	}
@@ -44,9 +44,14 @@ public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 		Subquery<Order> subQuery = query.subquery(Order.class);
 		Root<Order> subRoot = subQuery.from(Order.class);
 		query.select(root).where(root.get("order")
-				.in(subQuery.select(subRoot).where(builder.lessThan(root.get("ending_date"), date))));
+				.in(subQuery.select(subRoot).where(builder.lessThan(subRoot.get("endingDate"), date))));
 		TypedQuery<Sit> sits = manager.createQuery(query);
 		return sits.getResultList();
+	}
+
+	@Override
+	protected void joinLazyFields(Root<?> root) {
+		
 	}
 
 }

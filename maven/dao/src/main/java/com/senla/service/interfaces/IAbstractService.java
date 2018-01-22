@@ -1,18 +1,17 @@
 package com.senla.service.interfaces;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.senla.entities.BaseEntity;
 
 public interface IAbstractService<T extends BaseEntity> {
-	void create(T entity) throws SQLException;
+	void create(T entity);
 
-	void delete(T entity) throws SQLException;
+	void delete(T entity);
 
-	void update(T entity) throws SQLException;
+	void update(T entity);
 
-	T get(Long id) throws SQLException;
+	T get(Long id);
 
-	List<T> getAll() throws SQLException;
+	List<T> getAll();
 }

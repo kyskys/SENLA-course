@@ -1,7 +1,6 @@
 package com.senla.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.senla.entities.Master;
@@ -26,21 +25,21 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public void setOrderCancelled(Long id, Boolean value) throws SQLException {
+	public void setOrderCancelled(Long id, Boolean value) {
 		executeSimpleTransactionAction(manager -> {
 			orderStorage.setOrderCancelled(manager, id, value);
 		});
 	}
 
 	@Override
-	public void setOrderClosed(Long id, Boolean value) throws SQLException {
+	public void setOrderClosed(Long id, Boolean value) {
 		executeSimpleTransactionAction(manager -> {
 			orderStorage.setOrderClosed(manager, id, value);
 		});
 	}
 
 	@Override
-	public void shiftOrderExecutionTime(int days) throws SQLException {
+	public void shiftOrderExecutionTime(int days) {
 		executeSimpleTransactionAction(manager -> {
 			orderStorage.shiftOrderExecutionTime(manager, days);
 		});
@@ -48,36 +47,35 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public List<Order> getExecutingOrders(SortParameters parameter) throws SQLException {
-		return executeTransactionAction(manger -> {
+	public List<Order> getExecutingOrders(SortParameters parameter) {
+		return executeAction(manger -> {
 			return orderStorage.getExecutingOrders(manger, parameter);
 		});
 	}
 
 	@Override
-	public List<Master> getMastersExecutingConcreteOrder(Long id) throws SQLException {
-		return executeTransactionAction(manager -> {
+	public List<Master> getMastersExecutingConcreteOrder(Long id) {
+		return executeAction(manager -> {
 			return orderStorage.getMastersExecutingConcreteOrder(manager, id);
 		});
 	}
 
 	@Override
-	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter)
-			throws SQLException {
-		return executeTransactionAction(manager -> {
+	public List<Order> getOrdersForPeriodOfTime(Date beforeDate, Date afterDate, SortParameters parameter) {
+		return executeAction(manager -> {
 			return orderStorage.getOrdersForPeriodOfTime(manager, beforeDate, afterDate, parameter);
 		});
 	}
 
 	@Override
-	public Date getNearestDate() throws SQLException {
-		return executeTransactionAction(manager -> {
+	public Date getNearestDate() {
+		return executeAction(manager -> {
 			return orderStorage.getNearestDate(manager);
 		});
 	}
 
 	@Override
-	public void addMasterToOrder(Long idMaster, Long idOrder) throws SQLException {
+	public void addMasterToOrder(Long idMaster, Long idOrder) {
 		executeSimpleTransactionAction(manager -> {
 			Master master = masterStorage.get(manager, idMaster);
 			Order order = orderStorage.get(manager, idOrder);
@@ -89,7 +87,7 @@ public class OrderService extends SortableService<Order> implements IOrderServic
 	}
 
 	@Override
-	public void removeMasterFromOrder(Long idMaster, Long idOrder) throws SQLException {
+	public void removeMasterFromOrder(Long idMaster, Long idOrder) {
 		executeSimpleTransactionAction(manager -> {
 			Master master = masterStorage.get(manager, idMaster);
 			Order order = orderStorage.get(manager, idOrder);

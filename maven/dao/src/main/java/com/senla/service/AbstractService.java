@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.jboss.logging.Logger;
+
 import com.senla.entities.BaseEntity;
 import com.senla.service.interfaces.IAbstractService;
 import com.senla.storage.interfaces.IAbstractStorage;
@@ -13,20 +15,51 @@ import com.senla.storage.interfaces.IAbstractStorage;
 import connector.DBConnector;
 
 public abstract class AbstractService<T extends BaseEntity> implements IAbstractService<T> {
+	private static final Logger logger = Logger.getLogger(AbstractService.class);
 
 	abstract public IAbstractStorage<T> getStorage();
 
 	@FunctionalInterface
-	interface TransactionAction<R> {
+	interface Action<R> {
 		R execute(EntityManager manager) throws SQLException;
 	}
 
 	@FunctionalInterface
-	interface SimpleTransactionAction {
+	interface SimpleAction {
 		void execute(EntityManager manager) throws SQLException;
 	}
 
-	protected <R> R executeTransactionAction(TransactionAction<R> action) throws SQLException {
+	protected <R> R executeAction(Action<R> action) {
+		EntityManager manager = null;
+		try {
+			manager = DBConnector.getManager();
+			R result = action.execute(manager);
+			return result;
+		} catch (SQLException e) {
+			logger.error(e);
+		} finally {
+			if (manager != null) {
+				manager.close();
+			}
+		}
+		return null;
+	}
+
+	protected void executeSimpleAction(SimpleAction action) {
+		EntityManager manager = null;
+		try {
+			manager = DBConnector.getManager();
+			action.execute(manager);
+		} catch (SQLException e) {
+			logger.error(e);
+		} finally {
+			if (manager != null) {
+				manager.close();
+			}
+		}
+	}
+
+	protected <R> R executeTransactionAction(Action<R> action) {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -40,17 +73,16 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			throw new SQLException(e);
-		} finally
-
-		{
+			logger.error(e);
+		} finally {
 			if (manager != null) {
 				manager.close();
 			}
 		}
+		return null;
 	}
-	
-	protected void executeSimpleTransactionAction(SimpleTransactionAction action) throws SQLException {
+
+	protected void executeSimpleTransactionAction(SimpleAction action) {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -63,10 +95,8 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			throw new SQLException(e);
-		} finally
-
-		{
+			logger.error(e);
+		} finally {
 			if (manager != null) {
 				manager.close();
 			}
@@ -74,28 +104,28 @@ public abstract class AbstractService<T extends BaseEntity> implements IAbstract
 	}
 
 	@Override
-	public void create(T entity) throws SQLException {
+	public void create(T entity) {
 		executeSimpleTransactionAction(manager -> getStorage().create(manager, entity));
 	}
 
 	@Override
-	public void delete(T entity) throws SQLException {
+	public void delete(T entity) {
 		executeSimpleTransactionAction(manager -> getStorage().delete(manager, entity));
 	}
 
 	@Override
-	public void update(T entity) throws SQLException {
+	public void update(T entity) {
 		executeSimpleTransactionAction(manager -> getStorage().update(manager, entity));
 	}
 
 	@Override
-	public T get(Long id) throws SQLException {
-		return executeTransactionAction(manager -> getStorage().get(manager, id));
+	public T get(Long id) {
+		return executeAction(manager -> getStorage().get(manager, id));
 	}
 
 	@Override
-	public List<T> getAll() throws SQLException {
-		return executeTransactionAction(manager -> getStorage().getAll(manager));
+	public List<T> getAll() {
+		return executeAction(manager -> getStorage().getAll(manager));
 	}
 
 }

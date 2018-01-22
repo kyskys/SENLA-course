@@ -14,6 +14,8 @@ import com.senla.storage.interfaces.IAbstractStorage;
 
 public abstract class AbstractStorage<T extends BaseEntity> implements IAbstractStorage<T> {
 
+	protected abstract void joinLazyFields(Root<?> root);
+	
 	@Override
 	public void create(EntityManager manager, T entity) throws SQLException {
 		manager.persist(entity);
@@ -31,7 +33,13 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 
 	@Override
 	public T get(EntityManager manager, Long id) throws SQLException {
-		return (T) manager.find(getGenericClass(), id);
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<T> query = builder.createQuery(getGenericClass());
+		Root<T> root = query.from(getGenericClass());
+		joinLazyFields(root);
+		query.select(root).where(builder.equal(root.get("id"), id));
+		TypedQuery<T> result = manager.createQuery(query);
+		return result.getSingleResult();
 	}
 
 	@Override
@@ -39,6 +47,7 @@ public abstract class AbstractStorage<T extends BaseEntity> implements IAbstract
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(getGenericClass());
 		Root<T> root = query.from(getGenericClass());
+		joinLazyFields(root);
 		query.select(root);
 		TypedQuery<T> result = manager.createQuery(query);
 		return result.getResultList();

@@ -32,6 +32,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Order> query = builder.createQuery(Order.class);
 		Root<Order> root = query.from(Order.class);
+		root.fetch("masters");
 		Predicate lessThanDate = builder.lessThan(root.get("endingDate"), Date.valueOf(LocalDate.now()));
 		Predicate notCancelled = builder.notEqual(root.get("cancelled"), 1);
 		Predicate notClosed = builder.notEqual(root.get("closed"), 1);
@@ -46,6 +47,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Order> query = builder.createQuery(Order.class);
 		Root<Order> root = query.from(Order.class);
+		root.fetch("masters");
 		query.select(root)
 				.where(builder.and(builder.lessThan(root.get("startWorkingOnDate"), beforeDate),
 						builder.greaterThan(root.get("endingDate"), afterDate)))
@@ -73,6 +75,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Date> query = builder.createQuery(Date.class);
 		Root<Order> root = query.from(Order.class);
+		root.fetch("masters");
 		query.select(builder.least(root.get("endingDate"))).where(
 				builder.and(builder.notEqual(root.get("cancelled"), 1), builder.notEqual(root.get("closed"), 1)));
 		TypedQuery<Date> result = manager.createQuery(query);
@@ -86,6 +89,7 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 		Root<Master> root = query.from(Master.class);
 		Subquery<Order> subQuery = query.subquery(Order.class);
 		Root<Order> subRoot = subQuery.from(Order.class);
+		subRoot.fetch("masters");
 		query.select(root).where(
 				builder.equal(root.get("order"), subQuery.select(subRoot).where(builder.equal(subRoot.get("id"), id))));
 		TypedQuery<Master> result = manager.createQuery(query);
@@ -94,9 +98,14 @@ public class OrderStorage extends SortableStorage<Order> implements IOrderStorag
 
 	@Override
 	public void shiftOrderExecutionTime(EntityManager manager, int days) throws SQLException {
-		 StoredProcedureQuery query = manager.createStoredProcedureQuery("shift_order_execution_time");
-		 query.registerStoredProcedureParameter("days", Integer.class, ParameterMode.IN);
-		 query.setParameter("days", days);
-		 query.execute();
+		StoredProcedureQuery query = manager.createStoredProcedureQuery("shift_order_execution_time");
+		query.registerStoredProcedureParameter("days", Integer.class, ParameterMode.IN);
+		query.setParameter("days", days);
+		query.execute();
+	}
+
+	@Override
+	protected void joinLazyFields(Root<?> root) {
+		root.fetch("masters");
 	}
 }

@@ -1,7 +1,6 @@
 package com.senla.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.senla.entities.Garage;
@@ -29,21 +28,21 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public List<Sit> getFreeSits() throws SQLException {
-		return executeTransactionAction(manager -> {
+	public List<Sit> getFreeSits() {
+		return executeAction(manager -> {
 			return sitStorage.getFreeSits(manager);
 		});
 	}
 
 	@Override
-	public List<Sit> getFreeSitsAtDate(Date date) throws SQLException {
-		return executeTransactionAction(manager -> {
+	public List<Sit> getFreeSitsAtDate(Date date) {
+		return executeAction(manager -> {
 			return sitStorage.getFreeSitsAtDate(manager, date);
 		});
 	}
 
 	@Override
-	public synchronized void addOrderToSit(Long idOrder, Long idSit) throws SQLException {
+	public synchronized void addOrderToSit(Long idOrder, Long idSit) {
 		executeSimpleTransactionAction(manager -> {
 			Order order = orderStorage.get(manager, idOrder);
 			Sit sit = sitStorage.get(manager, idSit);
@@ -55,7 +54,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void removeOrderFromSit(Long idSit) throws SQLException {
+	public synchronized void removeOrderFromSit(Long idSit) {
 		executeSimpleTransactionAction(manager -> {
 			Sit sit = sitStorage.get(manager, idSit);
 			Order order = sit.getOrder();
@@ -67,7 +66,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void addGarageToSit(Long idGarage, Long idSit) throws SQLException {
+	public synchronized void addGarageToSit(Long idGarage, Long idSit) {
 		executeSimpleTransactionAction(manager -> {
 			Garage garage = garageStorage.get(manager, idGarage);
 			Sit sit = sitStorage.get(manager, idSit);
@@ -79,7 +78,7 @@ public class SitService extends AbstractService<Sit> implements ISitService {
 	}
 
 	@Override
-	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) throws SQLException {
+	public synchronized void removeGarageFromSit(Long idGarage, Long idSit) {
 		executeSimpleTransactionAction(manager -> {
 			Garage garage = garageStorage.get(manager, idGarage);
 			Sit sit = sitStorage.get(manager, idSit);

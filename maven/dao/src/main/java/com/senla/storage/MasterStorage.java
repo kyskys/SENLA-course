@@ -16,7 +16,7 @@ import com.senla.entities.Order;
 import com.senla.storage.interfaces.IMasterStorage;
 
 public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
-	
+
 	@Override
 	public Class<Master> getGenericClass() {
 		return Master.class;
@@ -27,6 +27,7 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Order> query = builder.createQuery(Order.class);
 		Root<Order> root = query.from(Order.class);
+		root.fetch("masters");
 		Subquery<Long> subQuery = query.subquery(Long.class);
 		Root<Master> subRoot = subQuery.from(Master.class);
 		query.select(root).where(builder.equal(root.get("id"),
@@ -43,8 +44,13 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 		Subquery<Order> subQuery = query.subquery(Order.class);
 		Root<Order> subRoot = subQuery.from(Order.class);
 		query.select(root).where(root.get("order")
-				.in(subQuery.select(subRoot).where(builder.equal(subRoot.get("endingDate"), date))));
+				.in(subQuery.select(subRoot).where(builder.lessThan(subRoot.get("endingDate"), date))));
 		TypedQuery<Master> result = manager.createQuery(query);
 		return result.getResultList();
+	}
+
+	@Override
+	protected void joinLazyFields(Root<?> root) {
+		
 	}
 }

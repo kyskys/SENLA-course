@@ -1,7 +1,6 @@
 package com.senla.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.senla.entities.Master;
@@ -25,22 +24,22 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	}
 
 	@Override
-	public Order getOrderExecutingByConcreteMaster(Long id) throws SQLException {
-		return executeTransactionAction(manager -> {
+	public Order getOrderExecutingByConcreteMaster(Long id) {
+		return executeAction(manager -> {
 			return masterStorage.getOrderExecutingByConcreteMaster(manager, id);
 		});
 	}
 
 	@Override
-	public List<Master> getFreeMastersOnDate(Date date) throws SQLException {
-		return (List<Master>) executeTransactionAction(manager -> {
+	public List<Master> getFreeMastersOnDate(Date date) {
+		return (List<Master>) executeAction(manager -> {
 			return masterStorage.getFreeMastersOnDate(manager, date);
 		});
 
 	}
 
 	@Override
-	public synchronized void addOrderToMaster(Long idOrder, Long idMaster) throws SQLException {
+	public synchronized void addOrderToMaster(Long idOrder, Long idMaster) {
 		executeSimpleTransactionAction(manager -> {
 			Master master = masterStorage.get(manager, idMaster);
 			Order order = orderStorage.get(manager, idOrder);
@@ -52,7 +51,7 @@ public class MasterService extends SortableService<Master> implements IMasterSer
 	}
 
 	@Override
-	public synchronized void removeOrderFromMaster(Long idMaster) throws SQLException {
+	public synchronized void removeOrderFromMaster(Long idMaster) {
 		executeSimpleTransactionAction(manager -> {
 			Master master = masterStorage.get(manager, idMaster);
 			Order order = master.getOrder();

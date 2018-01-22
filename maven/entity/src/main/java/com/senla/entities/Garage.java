@@ -20,7 +20,7 @@ public class Garage implements BaseEntity {
 	@Column(name = "garage_id", nullable = false, unique = true)
 	private Long id;
 
-	@OneToMany(mappedBy = "garage", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "garage", fetch = FetchType.LAZY)
 	private List<Sit> sits;
 
 	public boolean addSit(Sit sit) {

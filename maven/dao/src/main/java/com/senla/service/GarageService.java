@@ -1,7 +1,5 @@
 package com.senla.service;
 
-import java.sql.SQLException;
-
 import com.senla.entities.Garage;
 import com.senla.entities.Sit;
 import com.senla.service.interfaces.IGarageService;
@@ -16,14 +14,14 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	private IGarageStorage garageStorage;
 	@Injectable
 	private ISitStorage sitStorage;
-	
+
 	@Override
 	public IAbstractStorage<Garage> getStorage() {
 		return garageStorage;
 	}
 
 	@Override
-	public void addSitToGarage(Long idGarage, Long idSit) throws SQLException {
+	public void addSitToGarage(Long idGarage, Long idSit) {
 		executeSimpleTransactionAction(session -> {
 			Garage garage = garageStorage.get(session, idGarage);
 			Sit sit = sitStorage.get(session, idSit);
@@ -35,7 +33,7 @@ public class GarageService extends AbstractService<Garage> implements IGarageSer
 	}
 
 	@Override
-	public void removeSitFromGarage(Long idSit, Long idGarage) throws SQLException {
+	public void removeSitFromGarage(Long idSit, Long idGarage) {
 		executeSimpleTransactionAction(session -> {
 			Garage garage = garageStorage.get(session, idGarage);
 			Sit sit = sitStorage.get(session, idSit);
