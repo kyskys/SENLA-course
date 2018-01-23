@@ -24,11 +24,7 @@ public class AddGarageToSitServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			SitGarageChainDto chain = getMapper().readValue(request.getInputStream(), SitGarageChainDto.class);
-			controller.addSitToGarage(chain.getGarage(), chain.getSit());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		SitGarageChainDto chain = getMapper().readValue(request.getInputStream(), SitGarageChainDto.class);
+		controller.addSitToGarage(chain.getGarage(), chain.getSit());
 	}
 }

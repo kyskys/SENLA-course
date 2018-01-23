@@ -24,11 +24,7 @@ public class AddOrderToSitServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			OrderSitChainDto chain = getMapper().readValue(request.getInputStream(), OrderSitChainDto.class);
-			controller.addOrderToSit(chain.getOrder(), chain.getSit());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		OrderSitChainDto chain = getMapper().readValue(request.getInputStream(), OrderSitChainDto.class);
+		controller.addOrderToSit(chain.getOrder(), chain.getSit());
 	}
 }

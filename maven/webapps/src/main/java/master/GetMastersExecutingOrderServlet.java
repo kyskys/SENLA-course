@@ -26,15 +26,11 @@ public class GetMastersExecutingOrderServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Long idOrder = Long.valueOf(request.getParameter("id"));
-			List<MasterDto> masters = controller.getMastersExecutingConcreteOrder(idOrder).stream().map(MasterDto::new)
-					.collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), masters);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Long idOrder = Long.valueOf(request.getParameter("id"));
+		List<MasterDto> masters = controller.getMastersExecutingConcreteOrder(idOrder).stream().map(MasterDto::new)
+				.collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), masters);
 	}
 }

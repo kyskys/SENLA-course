@@ -26,14 +26,9 @@ public class GetMastersServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			List<MasterDto> masters = controller.getMasters().stream().map(MasterDto::new)
-					.collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), masters);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		List<MasterDto> masters = controller.getMasters().stream().map(MasterDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), masters);
 	}
 }

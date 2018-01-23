@@ -14,7 +14,7 @@ import com.senla.controller.IController;
 import dependency.DependencyManager;
 import dto.MasterOrderChainDto;
 
-public class RemoveOrderFromMasterServlet extends HttpServlet{
+public class RemoveOrderFromMasterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController controller = DependencyManager.getInstance(IController.class);
 
@@ -24,11 +24,7 @@ public class RemoveOrderFromMasterServlet extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
-			controller.removeOrderFromMaster(chain.getOrder());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
+		controller.removeOrderFromMaster(chain.getOrder());
 	}
 }

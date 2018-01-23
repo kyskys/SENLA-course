@@ -24,11 +24,7 @@ public class RemoveMasterFromOrderServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
-			controller.removeMasterFromOrder(chain.getMaster(), chain.getOrder());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
+		controller.removeMasterFromOrder(chain.getMaster(), chain.getOrder());
 	}
 }

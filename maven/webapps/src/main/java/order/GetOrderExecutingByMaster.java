@@ -24,14 +24,10 @@ public class GetOrderExecutingByMaster extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Long idMaster = Long.valueOf(request.getParameter("id"));
-			OrderDto order = new OrderDto(controller.getOrderExecutingByConcreteMaster(idMaster));
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), order);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Long idMaster = Long.valueOf(request.getParameter("id"));
+		OrderDto order = new OrderDto(controller.getOrderExecutingByConcreteMaster(idMaster));
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), order);
 	}
 }

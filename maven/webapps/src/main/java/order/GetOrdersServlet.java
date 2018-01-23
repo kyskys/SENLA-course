@@ -26,13 +26,9 @@ public class GetOrdersServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			List<OrderDto> orders = controller.getOrders().stream().map(OrderDto::new).collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), orders);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		List<OrderDto> orders = controller.getOrders().stream().map(OrderDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), orders);
 	}
 }

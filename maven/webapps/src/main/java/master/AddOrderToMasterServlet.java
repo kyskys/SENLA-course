@@ -14,7 +14,7 @@ import dto.MasterOrderChainDto;
 
 import static util.Mapper.getMapper;
 
-public class AddOrderToMasterServlet extends HttpServlet{
+public class AddOrderToMasterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IController controller = DependencyManager.getInstance(IController.class);
 
@@ -24,11 +24,7 @@ public class AddOrderToMasterServlet extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
-			controller.addOrderToMaster(chain.getOrder(), chain.getMaster());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		MasterOrderChainDto chain = getMapper().readValue(request.getInputStream(), MasterOrderChainDto.class);
+		controller.addOrderToMaster(chain.getOrder(), chain.getMaster());
 	}
 }

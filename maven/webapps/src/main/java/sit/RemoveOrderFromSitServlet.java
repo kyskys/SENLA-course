@@ -24,11 +24,7 @@ public class RemoveOrderFromSitServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			OrderSitChainDto chain = getMapper().readValue(request.getInputStream(), OrderSitChainDto.class);
-			controller.removeOrderFromSit(chain.getSit());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		OrderSitChainDto chain = getMapper().readValue(request.getInputStream(), OrderSitChainDto.class);
+		controller.removeOrderFromSit(chain.getSit());
 	}
 }

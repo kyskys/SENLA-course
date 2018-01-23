@@ -26,15 +26,11 @@ public class GetExecutingOrdersServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			String parameter = request.getParameter("parameter");
-			List<OrderDto> orders = controller.getExecutingOrders(parameter).stream().map(OrderDto::new)
-					.collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), orders);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		String parameter = request.getParameter("parameter");
+		List<OrderDto> orders = controller.getExecutingOrders(parameter).stream().map(OrderDto::new)
+				.collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), orders);
 	}
 }

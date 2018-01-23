@@ -27,16 +27,12 @@ public class GetFreeMastersOnDateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Date date = Date.valueOf(request.getParameter("date"));
-			List<MasterDto> masters = controller.getFreeMastersOnDate(date).stream().map(MasterDto::new)
-					.collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), masters);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Date date = Date.valueOf(request.getParameter("date"));
+		List<MasterDto> masters = controller.getFreeMastersOnDate(date).stream().map(MasterDto::new)
+				.collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), masters);
 	}
 
 }

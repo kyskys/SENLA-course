@@ -24,13 +24,9 @@ public class GetNearestDateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Date date = controller.getNearestFreeDate();
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), date);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Date date = controller.getNearestFreeDate();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), date);
 	}
 }

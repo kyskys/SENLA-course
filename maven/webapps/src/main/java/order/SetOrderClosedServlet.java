@@ -21,12 +21,8 @@ public class SetOrderClosedServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Long idOrder = Long.valueOf(request.getParameter("order"));
-			Boolean closed = Boolean.valueOf(request.getParameter("value"));
-			controller.setOrderClosed(idOrder, closed);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Long idOrder = Long.valueOf(request.getParameter("order"));
+		Boolean closed = Boolean.valueOf(request.getParameter("value"));
+		controller.setOrderClosed(idOrder, closed);
 	}
 }

@@ -27,15 +27,10 @@ public class GetFreeSitsAtDateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Date date = Date.valueOf(request.getParameter("date"));
-			List<SitDto> sits = controller.getFreeSitsAtDate(date).stream().map(SitDto::new)
-					.collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), sits);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Date date = Date.valueOf(request.getParameter("date"));
+		List<SitDto> sits = controller.getFreeSitsAtDate(date).stream().map(SitDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), sits);
 	}
 }

@@ -21,12 +21,8 @@ public class SetOrderCancelledServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			Long idOrder = Long.valueOf(request.getParameter("order"));
-			Boolean cancelled = Boolean.valueOf(request.getParameter("value"));
-			controller.setOrderCancelled(idOrder, cancelled);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		Long idOrder = Long.valueOf(request.getParameter("order"));
+		Boolean cancelled = Boolean.valueOf(request.getParameter("value"));
+		controller.setOrderCancelled(idOrder, cancelled);
 	}
 }

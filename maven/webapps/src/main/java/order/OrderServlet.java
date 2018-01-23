@@ -26,68 +26,52 @@ public class OrderServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			List<OrderDto> orders = controller.getOrders().stream().map(OrderDto::new).collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			Mapper.getMapper().writeValue(response.getOutputStream(), orders);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		List<OrderDto> orders = controller.getOrders().stream().map(OrderDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		Mapper.getMapper().writeValue(response.getOutputStream(), orders);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
-			Order order = new Order();
-			order.setId(dto.getId());
-			order.setPrice(dto.getPrice());
-			order.setAddedDate(dto.getAddedDate());
-			order.setEndingDate(dto.getEndingDate());
-			order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
-			order.setCancelled(dto.isCancelled());
-			order.setClosed(dto.isClosed());
-			for(Long idMaster : dto.getMasters()) {
-				controller.addMasterToOrder(idMaster, dto.getId());
-			}
-			controller.updateOrder(order);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+		Order order = new Order();
+		order.setId(dto.getId());
+		order.setPrice(dto.getPrice());
+		order.setAddedDate(dto.getAddedDate());
+		order.setEndingDate(dto.getEndingDate());
+		order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
+		order.setCancelled(dto.isCancelled());
+		order.setClosed(dto.isClosed());
+		for (Long idMaster : dto.getMasters()) {
+			controller.addMasterToOrder(idMaster, dto.getId());
 		}
+		controller.updateOrder(order);
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
-			Order order = new Order();
-			order.setId(dto.getId());
-			order.setPrice(dto.getPrice());
-			order.setAddedDate(dto.getAddedDate());
-			order.setEndingDate(dto.getEndingDate());
-			order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
-			order.setCancelled(dto.isCancelled());
-			order.setClosed(dto.isClosed());
-			controller.addOrder(order);
-			for(Long idMaster : dto.getMasters()) {
-				controller.addMasterToOrder(idMaster, dto.getId());
-			}
-			controller.updateOrder(order);
-		} catch (Throwable e) {
-			e.printStackTrace();
+		OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+		Order order = new Order();
+		order.setId(dto.getId());
+		order.setPrice(dto.getPrice());
+		order.setAddedDate(dto.getAddedDate());
+		order.setEndingDate(dto.getEndingDate());
+		order.setStartWorkingOnDate(dto.getStartWorkingOnDate());
+		order.setCancelled(dto.isCancelled());
+		order.setClosed(dto.isClosed());
+		controller.addOrder(order);
+		for (Long idMaster : dto.getMasters()) {
+			controller.addMasterToOrder(idMaster, dto.getId());
 		}
+		controller.updateOrder(order);
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
-			Order order = new Order();
-			order.setId(dto.getId());
-			controller.deleteOrder(order);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		OrderDto dto = Mapper.getMapper().readValue(request.getInputStream(), OrderDto.class);
+		Order order = new Order();
+		order.setId(dto.getId());
+		controller.deleteOrder(order);
 	}
 }

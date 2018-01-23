@@ -26,13 +26,9 @@ public class GetGaragesServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			List<GarageDto> garages = controller.getGarages().stream().map(GarageDto::new).collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), garages);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		List<GarageDto> garages = controller.getGarages().stream().map(GarageDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), garages);
 	}
 }

@@ -26,13 +26,9 @@ public class GetFreeSitsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			List<SitDto> sits = controller.getFreeSits().stream().map(SitDto::new).collect(Collectors.toList());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			getMapper().writeValue(response.getOutputStream(), sits);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		List<SitDto> sits = controller.getFreeSits().stream().map(SitDto::new).collect(Collectors.toList());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		getMapper().writeValue(response.getOutputStream(), sits);
 	}
 }

@@ -21,11 +21,7 @@ public class ShiftOrderExecutionTimeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
-			int days = Integer.valueOf(request.getParameter("days"));
-			controller.shiftOrdersTimeExecution(days);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		int days = Integer.valueOf(request.getParameter("days"));
+		controller.shiftOrdersTimeExecution(days);
 	}
 }
