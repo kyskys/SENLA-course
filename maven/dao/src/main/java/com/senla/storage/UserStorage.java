@@ -36,5 +36,14 @@ public class UserStorage extends AbstractStorage<User> implements IUserStorage {
 		return user;
 	}
 
-	
+	@Override
+	public Long getUserIdByLogin(EntityManager manager, String login) {
+		CriteriaBuilder builder = DBConnector.getManager().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<User> root = query.from(User.class);
+		query.select(root.get("id")).where(builder.equal(root.get("login"), login));
+		TypedQuery<Long> result = DBConnector.getManager().createQuery(query);
+		return result.getSingleResult();
+	}
+
 }

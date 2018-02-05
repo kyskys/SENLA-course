@@ -7,21 +7,23 @@ import java.sql.Date;
 import java.util.List;
 
 public interface IController {
-	
+
+	Long getUserIdByLogin(String login);
+
 	User getUser(Long id);
-	
+
 	void deleteUser(User user);
-	
+
 	void updateUser(User user);
-	
-	void addUser (User user);
-	
+
+	void addUser(User user);
+
 	List<User> getUsers();
-	
+
 	AuthCodeEnum checkUser(String login, String password);
-	
+
 	User getUserByLogin(String login);
-	
+
 	void updateMaster(Master master);
 
 	void updateGarage(Garage garage);

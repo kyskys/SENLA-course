@@ -24,6 +24,7 @@ import dto.GarageDto;
 import dto.MasterDto;
 import dto.OrderDto;
 import dto.SitDto;
+import dto.UserCredsDto;
 import dto.UserDetailsDto;
 import jwt.JWTManager;
 
@@ -34,10 +35,10 @@ public class RESTController {
 	private IController controller;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public AuthMessageDto checkUser(@RequestBody User user) {
+	public AuthMessageDto checkUser(@RequestBody UserCredsDto user) {
 		AuthCodeEnum code = controller.checkUser(user.getLogin(), user.getPassword());
 		if (code == AuthCodeEnum.SUCCESS_AUTH) {
-			return new AuthMessageDto(AuthCodeEnum.SUCCESS_AUTH, JWTManager.getInstance().createToken(user.getId()));
+			return new AuthMessageDto(AuthCodeEnum.SUCCESS_AUTH, JWTManager.getInstance().createToken(controller.getUserIdByLogin(user.getLogin())));
 		} else {
 			return new AuthMessageDto(code);
 		}

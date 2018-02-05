@@ -5,10 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@SecondaryTable(name="users_details")
 public class User implements BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,9 @@ public class User implements BaseEntity {
 
 	@Column(name = "name", table = "users_details")
 	private String name;
+
+	@Column(name = "email", table = "users_details")
+	private String email;
 
 	public String getName() {
 		return name;
@@ -39,9 +44,6 @@ public class User implements BaseEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Column(name = "email", table = "users_details")
-	private String email;
 
 	public String getLogin() {
 		return login;

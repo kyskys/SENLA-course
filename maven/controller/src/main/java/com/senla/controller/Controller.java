@@ -23,12 +23,10 @@ public class Controller implements IController {
 	private IGarageService garageService;
 	@Autowired
 	private IUserService userService;
-	
-	/*public Controller() {
-		AnnotationHandler.configure(this);
-	}*/
-	
-	
+
+	/*
+	 * public Controller() { AnnotationHandler.configure(this); }
+	 */
 
 	@Override
 	public void addMaster(Master master) {
@@ -308,6 +306,11 @@ public class Controller implements IController {
 	@Override
 	public User getUserByLogin(String login) {
 		return userService.getUserByLogin(login);
+	}
+
+	@Override
+	public Long getUserIdByLogin(String login) {
+		return userService.getUserIdByLogin(login);
 	}
 
 }

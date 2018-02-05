@@ -1,6 +1,6 @@
 package com.senla.service;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 			try {
 				User user = userStorage.getByLogin(manager, login);
 				return user.getPassword().equals(password) ? AuthCodeEnum.SUCCESS_AUTH : AuthCodeEnum.WRONG_PASSWORD;
-			} catch (EntityNotFoundException e) {
+			} catch (NoResultException e) {
 				return AuthCodeEnum.LOGIN_NOT_EXIST;
 			}
 		});
@@ -39,6 +39,14 @@ public class UserService extends AbstractService<User> implements IUserService {
 		return executeAction(manager -> {
 			User user = userStorage.getByLogin(manager, login);
 			return user;
+		});
+	}
+
+	@Override
+	public Long getUserIdByLogin(String login) {
+		return executeAction(manager -> {
+			Long id = userStorage.getUserIdByLogin(manager, login);
+			return id;
 		});
 	}
 

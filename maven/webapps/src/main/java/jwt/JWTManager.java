@@ -24,7 +24,7 @@ public class JWTManager {
 	private static final TemporalAmount TOKEN_VALIDITY = Duration.ofHours(4L);
 	private static final Logger logger = Logger.getLogger(JWTFilter.class);
 
-	private final byte[] sharedKey = null;
+	private final byte[] sharedKey = new byte[32];
 	private static JWTManager instance;
 
 	private JWTManager() {
