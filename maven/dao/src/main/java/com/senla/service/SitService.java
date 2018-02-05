@@ -3,6 +3,9 @@ package com.senla.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Garage;
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
@@ -12,14 +15,13 @@ import com.senla.storage.interfaces.IGarageStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
-import annotation.Injectable;
-
+@Service
 public class SitService extends AbstractService<Sit> implements ISitService {
-	@Injectable
+	@Autowired
 	private ISitStorage sitStorage;
-	@Injectable
+	@Autowired
 	private IOrderStorage orderStorage;
-	@Injectable
+	@Autowired
 	private IGarageStorage garageStorage;
 
 	@Override

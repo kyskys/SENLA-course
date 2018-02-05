@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import com.senla.entities.BaseEntity;
 import com.senla.util.SortParameters;
@@ -34,13 +33,14 @@ public abstract class SortableStorage<T extends BaseEntity> extends AbstractStor
 		return result != null ? result : "id";
 	}
 
-	public List<T> getAll(Session session, SortParameters parameter) throws SQLException {
-		CriteriaBuilder builder = session.getCriteriaBuilder();
+	@Override
+	public List<T> getAll(EntityManager manager, SortParameters parameter) throws SQLException {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(getGenericClass());
 		Root<T> root = query.from(getGenericClass());
 		query.select(root);
 		query.orderBy(builder.asc(root.get(convertToFieldName(parameter))));
-		Query<T> result = session.createQuery(query);
+		TypedQuery<T> result = manager.createQuery(query);
 		return result.getResultList();
 	}
 

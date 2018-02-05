@@ -1,11 +1,27 @@
 package com.senla.controller;
 
 import com.senla.entities.*;
+import com.senla.util.AuthCodeEnum;
 
 import java.sql.Date;
 import java.util.List;
 
 public interface IController {
+	
+	User getUser(Long id);
+	
+	void deleteUser(User user);
+	
+	void updateUser(User user);
+	
+	void addUser (User user);
+	
+	List<User> getUsers();
+	
+	AuthCodeEnum checkUser(String login, String password);
+	
+	User getUserByLogin(String login);
+	
 	void updateMaster(Master master);
 
 	void updateGarage(Garage garage);
@@ -22,13 +38,13 @@ public interface IController {
 
 	void deleteSit(Sit sit);
 
-	Garage getGarage(long id);
+	Garage getGarage(Long id);
 
-	Master getMaster(long id);
+	Master getMaster(Long id);
 
-	Order getOrder(long id);
+	Order getOrder(Long id);
 
-	Sit getSit(long id);
+	Sit getSit(Long id);
 
 	void addMaster(Master master);
 
@@ -38,9 +54,9 @@ public interface IController {
 
 	void removeOrder(Order order);
 
-	void setOrderClosed(long id, Boolean value);
+	void setOrderClosed(Long id, Boolean value);
 
-	void setOrderCancelled(long id, Boolean value);
+	void setOrderCancelled(Long id, Boolean value);
 
 	void addGarage(Garage garage);
 

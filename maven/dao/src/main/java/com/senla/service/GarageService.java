@@ -1,5 +1,8 @@
 package com.senla.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Garage;
 import com.senla.entities.Sit;
 import com.senla.service.interfaces.IGarageService;
@@ -7,12 +10,11 @@ import com.senla.storage.interfaces.IAbstractStorage;
 import com.senla.storage.interfaces.IGarageStorage;
 import com.senla.storage.interfaces.ISitStorage;
 
-import annotation.Injectable;
-
+@Service
 public class GarageService extends AbstractService<Garage> implements IGarageService {
-	@Injectable
+	@Autowired
 	private IGarageStorage garageStorage;
-	@Injectable
+	@Autowired
 	private ISitStorage sitStorage;
 
 	@Override

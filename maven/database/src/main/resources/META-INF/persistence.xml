@@ -11,6 +11,7 @@
 		<class>com.senla.entities.Master</class>
 		<class>com.senla.entities.Order</class>
 		<class>com.senla.entities.Sit</class>
+		<class>com.senla.entities.User</class>
 		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>

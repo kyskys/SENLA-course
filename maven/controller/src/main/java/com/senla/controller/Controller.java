@@ -3,31 +3,32 @@ package com.senla.controller;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.*;
 import com.senla.service.interfaces.*;
+import com.senla.util.AuthCodeEnum;
 import com.senla.util.SortParameters;
 
-import annotation.Configurable;
-import annotation.Injectable;
-import util.AnnotationHandler;
-
+@Service
 public class Controller implements IController {
-	@Injectable
-	@Configurable
+	@Autowired
 	private IOrderService orderService;
-	@Injectable
-	@Configurable
+	@Autowired
 	private IMasterService masterService;
-	@Injectable
-	@Configurable
+	@Autowired
 	private ISitService sitService;
-	@Injectable
-	@Configurable
+	@Autowired
 	private IGarageService garageService;
-
-	public Controller() {
+	@Autowired
+	private IUserService userService;
+	
+	/*public Controller() {
 		AnnotationHandler.configure(this);
-	}
+	}*/
+	
+	
 
 	@Override
 	public void addMaster(Master master) {
@@ -54,13 +55,13 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void setOrderClosed(long id, Boolean value) {
+	public void setOrderClosed(Long id, Boolean value) {
 		orderService.setOrderClosed(id, value);
 
 	}
 
 	@Override
-	public void setOrderCancelled(long id, Boolean value) {
+	public void setOrderCancelled(Long id, Boolean value) {
 		orderService.setOrderCancelled(id, value);
 
 	}
@@ -162,22 +163,22 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public Garage getGarage(long id) {
+	public Garage getGarage(Long id) {
 		return garageService.get(id);
 	}
 
 	@Override
-	public Master getMaster(long id) {
+	public Master getMaster(Long id) {
 		return masterService.get(id);
 	}
 
 	@Override
-	public Order getOrder(long id) {
+	public Order getOrder(Long id) {
 		return orderService.get(id);
 	}
 
 	@Override
-	public Sit getSit(long id) {
+	public Sit getSit(Long id) {
 		return sitService.get(id);
 	}
 
@@ -272,6 +273,41 @@ public class Controller implements IController {
 	@Override
 	public void deleteSit(Sit sit) {
 		sitService.delete(sit);
+	}
+
+	@Override
+	public User getUser(Long id) {
+		return userService.get(id);
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		userService.delete(user);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		userService.update(user);
+	}
+
+	@Override
+	public void addUser(User user) {
+		userService.create(user);
+	}
+
+	@Override
+	public List<User> getUsers() {
+		return userService.getAll();
+	}
+
+	@Override
+	public AuthCodeEnum checkUser(String login, String password) {
+		return userService.checkUser(login, password);
+	}
+
+	@Override
+	public User getUserByLogin(String login) {
+		return userService.getUserByLogin(login);
 	}
 
 }

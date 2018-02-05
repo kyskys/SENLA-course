@@ -15,11 +15,15 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.util.SortParameters;
 import com.senla.storage.interfaces.IOrderStorage;
 
+
+@Service
 public class OrderStorage extends SortableStorage<Order> implements IOrderStorage {
 
 	@Override

@@ -12,10 +12,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
 import com.senla.storage.interfaces.ISitStorage;
 
+@Service
 public class SitStorage extends AbstractStorage<Sit> implements ISitStorage {
 
 	@Override

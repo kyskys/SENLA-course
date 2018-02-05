@@ -29,5 +29,12 @@
 			<artifactId>entity</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>4.3.13.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 </project>

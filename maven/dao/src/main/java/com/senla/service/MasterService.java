@@ -3,6 +3,9 @@ package com.senla.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.service.interfaces.*;
@@ -10,12 +13,11 @@ import com.senla.storage.interfaces.IMasterStorage;
 import com.senla.storage.interfaces.IOrderStorage;
 import com.senla.storage.interfaces.ISortableStorage;
 
-import annotation.Injectable;
-
+@Service
 public class MasterService extends SortableService<Master> implements IMasterService {
-	@Injectable
+	@Autowired
 	private IMasterStorage masterStorage;
-	@Injectable
+	@Autowired
 	private IOrderStorage orderStorage;
 
 	@Override

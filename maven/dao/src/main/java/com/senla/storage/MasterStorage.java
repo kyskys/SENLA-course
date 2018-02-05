@@ -11,10 +11,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.springframework.stereotype.Service;
+
 import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.storage.interfaces.IMasterStorage;
 
+@Service
 public class MasterStorage extends SortableStorage<Master> implements IMasterStorage {
 
 	@Override
@@ -51,6 +54,6 @@ public class MasterStorage extends SortableStorage<Master> implements IMasterSto
 
 	@Override
 	protected void joinLazyFields(Root<?> root) {
-		
+
 	}
 }

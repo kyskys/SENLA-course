@@ -27,7 +27,7 @@ public class MasterDto {
 		return order;
 	}
 
-	public Boolean getBusy() {
+	public Boolean isBusy() {
 		return busy;
 	}
 
