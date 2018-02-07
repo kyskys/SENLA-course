@@ -3,14 +3,15 @@ package context;
 import com.senla.entities.User;
 
 public class CurrentUserHolder {
-	private static User currentUser;
+	
+	private User currentUser;
 
-	public static User getUser() {
+	public User getUser() {
 		return currentUser;
 	}
 
-	public static void setUser(User user) {
+	public void setUser(User user) {
 		currentUser = user;
 	}
-	
+
 }

@@ -16,9 +16,10 @@ import com.senla.entities.Garage;
 import com.senla.entities.Master;
 import com.senla.entities.Order;
 import com.senla.entities.Sit;
-import com.senla.entities.User;
 import com.senla.util.AuthCodeEnum;
 
+import context.ApplicationContextProvider;
+import context.CurrentUserHolder;
 import dto.AuthMessageDto;
 import dto.GarageDto;
 import dto.MasterDto;
@@ -27,7 +28,6 @@ import dto.SitDto;
 import dto.UserCredsDto;
 import dto.UserDetailsDto;
 import jwt.JWTManager;
-
 @RestController
 public class RESTController {
 
@@ -45,9 +45,9 @@ public class RESTController {
 	}
 
 	@RequestMapping(value = "/api/profile", method = RequestMethod.GET, produces = "application/json")
-	public UserDetailsDto getUserDetails(@RequestParam(value = "id") Long id) {
-		User user = controller.getUser(id);
-		return new UserDetailsDto(user);
+	public UserDetailsDto getUserDetails() {
+		CurrentUserHolder userHolder = ApplicationContextProvider.getApplicationContext().getBean(CurrentUserHolder.class);
+		return new UserDetailsDto(userHolder.getUser());
 	}
 
 	// Garages Service
