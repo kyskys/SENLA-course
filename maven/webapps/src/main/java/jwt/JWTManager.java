@@ -3,12 +3,14 @@ package jwt;
 import java.util.Date;
 
 import org.jboss.logging.Logger;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSVerifier;
@@ -16,26 +18,28 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import com.senla.entities.User;
 
+import net.minidev.json.JSONObject;
+
+@Component
 public class JWTManager {
 
 	private static final JWSAlgorithm algorithm = JWSAlgorithm.HS256;
 	private static final String issuer = "webapp";
 	private static final TemporalAmount TOKEN_VALIDITY = Duration.ofHours(4L);
 	private static final Logger logger = Logger.getLogger(JWTFilter.class);
+	private static final byte[] sharedKey = new byte[32];
 
-	private final byte[] sharedKey = new byte[32];
-	private static JWTManager instance;
-
-	private JWTManager() {
+	static {
 		generateSharedKey();
 	}
 
-	public String createToken(Long id) {
+	public static String createToken(User user) {
 		try {
-			MACSigner signer = new MACSigner(new byte[32]);
+			MACSigner signer = new MACSigner(sharedKey);
 			JWTClaimsSet set = new JWTClaimsSet.Builder().issuer(issuer).expirationTime(getExpirationPeriod())
-					.claim("id", id).build();
+					.claim("user", user).build();
 			SignedJWT sign = new SignedJWT(new JWSHeader(algorithm), set);
 			sign.sign(signer);
 			return sign.serialize();
@@ -45,12 +49,12 @@ public class JWTManager {
 		return null;
 	}
 
-	public boolean verifyToken(String token) {
+	public static boolean verifyToken(String token) {
 		try {
 			SignedJWT sign = SignedJWT.parse(token);
 			JWSVerifier verifier = new MACVerifier(sharedKey);
 			Date expiryDate = (Date) sign.getJWTClaimsSet().getExpirationTime();
-			if (sign.verify(verifier) && expiryDate.before(new Date())) {
+			if (sign.verify(verifier)&&expiryDate.after(new Date())) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -59,24 +63,28 @@ public class JWTManager {
 		return false;
 	}
 
-	private Date getExpirationPeriod() {
+	private static Date getExpirationPeriod() {
 		Instant now = Instant.now();
 		Date expiryDate = Date.from(now.plus(TOKEN_VALIDITY));
 		return expiryDate;
 	}
 
-	private void generateSharedKey() {
+	private static void generateSharedKey() {
 		SecureRandom random = new SecureRandom();
 		random.nextBytes(sharedKey);
 	}
 
-	public static JWTManager getInstance() {
-		if (instance == null) {
-			synchronized (JWTManager.class) {
-				if (instance == null)
-					instance = new JWTManager();
-			}
+	public static User getCurrentUserByToken(String token) {
+		try {
+			SignedJWT sign = SignedJWT.parse(token);
+			JSONObject jsonUser = (JSONObject) sign.getJWTClaimsSet().getClaim("user");
+			ObjectMapper mapper = new ObjectMapper();
+			User user  = mapper.readValue(jsonUser.toString(), User.class) ;
+			return user;
+		} catch (Exception e) {
+			logger.error(e);
 		}
-		return instance;
+		return null;
 	}
+
 }

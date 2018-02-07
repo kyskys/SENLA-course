@@ -10,8 +10,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-@SecondaryTable(name="users_details")
+@SecondaryTable(name = "users_details")
 public class User implements BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", nullable = false, unique = true)
@@ -63,11 +64,11 @@ public class User implements BaseEntity {
 
 	@Override
 	public Long getId() {
-		return null;
+		return id;
 	}
 
 	@Override
 	public void setId(Long id) {
-
+		this.id = id;
 	}
 }

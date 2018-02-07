@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from '../service/http.service';
-import {HttpParams} from '@angular/common/http';
+import {AuthService} from '../service/auth.service';
+import {HttpParams,HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {UserCreds} from '../entity/userCreds';
 import {Message} from '../entity/message';
@@ -10,7 +11,7 @@ import {Message} from '../entity/message';
   templateUrl: './authorisation.component.html',
   styleUrls: ['./authorisation.component.css'],
   providers: [
-  HttpService,
+  HttpService,AuthService
   ]
 })
 export class AuthorisationComponent implements OnInit {
@@ -19,9 +20,11 @@ export class AuthorisationComponent implements OnInit {
 	password:string;
 	message:string;
   codeMessage: Message = new Message();
-  token: string;
-
-  constructor(private service: HttpService, private router: Router) { }
+  error:string;
+  
+  constructor(private service: HttpService, private router: Router,private auth:AuthService) {
+    this.auth.setToken('');
+  }
 
   redirectToProfile() {
   this.router.navigate(['profile']);
@@ -31,24 +34,30 @@ export class AuthorisationComponent implements OnInit {
   }
 
   getUser() :UserCreds  {
-  	var user: UserCreds = new UserCreds();
+  	let user: UserCreds = new UserCreds();
   	user.login=this.login;
   	user.password=this.password;
     return user;
   }
   
   check() {
-  	//const params = new HttpParams().set('login',login).set('password',pass);
-    var user: UserCreds = this.getUser();
-  	this.service.doPost("http://localhost:8080/webapps/login", user).subscribe((msg: Message)=>this.codeMessage=msg);
-    if(this.codeMessage.code==3000) {
-      this.token = this.codeMessage.token;
+    let user: UserCreds = this.getUser();
+  	this.service.doPost("http://localhost:8080/webapps/login", user).subscribe(
+      (msg:Message)=> {
+      this.codeMessage=msg;
+      if(this.codeMessage.code==3000) {
+      this.auth.setToken(this.codeMessage.token);
       this.redirectToProfile();
     } else if (this.codeMessage.code==3001) {
       this.message="wrong password";
     } else if (this.codeMessage.code=3002) {
       this.message="no such login";
     }
+     },error => {
+       this.error=error;
+     }
+     );
+    
   }
   }
 

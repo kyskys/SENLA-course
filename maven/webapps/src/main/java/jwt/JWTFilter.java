@@ -11,19 +11,24 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.senla.entities.User;
+
+import context.CurrentUserHolder;
+
 public class JWTFilter implements Filter {
 
 	private FilterConfig config;
 	private static final int STATUS_CODE_UNAUTHORISED = 401;
 	private static final String REQUEST_AUTH_HEADER = "Auth";
-	private final JWTManager manager = JWTManager.getInstance();
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String token = httpRequest.getHeader(REQUEST_AUTH_HEADER);
-		if (manager.verifyToken(token)) {
+		if (JWTManager.verifyToken(token)) {
+			User user = JWTManager.getCurrentUserByToken(token);
+			CurrentUserHolder.setUser(user);
 			chain.doFilter(request, response);
 		} else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;

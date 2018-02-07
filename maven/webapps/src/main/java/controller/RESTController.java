@@ -38,7 +38,7 @@ public class RESTController {
 	public AuthMessageDto checkUser(@RequestBody UserCredsDto user) {
 		AuthCodeEnum code = controller.checkUser(user.getLogin(), user.getPassword());
 		if (code == AuthCodeEnum.SUCCESS_AUTH) {
-			return new AuthMessageDto(AuthCodeEnum.SUCCESS_AUTH, JWTManager.getInstance().createToken(controller.getUserIdByLogin(user.getLogin())));
+			return new AuthMessageDto(AuthCodeEnum.SUCCESS_AUTH, JWTManager.createToken(controller.getUserByLogin(user.getLogin())));
 		} else {
 			return new AuthMessageDto(code);
 		}
