@@ -6,12 +6,12 @@ import { AuthorisationComponent } from './authorisation/authorisation.component'
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import {Routes, RouterModule} from '@angular/router';
-import {RoutesGuard} from './guard/routes.guard';
+import {AuthGuard} from './guard/auth.guard';
 import {AuthService} from './service/auth.service';
 
 const routes: Routes =[
     { path: '', component: AuthorisationComponent},
-    { path: 'profile', component: ProfileComponent, canActivate: [RoutesGuard]}
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -26,7 +26,7 @@ const routes: Routes =[
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [RoutesGuard,AuthService],
+  providers: [AuthGuard,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

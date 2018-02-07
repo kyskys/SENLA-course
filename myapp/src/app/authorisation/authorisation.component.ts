@@ -54,7 +54,7 @@ export class AuthorisationComponent implements OnInit {
       this.message="no such login";
     }
      },error => {
-       this.error=error;
+       this.message=error;
      }
      );
     

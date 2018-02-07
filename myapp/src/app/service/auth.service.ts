@@ -8,4 +8,8 @@ export class AuthService{
 		return localStorage.getItem('token');
 	}
 	
+	isAuthenticated(): boolean {
+		let token: string = localStorage.getItem('token');
+		return (token != null && token != '');
+	}
 }
