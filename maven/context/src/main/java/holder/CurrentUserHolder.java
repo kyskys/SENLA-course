@@ -1,4 +1,4 @@
-package context;
+package holder;
 
 import com.senla.entities.User;
 

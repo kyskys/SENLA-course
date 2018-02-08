@@ -18,8 +18,6 @@ import com.senla.entities.Order;
 import com.senla.entities.Sit;
 import com.senla.util.AuthCodeEnum;
 
-import context.ApplicationContextProvider;
-import context.CurrentUserHolder;
 import dto.AuthMessageDto;
 import dto.GarageDto;
 import dto.MasterDto;
@@ -46,8 +44,7 @@ public class RESTController {
 
 	@RequestMapping(value = "/api/profile", method = RequestMethod.GET, produces = "application/json")
 	public UserDetailsDto getUserDetails() {
-		CurrentUserHolder userHolder = ApplicationContextProvider.getApplicationContext().getBean(CurrentUserHolder.class);
-		return new UserDetailsDto(userHolder.getUser());
+		return new UserDetailsDto(controller.getCurrentUser());
 	}
 
 	// Garages Service

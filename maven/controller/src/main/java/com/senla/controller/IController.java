@@ -3,11 +3,13 @@ package com.senla.controller;
 import com.senla.entities.*;
 import com.senla.util.AuthCodeEnum;
 
+import support.CurrentUserSupport;
+
 import java.sql.Date;
 import java.util.List;
 
-public interface IController {
-
+public interface IController extends CurrentUserSupport {
+	
 	Long getUserIdByLogin(String login);
 
 	User getUser(Long id);

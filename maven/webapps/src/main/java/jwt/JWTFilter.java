@@ -11,8 +11,8 @@ import org.springframework.web.filter.RequestContextFilter;
 
 import com.senla.entities.User;
 
-import context.ApplicationContextProvider;
-import context.CurrentUserHolder;
+import holder.CurrentUserHolder;
+import provider.ApplicationContextProvider;
 
 public class JWTFilter extends RequestContextFilter {
 
@@ -24,9 +24,8 @@ public class JWTFilter extends RequestContextFilter {
 			throws IOException, ServletException {
 		String token = request.getHeader(REQUEST_AUTH_HEADER);
 		if (JWTManager.verifyToken(token)) {
-			CurrentUserHolder userHolder = ApplicationContextProvider.getApplicationContext().getBean(CurrentUserHolder.class);
 			User user = JWTManager.getCurrentUserByToken(token);
-			userHolder.setUser(user);
+			setCurrentUser(user);
 			chain.doFilter(request, response);
 		} else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -34,5 +33,9 @@ public class JWTFilter extends RequestContextFilter {
 			httpResponse.setStatus(STATUS_CODE_UNAUTHORISED);
 		}
 	}
-
+	
+	private void setCurrentUser(User user) {
+		CurrentUserHolder userHolder = ApplicationContextProvider.getApplicationContext().getBean(CurrentUserHolder.class);
+		userHolder.setUser(user);
+	}
 }
